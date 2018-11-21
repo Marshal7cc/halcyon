@@ -23,3 +23,22 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+**/out
+
+# Mac
+.DS_Store
+
+# Maven
+**/target
+**/*.log
+**/*.tmp
