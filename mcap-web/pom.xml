@@ -11,5 +11,18 @@
 
     <artifactId>mcap-web</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>mcap-system</artifactId>
+            <version>${mcap.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
+        <!-- thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+    </dependencies>
 </project>
