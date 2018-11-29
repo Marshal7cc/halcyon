@@ -55,6 +55,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--javaBean自动读取yml配置文件-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
 		<!--热部署-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,10 +70,10 @@
 		</dependency>
 
 		<!--spring security-->
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-security</artifactId>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 		<!--quartz-->
 		<dependency>
@@ -113,6 +120,12 @@
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
 		</dependency>
+
+		<!-- commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -121,8 +134,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<!--devtools-->
 					<fork>true</fork>
 					<addResources>true</addResources>
+					<mainClass>com.marshal.mcap.web.McapApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

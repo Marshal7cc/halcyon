@@ -20,11 +20,6 @@ public class CommonController {
 
     private Logger logger = LoggerFactory.getLogger(CommonController.class);
 
-    @RequestMapping("/index")
-    public String index(){
-        return "index";
-    }
-
     /**
      * 直接访问html页面
      * @param name

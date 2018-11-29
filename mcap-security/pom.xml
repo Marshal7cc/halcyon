@@ -12,7 +12,13 @@
     <artifactId>mcap-security</artifactId>
 
     <dependencies>
-        
+
+        <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>mcap-system</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

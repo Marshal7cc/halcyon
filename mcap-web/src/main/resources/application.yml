@@ -1,10 +1,10 @@
 ##server配置##
 server:
-  port: 8080
+  port: 8888
   servlet:
     session:
-      # session超时时间，单位为秒
-      timeout: 3600s
+      timeout: 1800s
+    context-path: /mcap
 
 
 spring:
@@ -49,3 +49,15 @@ pagehelper:
 #jackson:
 #  date-format: yyyy-MM-dd HH:mm:ss
 #  time-zone: GMT+8
+
+
+# 自定义属性
+mcap:
+  security:
+    login-url: /login
+    logout-url: /logout
+    login-page: /login.html
+    default-target-url: /index.html
+    authentication-failure-url: /login.html
+    static-resources: /css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
+
