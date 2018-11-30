@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.mcap.quartz.mapper.JobRunningInfoMapper">
+  <resultMap id="BaseResultMap" type="com.marshal.mcap.quartz.entity.JobRunningInfo">
+    <id column="JOB_RUNNING_INFO_ID" jdbcType="BIGINT" property="jobRunningInfoId" />
+    <result column="JOB_NAME" jdbcType="VARCHAR" property="jobName" />
+    <result column="JOB_GROUP" jdbcType="VARCHAR" property="jobGroup" />
+    <result column="JOB_RESULT" jdbcType="VARCHAR" property="jobResult" />
+    <result column="JOB_STATUS" jdbcType="VARCHAR" property="jobStatus" />
+    <result column="JOB_STATUS_MESSAGE" jdbcType="VARCHAR" property="jobStatusMessage" />
+    <result column="TRIGGER_NAME" jdbcType="VARCHAR" property="triggerName" />
+    <result column="TRIGGER_GROUP" jdbcType="VARCHAR" property="triggerGroup" />
+    <result column="PREVIOUS_FIRE_TIME" jdbcType="TIMESTAMP" property="previousFireTime" />
+    <result column="FIRE_TIME" jdbcType="TIMESTAMP" property="fireTime" />
+    <result column="NEXT_FIRE_TIME" jdbcType="TIMESTAMP" property="nextFireTime" />
+    <result column="REFIRE_COUNT" jdbcType="BIGINT" property="refireCount" />
+    <result column="FIRE_INSTANCE_ID" jdbcType="VARCHAR" property="fireInstanceId" />
+    <result column="SCHEDULER_INSTANCE_ID" jdbcType="VARCHAR" property="schedulerInstanceId" />
+    <result column="SCHEDULED_FIRE_TIME" jdbcType="TIMESTAMP" property="scheduledFireTime" />
+    <result column="IP_ADDRESS" jdbcType="VARCHAR" property="ipAddress" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    JOB_RUNNING_INFO_ID, JOB_NAME, JOB_GROUP, JOB_RESULT, JOB_STATUS, JOB_STATUS_MESSAGE,
+    TRIGGER_NAME, TRIGGER_GROUP, PREVIOUS_FIRE_TIME, FIRE_TIME, NEXT_FIRE_TIME, REFIRE_COUNT,
+    FIRE_INSTANCE_ID, SCHEDULER_INSTANCE_ID, SCHEDULED_FIRE_TIME, EXECUTION_SUMMARY,
+    IP_ADDRESS
+  </sql>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.mcap.quartz.mapper.JobDetailsMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.mcap.quartz.entity.JobDetails">
+        <id column="SCHED_NAME" jdbcType="VARCHAR" property="schedName"/>
+        <id column="JOB_NAME" jdbcType="VARCHAR" property="jobName"/>
+        <id column="JOB_GROUP" jdbcType="VARCHAR" property="jobGroup"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="JOB_CLASS_NAME" jdbcType="VARCHAR" property="jobClassName"/>
+        <result column="IS_DURABLE" jdbcType="VARCHAR" property="isDurable"/>
+        <result column="IS_NONCONCURRENT" jdbcType="VARCHAR" property="isNonconcurrent"/>
+        <result column="IS_UPDATE_DATA" jdbcType="VARCHAR" property="isUpdateData"/>
+        <result column="REQUESTS_RECOVERY" jdbcType="VARCHAR" property="requestsRecovery"/>
+        <result column="JOB_DATA" jdbcType="LONGVARBINARY" property="jobData"/>
+        <!--custom-->
+        <result column="fire_time" jdbcType="TIMESTAMP" property="fireTime"/>
+        <result column="next_fire_time" jdbcType="TIMESTAMP" property="nextFireTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    j.SCHED_NAME,j.JOB_NAME,j.JOB_GROUP,j.DESCRIPTION,j.JOB_CLASS_NAME,j.IS_DURABLE,j.IS_NONCONCURRENT,
+    j.IS_UPDATE_DATA,j.REQUESTS_RECOVERY,j.JOB_DATA
+  </sql>
+
+    <select id="queryJobDetailsInfo" resultMap="BaseResultMap"
+            parameterType="com.marshal.mcap.quartz.entity.JobDetails">
+        select
+        <include refid="Base_Column_List"/>,
+        i.fire_time,
+        i.next_fire_time
+        from qrtz_job_details j
+        left join
+        qrtz_job_running_info i
+        on
+        j.job_name = i.job_name
+        and
+        j.job_group=i.job_group
+        where
+        (i.job_running_info_id =
+        (select
+        max(ii.job_running_info_id)
+        from
+        qrtz_job_running_info ii
+        where
+        ii.job_name=j.job_name
+        and
+        ii.job_group=j.job_group)
+        or i.job_running_info_id is null)
+
+        <if test="jobName!=null">
+            and j.job_name like concat('%',#{jobName},'%')
+        </if>
+    </select>
+
+
+</mapper>

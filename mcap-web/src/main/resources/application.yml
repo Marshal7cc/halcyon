@@ -12,7 +12,7 @@ spring:
     url: jdbc:mysql://localhost:3306/mcap?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     username: root
     password: Gepoint
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 5
       maximum-pool-size: 15
@@ -20,15 +20,48 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       pool-name: McapHikariCP
+  jackson:
+    time-zone: GMT+8
 
   mvc:
     view:
       prefix: classpath:/templates/
       suffix: .html
 
+  quartz:
+    auto-startup: false
+    scheduler-name: quartzScheduler
+    job-store-type: jdbc
+    #额外属性
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: DefaultQuartzScheduler
+            instanceId: AUTO
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 20
+            threadPriority: 5
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            useProperties: false
+            isClustered: true
+            clusterCheckinInterval: 15000
+            maxMisfiresToHandleAtATime: 1
+            misfireThreshold: 12000
+            tablePrefix: QRTZ_
+          plugin:
+            runningListener:
+              class: com.marshal.mcap.quartz.plugin.RunningListenerPlugin
+              LogRunningInfo: true
+
+
+
+
 # mybatis配置
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath*:mapper/*.xml
 #  configuration:
 #    jdbc-type-for-null: null
 
@@ -46,9 +79,6 @@ pagehelper:
   params: count=countSql
 
 # 时间类型格式化，时区为 +8区
-#jackson:
-#  date-format: yyyy-MM-dd HH:mm:ss
-#  time-zone: GMT+8
 
 
 # 自定义属性

@@ -7,11 +7,9 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/12
- * Time: 20:16
- * Description:spring security userdetail
+ * @auth: Marshal
+ * @date: 2018/11/12
+ * @desc: spring security userdetail
  */
 public class McapUserDetails implements UserDetails, Serializable {
 
