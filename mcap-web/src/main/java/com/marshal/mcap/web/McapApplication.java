@@ -14,6 +14,7 @@ import java.time.LocalTime;
                 "com.marshal.mcap.**.config",
                 "com.marshal.mcap.**.controller",
                 "com.marshal.mcap.**.service",
+                "com.marshal.mcap.**.component",
                 "com.marshal.mcap.core.*"}
 )
 @tk.mybatis.spring.annotation.MapperScan(

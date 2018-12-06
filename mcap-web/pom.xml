@@ -21,6 +21,13 @@
 
         <dependency>
             <groupId>com.marshal</groupId>
+            <artifactId>mcap-message</artifactId>
+            <version>${mcap.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.marshal</groupId>
             <artifactId>mcap-quartz</artifactId>
             <version>${mcap.version}</version>
             <scope>compile</scope>

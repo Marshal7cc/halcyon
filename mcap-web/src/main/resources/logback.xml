@@ -5,20 +5,11 @@
         </encoder>
     </appender>
 
-    <appender name="FILTERRECORD" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{data}] [%X{requestId}] %logger[%line] - %msg%n</pattern>
-        </encoder>
-    </appender>
-
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
         <!-- <appender-ref ref="stash" /> -->
     </root>
     <logger name="com.marshal.mcap.core.filter" level="DEBUG" additivity="false">
-        <appender-ref ref="FILTERRECORD" />
-    </logger>
-    <logger name="leaf.database" level="TRACE" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
     <logger name="**.mapper" level="TRACE" additivity="false">

@@ -14,7 +14,8 @@
 		<module>mcap-system</module>
 		<module>mcap-activiti</module>
 		<module>mcap-common</module>
-	</modules>
+        <module>mcap-message</module>
+    </modules>
     <packaging>pom</packaging>
 
 	<name>mcap</name>
@@ -85,6 +86,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
 		<!--<dependency>-->
