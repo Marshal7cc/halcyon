@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @ComponentScan(
         basePackages = {
                 "com.marshal.mcap.**.config",
+                "com.marshal.mcap.**.filter",
                 "com.marshal.mcap.**.controller",
                 "com.marshal.mcap.**.service",
                 "com.marshal.mcap.**.component",
