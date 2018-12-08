@@ -1,11 +1,8 @@
 package com.marshal.mcap.quartz.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.marshal.mcap.common.constants.BaseConstants;
+import com.marshal.mcap.core.constants.BaseConstants;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.quartz.CronExpression;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

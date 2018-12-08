@@ -1,9 +1,8 @@
 package com.marshal.mcap.system.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.marshal.mcap.core.beans.SysRequestInfo;
-import com.marshal.mcap.message.component.RequestInfoSubscriber;
+import com.marshal.mcap.system.entity.SysRequestInfo;
+import com.marshal.mcap.message.component.impl.SysRequestMessageSubscriber;
 import com.marshal.mcap.system.mapper.SysRequestInfoMapper;
 import com.marshal.mcap.system.service.SysRequestInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +24,24 @@ public class SysRequestInfoServiceImpl implements SysRequestInfoService {
     SysRequestInfoMapper sysRequestInfoMapper;
 
     @Autowired
-    RedisTemplate<String,String> redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
+    /**
+     * 记录系统请求，每小时执行一次
+     */
     @Override
-//    @Scheduled(cron = "0 0/1 * * * ? ")
+    @Scheduled(cron = "0 0 0/1 * * ? ")
     public void recordSysRequest() {
-        Map<Object,Object> requestMap = redisTemplate.opsForHash().entries(RequestInfoSubscriber.h);
+        Map<Object, Object> requestMap = redisTemplate.opsForHash().entries(SysRequestMessageSubscriber.h);
         Iterator iter = requestMap.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry) iter.next();
-            String requestStr = (String)entry.getValue();
+            String requestStr = (String) entry.getValue();
             JSONObject json = JSONObject.parseObject(requestStr);
             SysRequestInfo sysRequestInfo = json.toJavaObject(SysRequestInfo.class);
             sysRequestInfoMapper.insert(sysRequestInfo);
         }
-        redisTemplate.delete(RequestInfoSubscriber.h);
+        redisTemplate.delete(SysRequestMessageSubscriber.h);
 
     }
 }

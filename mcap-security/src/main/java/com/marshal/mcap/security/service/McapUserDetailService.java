@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * author: Marshal
- * Date: 2018/11/12
- * Description:Spring Security UserService
+ * @auth: Marshal
+ * @date: 2018/11/12
+ * @desc: Spring Security UserService
  */
 public class McapUserDetailService implements UserDetailsService {
 

@@ -1,7 +1,7 @@
 package com.marshal.mcap.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.marshal.mcap.common.constants.BaseConstants;
+import com.marshal.mcap.core.constants.BaseConstants;
 import org.hibernate.validator.constraints.Email;
 
 import java.util.Date;

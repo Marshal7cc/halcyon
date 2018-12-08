@@ -1,7 +1,6 @@
 package com.marshal.mcap.quartz.service;
 
 import com.marshal.mcap.quartz.entity.JobRunningInfo;
-import com.marshal.mcap.core.beans.ResponseData;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.marshal.mcap.message.component;
+package com.marshal.mcap.message.component.impl;
 
 import com.marshal.mcap.message.component.IMessageSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.UUID;
  * @desc:
  */
 @Component
-public class RequestInfoSubscriber implements IMessageSubscriber {
+public class SysRequestMessageSubscriber implements IMessageSubscriber {
 
     public static final String h = "mcap:sysRequestInfo";
 

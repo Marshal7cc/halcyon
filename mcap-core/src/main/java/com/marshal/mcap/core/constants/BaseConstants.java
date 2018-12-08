@@ -1,11 +1,9 @@
-package com.marshal.mcap.common.constants;
+package com.marshal.mcap.core.constants;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/2
- * Time: 23:17
- * Description:系统常量
+ * @auth: Marshal
+ * @Date: 2018/10/26
+ * @desc: 系统常量
  */
 public interface BaseConstants {
     /**

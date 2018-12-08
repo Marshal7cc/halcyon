@@ -12,7 +12,7 @@ import java.util.Properties;
 /**
  * @auth: Marshal
  * @date: 2018/11/29
- * @desc: quartz配置
+ * @desc: quartz配置, 已弃用，保留
  */
 //@Configuration
 public class QuartzConfig {
@@ -37,7 +37,7 @@ public class QuartzConfig {
         prop.put("org.quartz.threadPool.threadPriority", "5");
         // JobStore配置
         prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
-        prop.put("org.quartz.jobStore.useProperties",false);
+        prop.put("org.quartz.jobStore.useProperties", false);
         // 集群配置
         prop.put("org.quartz.jobStore.isClustered", "true");
         prop.put("org.quartz.jobStore.clusterCheckinInterval", "15000");
@@ -46,8 +46,8 @@ public class QuartzConfig {
         prop.put("org.quartz.jobStore.misfireThreshold", "12000");
         prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
         //plugins
-        prop.put("org.quartz.plugin.runningListener.class","com.marshal.mcap.quartz.plugin.RunningListenerPlugin");
-        prop.put("org.quartz.plugin.runningListener.LogRunningInfo",true);
+        prop.put("org.quartz.plugin.runningListener.class", "com.marshal.mcap.quartz.plugin.RunningListenerPlugin");
+        prop.put("org.quartz.plugin.runningListener.LogRunningInfo", true);
         factory.setQuartzProperties(prop);
 
         factory.setSchedulerName("quartzScheduler");

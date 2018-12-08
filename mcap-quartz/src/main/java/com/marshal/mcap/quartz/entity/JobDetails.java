@@ -1,7 +1,7 @@
 package com.marshal.mcap.quartz.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.marshal.mcap.common.constants.BaseConstants;
+import com.marshal.mcap.core.constants.BaseConstants;
 
 import javax.persistence.*;
 import java.util.Date;

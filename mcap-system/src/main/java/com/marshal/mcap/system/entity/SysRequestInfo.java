@@ -1,4 +1,4 @@
-package com.marshal.mcap.core.beans;
+package com.marshal.mcap.system.entity;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

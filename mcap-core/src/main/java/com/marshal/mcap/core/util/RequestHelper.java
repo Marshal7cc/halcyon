@@ -1,13 +1,15 @@
 package com.marshal.mcap.core.util;
 
-import com.marshal.mcap.core.beans.SysRequestInfo;
+import com.alibaba.fastjson.JSONObject;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @auth: Marshal
  * @date: 2018/11/29
- * @desc:请求相关的工具类
+ * @desc: 请求request相关的工具类
  */
 public class RequestHelper {
 
@@ -27,10 +29,10 @@ public class RequestHelper {
      *
      * @return
      */
-    public static SysRequestInfo getRequestInfo(HttpServletRequest request) {
-        SysRequestInfo requestInfo = new SysRequestInfo();
-        requestInfo.setRequestTime(new Date());
-        requestInfo.setUrl(request.getRequestURI());
+    public static Map getSysRequestInfo(HttpServletRequest request) {
+        JSONObject sysRequestInfo = new JSONObject();
+        sysRequestInfo.put("requestTime", new Date());
+        sysRequestInfo.put("url", request.getRequestURI());
 
         String userAgent = request.getHeader("User-Agent");
         String user = userAgent.toLowerCase();
@@ -84,10 +86,10 @@ public class RequestHelper {
             browser = "UnKnown, More-Info: " + userAgent;
         }
 
-        requestInfo.setOs(os);
-        requestInfo.setBrowser(browser);
-        requestInfo.setRemoteAddr(request.getRemoteAddr());
+        sysRequestInfo.put("os", os);
+        sysRequestInfo.put("browser", browser);
+        sysRequestInfo.put("remoteAddr", request.getRemoteAddr());
 
-        return requestInfo;
+        return sysRequestInfo;
     }
 }

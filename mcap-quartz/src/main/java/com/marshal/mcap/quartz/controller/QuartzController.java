@@ -1,7 +1,7 @@
 package com.marshal.mcap.quartz.controller;
 
-import com.marshal.mcap.common.controller.BaseController;
-import com.marshal.mcap.core.beans.ResponseData;
+import com.marshal.mcap.core.controller.BaseController;
+import com.marshal.mcap.core.component.ResponseData;
 import com.marshal.mcap.quartz.entity.JobCreateInfo;
 import com.marshal.mcap.quartz.entity.JobDetails;
 import com.marshal.mcap.quartz.entity.JobRunningInfo;
@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/1
- * Time: 20:05
- * Description:定时任务控制器
+ * @auth: Marshal
+ * @date: 2018/11/1
+ * @desc: 定时任务控制器
  */
 @RestController
 @RequestMapping("/quartz")

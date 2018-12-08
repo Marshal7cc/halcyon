@@ -1,9 +1,9 @@
-package com.marshal.mcap.system.filter;
+package com.marshal.mcap.web.filter;
 
-import com.marshal.mcap.core.beans.SysRequestInfo;
+import com.alibaba.fastjson.JSONObject;
+import com.marshal.mcap.system.entity.SysRequestInfo;
 import com.marshal.mcap.core.util.RequestHelper;
-import com.marshal.mcap.message.component.MessagePublisher;
-import com.marshal.mcap.system.service.SysRequestInfoService;
+import com.marshal.mcap.message.component.impl.MessagePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @auth: Marshal
@@ -39,17 +39,19 @@ public class RequestRecordFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
         String url = request.getRequestURI();
-        if (url.endsWith(".html") || url.split("\\.").length==1) {
+        if (url.endsWith(".html") || url.split("\\.").length == 1) {
             try {
                 Long startTime = System.currentTimeMillis();
                 filterChain.doFilter(servletRequest, servletResponse);
                 Long endTime = System.currentTimeMillis();
-                SysRequestInfo sysRequestInfo = RequestHelper.getRequestInfo(request);
+                Map<String, String> map = RequestHelper.getSysRequestInfo(request);
+                SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setDuration(endTime - startTime);
                 sysRequestInfo.setIsSuccess("Y");
                 messagePublisher.publish(RequestRecordFilter.channel, sysRequestInfo);
             } catch (Exception e) {
-                SysRequestInfo sysRequestInfo = RequestHelper.getRequestInfo(request);
+                Map<String, String> map = RequestHelper.getSysRequestInfo(request);
+                SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setIsSuccess("N");
                 messagePublisher.publish(RequestRecordFilter.channel, sysRequestInfo);
             }

@@ -1,8 +1,8 @@
 package com.marshal.mcap.system.controller;
 
 
-import com.marshal.mcap.common.controller.BaseController;
-import com.marshal.mcap.core.beans.ResponseData;
+import com.marshal.mcap.core.controller.BaseController;
+import com.marshal.mcap.core.component.ResponseData;
 import com.marshal.mcap.system.entity.SysFunction;
 import com.marshal.mcap.system.service.SysFunctionService;
 import org.springframework.beans.factory.annotation.Autowired;

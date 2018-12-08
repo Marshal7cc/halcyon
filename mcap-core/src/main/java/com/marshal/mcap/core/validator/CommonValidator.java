@@ -1,19 +1,15 @@
 package com.marshal.mcap.core.validator;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
 import javax.validation.*;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/10/28
- * Time: 12:22
- * Description:通用校验器
+ * @auth: Marshal
+ * @date: 2018/10/28
+ * @desc: 通用校验器
  */
-@Service
+@Component
 public class CommonValidator {
     private static Validator validator;
 

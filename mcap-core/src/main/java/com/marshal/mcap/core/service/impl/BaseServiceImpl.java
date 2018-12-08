@@ -1,19 +1,16 @@
-package com.marshal.mcap.common.service.impl;
+package com.marshal.mcap.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.marshal.mcap.common.service.BaseService;
+import com.marshal.mcap.core.service.BaseService;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/2
- * Time: 22:10
- * Description:通用Service方法.
- * service方法可以继承该方法，调用泛型方法进行增删改查，本项目未使用
- * 使用的通用mapper
+ * @auth: Marshal
+ * @date: 2018/11/2
+ * @desc: 通用Service方法
+ * service方法可以继承该方法，调用泛型方法进行增删改查，目前暂未使用
  */
 
 public class BaseServiceImpl<T> implements BaseService<T> {

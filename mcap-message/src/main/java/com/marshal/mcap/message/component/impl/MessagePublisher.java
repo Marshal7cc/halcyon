@@ -1,7 +1,8 @@
-package com.marshal.mcap.message.component;
+package com.marshal.mcap.message.component.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.marshal.mcap.message.component.IMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Component;
 /**
  * @auth: Marshal
  * @date: 2018/12/6
- * @desc: redis消息发布者
+ * @desc: 标准redis消息发布器
  */
 @Component
-public class MessagePublisher {
+public class MessagePublisher implements IMessagePublisher {
     private Logger logger = LoggerFactory.getLogger(MessagePublisher.class);
 
     @Autowired

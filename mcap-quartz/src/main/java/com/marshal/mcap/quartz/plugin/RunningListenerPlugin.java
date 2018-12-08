@@ -13,11 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/1
- * Time: 22:45
- * Description:quartz.properties===>指定Quartz插件===>注册listener
+ * @auth: Marshal
+ * @date: 2018/11/1
+ * @desc: quartz.properties===>指定Quartz插件===>注册listener
  */
 public class RunningListenerPlugin implements SchedulerPlugin {
 

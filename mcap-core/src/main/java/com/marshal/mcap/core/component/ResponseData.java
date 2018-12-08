@@ -1,4 +1,4 @@
-package com.marshal.mcap.core.beans;
+package com.marshal.mcap.core.component;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.pagehelper.Page;
@@ -7,10 +7,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * author: Marshal
- * Date: 2018/10/26
- * Time: 14:37
- * Description:标准返回数据格式
+ * @auth: Marshal
+ * @Date: 2018/10/26
+ * @desc: 标准返回数据格式
  */
 public class ResponseData implements Serializable {
     /**
@@ -29,7 +28,7 @@ public class ResponseData implements Serializable {
      * 状态,默认为true
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private boolean success=true;
+    private boolean success = true;
 
     /**
      * 提示信息
@@ -42,12 +41,13 @@ public class ResponseData implements Serializable {
 
     /**
      * 传入list，设置记录总数和数据列表信息
+     *
      * @param rows
      */
-    public ResponseData(List rows){
-        Page<?> page = (Page<?>)rows;
-        this.rows=rows;
-        this.total=page.getTotal();
+    public ResponseData(List rows) {
+        Page<?> page = (Page<?>) rows;
+        this.rows = rows;
+        this.total = page.getTotal();
     }
 
     public ResponseData(boolean success, String message) {

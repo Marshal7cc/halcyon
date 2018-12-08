@@ -13,7 +13,6 @@
 		<module>mcap-core</module>
 		<module>mcap-system</module>
 		<module>mcap-activiti</module>
-		<module>mcap-common</module>
         <module>mcap-message</module>
     </modules>
     <packaging>pom</packaging>

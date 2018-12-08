@@ -1,19 +1,16 @@
-package com.marshal.mcap.common.controller;
+package com.marshal.mcap.core.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/10/25
- * Time: 22:21
- * Description:通用Controller
+ * @auth: Marshal
+ * @Date: 2018/10/26
+ * @desc: 通用controller
  */
 @Controller
 public class CommonController {
@@ -22,6 +19,7 @@ public class CommonController {
 
     /**
      * 直接访问html页面
+     *
      * @param name
      * @return
      */

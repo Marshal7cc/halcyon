@@ -1,12 +1,12 @@
-package com.marshal.mcap.common.service;
+package com.marshal.mcap.core.service;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface BaseService<T>{
+public interface BaseService<T> {
     /**
-     *与mapper同步的方法
+     * 与mapper同步的方法
      */
     List<T> select(T condition, int pageNum, int pageSize);
 
