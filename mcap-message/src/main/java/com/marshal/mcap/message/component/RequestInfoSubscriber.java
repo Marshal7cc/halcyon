@@ -1,13 +1,10 @@
 package com.marshal.mcap.message.component;
 
+import com.marshal.mcap.message.component.IMessageSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
-import java.util.logging.SimpleFormatter;
 
 /**
  * @auth: Marshal

@@ -1,6 +1,5 @@
 package com.marshal.mcap.message.config;
 
-import com.marshal.mcap.message.component.IMessageSubscriber;
 import com.marshal.mcap.message.component.RequestInfoSubscriber;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

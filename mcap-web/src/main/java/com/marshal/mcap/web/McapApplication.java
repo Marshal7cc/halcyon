@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -22,6 +24,7 @@ import java.time.LocalTime;
         basePackages =
                 "com.marshal.mcap.**.mapper"
 )
+@EnableScheduling
 @EnableConfigurationProperties(McapSecurityProperties.class)
 @SpringBootApplication
 public class McapApplication {
