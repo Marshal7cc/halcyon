@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.system.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.system.entity.SysUser">
+        <id column="USER_ID" jdbcType="BIGINT" property="userId"/>
+        <result column="USER_TYPE" jdbcType="VARCHAR" property="userType"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="PASSWORD_ENCRYPTED" jdbcType="VARCHAR" property="passwordEncrypted"/>
+        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="START_ACTIVE_DATE" jdbcType="DATE" property="startActiveDate"/>
+        <result column="END_ACTIVE_DATE" jdbcType="DATE" property="endActiveDate"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="LAST_LOGIN_DATE" jdbcType="TIMESTAMP" property="lastLoginDate"/>
+        <result column="LAST_PASSWORD_UPDATE_DATE" jdbcType="TIMESTAMP" property="lastPasswordUpdateDate"/>
+        <result column="frozen_flag" jdbcType="VARCHAR" property="frozenFlag"/>
+        <result column="frozen_date" jdbcType="TIMESTAMP" property="frozenDate"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    USER_ID, USER_TYPE, USER_NAME, PASSWORD_ENCRYPTED, EMAIL, PHONE, START_ACTIVE_DATE,
+    END_ACTIVE_DATE, STATUS, LAST_LOGIN_DATE, LAST_PASSWORD_UPDATE_DATE, frozen_flag,
+    frozen_date, DESCRIPTION
+  </sql>
+
+    <select id="getUserOptions" resultType="java.util.Map">
+    select user_id as id,user_name as text
+    from sys_user
+  </select>
+
+    <select id="getUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_USER
+        where user_name = #{username}
+    </select>
+
+</mapper>
