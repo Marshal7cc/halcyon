@@ -1,0 +1,109 @@
+##server配置##
+server:
+  port: 8888
+  servlet:
+    session:
+      timeout: 1800s
+    context-path: /halcyon
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/halcyon?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: marshal1234!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      connection-test-query: select 1
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      pool-name: HalcyonHikariCP
+
+  #redis
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 10
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    timeout: 100ms
+
+
+  jackson:
+    time-zone: GMT+8
+
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+
+  quartz:
+    auto-startup: false
+    scheduler-name: quartzScheduler
+    job-store-type: jdbc
+    #额外属性
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: DefaultQuartzScheduler
+            instanceId: AUTO
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 20
+            threadPriority: 5
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            useProperties: false
+            isClustered: true
+            clusterCheckinInterval: 15000
+            maxMisfiresToHandleAtATime: 1
+            misfireThreshold: 12000
+            tablePrefix: QRTZ_
+          plugin:
+            runningListener:
+              class: com.marshal.halcyon.quartz.plugin.RunningListenerPlugin
+              LogRunningInfo: true
+
+
+
+
+# mybatis配置
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+#  configuration:
+#    jdbc-type-for-null: null
+
+# 通用 mapper插件配置
+mapper:
+  mappers: tk.mybatis.mapper.common.Mapper
+  not-empty: false
+  identity: mysql
+
+# pagehelper插件配置（分页）
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+# 时间类型格式化，时区为 +8区
+
+
+# 自定义属性
+halcyon:
+  security:
+    login-url: /login
+    logout-url: /logout
+    login-page: /login.html
+    default-target-url: /index.html
+    authentication-failure-url: /login.html
+    static-resources: /css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
+

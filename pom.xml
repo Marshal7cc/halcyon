@@ -4,21 +4,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.marshal</groupId>
-    <artifactId>mcap</artifactId>
+    <artifactId>halcyon</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <modules>
-        <module>mcap-web</module>
-        <module>mcap-security</module>
-        <module>mcap-quartz</module>
-        <module>mcap-core</module>
-        <module>mcap-system</module>
-        <module>mcap-activiti</module>
-        <module>mcap-message</module>
+        <module>halcyon-web</module>
+        <module>halcyon-security</module>
+        <module>halcyon-quartz</module>
+        <module>halcyon-core</module>
+        <module>halcyon-system</module>
+        <module>halcyon-activiti</module>
+        <module>halcyon-message</module>
     </modules>
     <packaging>pom</packaging>
 
-    <name>mcap</name>
-    <description>Marshal Comprehensive Application Platform using Spring Boot</description>
+    <name>halcyon</name>
+    <description>Halcyon : A Comprehensive Application Platform using Spring Boot</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -28,7 +28,7 @@
     </parent>
 
     <properties>
-        <mcap.version>2.0.0-SNAPSHOT</mcap.version>
+        <halcyon.version>2.0.0-SNAPSHOT</halcyon.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -149,7 +149,7 @@
                     <!--devtools-->
                     <fork>true</fork>
                     <addResources>true</addResources>
-                    <mainClass>com.marshal.mcap.web.McapApplication</mainClass>
+                    <mainClass>com.marshal.halcyon.web.HalcyonApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

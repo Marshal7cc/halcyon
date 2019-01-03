@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>流程模型</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="../resources/css/halcyon-all.css">
+    <link rel="stylesheet" href="../resources/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../resources/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/plugins/angularjs/pagination.css">
+    <link rel="stylesheet" type="text/css" href="../resources/plugins/datetimepicker/css/wui.min.css">
+
+    <script src="../resources/plugins/jQuery/jquery-3.3.1.js"></script>
+    <script src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <!--AngularJS-->
+    <script src="../resources/plugins/angularjs/angular.min.js"></script>
+    <!-- 分页插件 -->
+    <script src="../resources/plugins/angularjs/pagination.js"></script>
+    <!-- 时间插件 -->
+    <script src="../resources/plugins/datetimepicker/js/wui-date.js" type="text/javascript"></script>
+    <!--AngularJS module/controller/service-->
+    <script src="../resources/js/module/base.js" type="text/javascript"></script>
+    <script src="../resources/js/service/activiti/modelService.js" type="text/javascript"></script>
+    <script src="../resources/js/controller/baseController.js" type="text/javascript"></script>
+    <script src="../resources/js/controller/activiti/modelController.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="../resources/plugins/select2/select2.css"/>
+    <link rel="stylesheet" href="../resources/plugins/select2/select2-bootstrap.css"/>
+    <script src="../resources/plugins/select2/select2.min.js" type="text/javascript"></script>
+    <script src="../resources/plugins/select2/angular-select2.js" type="text/javascript"></script>
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="modelController">
+<div class="box">
+    <!-- .box-body -->
+    <div class="box-header with-border">
+        <h3 class="box-title">流程模型</h3>
+    </div>
+
+    <div class="box-body">
+        <!-- 数据表格 -->
+        <div class="table-box">
+
+            <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div>
+                        <button ng-click="initForAdd()" type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#editWindow"><i class="fa fa-file-o"></i> 新建
+                        </button>
+                        <button ng-click="delete()" type="button" class="btn btn-info"><i class="fa fa-trash-o"></i> 删除
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="window.location.reload();"><i
+                                class="fa fa-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-tools pull-right">
+                <div class="has-feedback">
+                </div>
+            </div>
+            <!--工具栏/-->
+
+            <!--数据列表-->
+            <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                <thead>
+                <tr>
+                    <th class="" style="padding-right:0px">
+                        <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                    </th>
+                    <th>流程编码</th>
+                    <th>流程名称</th>
+                    <th>描述</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in rows">
+                    <td><input type="checkbox" ng-click="updateSelected($event,item.userId)"></td>
+                    <td>{{item.key}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{descriptionRender(item.metaInfo)}}</td>
+                    <td>{{item.createTime}}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-success" ng-click="edit(item.id)">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--数据列表/-->
+        </div>
+        <!-- 分页 /-->
+        <tm-pagination conf="pageConf"></tm-pagination>
+
+
+    </div>
+    <!-- /.box-body -->
+    <!-- Loading (remove the following to stop the loading)-->
+    <div class="overlay">
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>
+    <!-- end loading -->
+</div>
+<!-- 编辑窗口 -->
+<div class="modal fade" id="editWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">新增流程模型</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" width="800px">
+                    <tr>
+                        <td>流程编码</td>
+                        <td><input ng-model="modelRequest.key" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>流程名称</td>
+                        <td>
+                            <input ng-model="modelRequest.name" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>流程类别</td>
+                        <td>
+                            <input ng-model="modelRequest.category" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>描述</td>
+                        <td>
+                            <input ng-model="description" class="form-control">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="save()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

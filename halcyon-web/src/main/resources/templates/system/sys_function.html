@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>功能定义</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="../css/halcyon-all.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <!--jquery-->
+    <script src="../plugins/jQuery/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--AngularJS-->
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <!--AngularJS module/controller/service-->
+    <script src="../js/module/base.js" type="text/javascript"></script>
+    <script src="../js/service/function/sysResourceService.js" type="text/javascript"></script>
+    <script src="../js/service/function/sysFunctionService.js" type="text/javascript"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript"></script>
+    <script src="../js/controller/function/sysFunctionController.js" type="text/javascript"></script>
+    <!-- 分页插件 -->
+    <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+    <script src="../plugins/angularjs/pagination.js"></script>
+    <!-- 时间插件 -->
+    <link rel="stylesheet" type="text/css" href="../plugins/datetimepicker/css/wui.min.css">
+    <script src="../plugins/datetimepicker/js/wui-date.js" type="text/javascript"></script>
+    <!--select2-->
+    <link rel="stylesheet" href="../plugins/select2/select2.css"/>
+    <link rel="stylesheet" href="../plugins/select2/select2-bootstrap.css"/>
+    <script src="../plugins/select2/select2.min.js" type="text/javascript"></script>
+    <script src="../plugins/select2/angular-select2.js" type="text/javascript"></script>
+    <!--sweet alert-->
+    <link rel="stylesheet" href="../plugins/sweetalert/sweet-alert.css"/>
+    <script src="../plugins/sweetalert/sweet-alert.min.js" type="text/javascript"></script>
+
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="sysFunctionController"
+      ng-init="getResourceOptions();getFunctionOptions()">
+<div class="box">
+    <!-- .box-body -->
+    <div class="box-header with-border">
+        <h3 class="box-title">功能定义</h3>
+    </div>
+
+    <div class="box-body">
+        <!-- 数据表格 -->
+        <div class="table-box">
+
+            <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div>
+                        <button ng-click="initForAdd()" type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#editWindow"><i class="fa fa-file-o"></i> 新建
+                        </button>
+                        <button ng-click="delete()" type="button" class="btn btn-info"><i class="fa fa-trash-o"></i> 删除
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="window.location.reload();">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-tools pull-right">
+                <div class="has-feedback">
+                    功能姓名：<input ng-model="condition.userName"/>
+                    <button type="button" class="btn btn-default" ng-click="query(1,pageConf.itemsPerPage)">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <!--工具栏/-->
+
+            <!--数据列表-->
+            <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                <thead>
+                <tr>
+                    <th class="" style="padding-right:0px">
+                        <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                    </th>
+                    <th>功能代码</th>
+                    <th>功能名称</th>
+                    <th>功能图标</th>
+                    <th>父功能</th>
+                    <th>资源名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in rows">
+                    <td><input type="checkbox" ng-click="updateSelected($event,item.functionId)"></td>
+                    <!--<td>{{index+1}}</td>-->
+                    <td>{{item.functionCode}}</td>
+                    <td>{{item.functionName}}</td>
+                    <td>{{item.functionIcon}}</td>
+                    <td>{{item.parentFunctionName}}</td>
+                    <td>{{item.url}}</td>
+                    <td class="text-center">
+                        <button ng-click="initForUpdate(item.functionId)" type="button" class="btn btn-sm btn-success"
+                                data-toggle="modal" data-target="#editWindow">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--数据列表/-->
+        </div>
+        <!-- 分页 /-->
+        <tm-pagination conf="pageConf"></tm-pagination>
+
+
+    </div>
+    <!-- /.box-body -->
+    <div class="overlay">
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>
+    <!-- end loading -->
+</div>
+<!-- 编辑窗口 -->
+<div class="modal fade" id="editWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">功能编辑</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" width="800px">
+                    <tr>
+                        <td>功能代码</td>
+                        <td><input ng-model="sysFunction.functionCode" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>功能名称</td>
+                        <td>
+                            <input ng-model="sysFunction.functionName" class="form-control">
+                        </td>
+                        <td>功能图标</td>
+                        <td>
+                            <input ng-model="sysFunction.functionIcon" class="form-control">
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>父功能</td>
+                        <td><input select2 config="sysFunctionOptions" ng-model="sysFunction.parentFunctionId"
+                                   class="form-control"></td>
+
+                        <td>资源路径</td>
+                        <td><input select2 config="sysResourceOptions" ng-model="sysFunction.resourceId"
+                                   class="form-control"></td>
+
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="save()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
