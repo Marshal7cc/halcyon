@@ -31,6 +31,6 @@ public class HalcyonApplication {
     public static void main(String[] args) {
         SpringApplication.run(HalcyonApplication.class, args);
         LoggerFactory.getLogger(HalcyonApplication.class).info(
-                "《《《《《《 MCAP started up successfully at {} {} 》》》》》》", LocalDate.now(), LocalTime.now());
+                "《《《《《《 halcyon started up successfully at {} {} 》》》》》》", LocalDate.now(), LocalTime.now());
     }
 }
