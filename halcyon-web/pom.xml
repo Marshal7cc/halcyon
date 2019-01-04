@@ -47,6 +47,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>halcyon-mail</artifactId>
+            <version>${halcyon.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
