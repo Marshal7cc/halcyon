@@ -8,6 +8,8 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @auth: Marshal
@@ -59,12 +61,10 @@ public class EmailTestController {
     @RequestMapping("/temTest")
     public void sendTemplateMail() {
         //创建邮件正文
-        Context context = new Context();
-        context.setVariable("username", "Marshal");
-        String emailContent = templateEngine.process("registerTemplate", context);
+        Map<String, String> params = new HashMap<>();
+        params.put("username", "Marshal");
 
-        System.out.println(emailContent);
-        emailService.sendHtmlEmail("475032739@qq.com", "主题：这是模板邮件", emailContent);
+        emailService.sendTemplateEmail("475032739@qq.com", "主题：这是模板邮件", "registerTemplate", params);
     }
 
 }

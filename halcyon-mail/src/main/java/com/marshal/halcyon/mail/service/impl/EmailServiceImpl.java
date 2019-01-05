@@ -9,10 +9,14 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @auth: Marshal
@@ -31,6 +35,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     JavaMailSender mailSender;
+
+    @Autowired
+    TemplateEngine templateEngine;
 
     /**
      * 发送简单邮件
@@ -147,5 +154,15 @@ public class EmailServiceImpl implements EmailService {
             log.error("发送嵌入静态资源的邮件时发生异常！", e);
         }
 
+    }
+
+    @Override
+    public void sendTemplateEmail(String receiver, String subject, String templateName, Map<String, String> params) {
+        Context context = new Context();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            context.setVariable(entry.getKey(), entry.getValue());
+        }
+        String emailContent = templateEngine.process(templateName, context);
+        sendHtmlEmail(receiver, subject, emailContent);
     }
 }
