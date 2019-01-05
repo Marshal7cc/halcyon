@@ -1,12 +1,14 @@
 package com.marshal.halcyon.mail.controller;
 
+import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.mail.entity.MailRequest;
 import com.marshal.halcyon.mail.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,17 +16,20 @@ import java.util.Map;
 /**
  * @auth: Marshal
  * @date: 2019/1/3
- * @desc: 邮件发送测试controller
+ * @desc: 邮件发送controller
  */
 @Controller
-@RequestMapping("/email")
-public class EmailTestController {
+@RequestMapping("/mail")
+public class EmailController {
 
     @Autowired
     EmailService emailService;
 
-    @Autowired
-    TemplateEngine templateEngine;
+    @RequestMapping("/sendMail")
+    public ResponseData sendMail(@RequestBody MailRequest mailRequest) {
+        emailService.sendSimpleEmail(mailRequest.getReceiver(), mailRequest.getSubject(), mailRequest.getContent());
+        return new ResponseData();
+    }
 
     @RequestMapping("/simpleTest")
     public void test() {

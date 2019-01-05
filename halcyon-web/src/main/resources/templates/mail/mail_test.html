@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>邮件发送</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <!--jquery-->
+    <script src="../plugins/jQuery/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--AngularJS-->
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <!--AngularJS module/controller/service-->
+    <script src="../js/module/base.js" type="text/javascript"></script>
+    <script src="../js/service/mail/mailService.js" type="text/javascript"></script>
+    <script src="../js/controller/baseController.js" type="text/javascript"></script>
+    <script src="../js/controller/mail/mailController.js" type="text/javascript"></script>
+    <!-- 分页插件 -->
+    <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+    <script src="../plugins/angularjs/pagination.js"></script>
+    <!-- 时间插件 -->
+    <link rel="stylesheet" type="text/css" href="../plugins/datetimepicker/css/wui.min.css">
+    <script src="../plugins/datetimepicker/js/wui-date.js" type="text/javascript"></script>
+    <!--select2-->
+    <link rel="stylesheet" href="../plugins/select2/select2.css"/>
+    <link rel="stylesheet" href="../plugins/select2/select2-bootstrap.css"/>
+    <script src="../plugins/select2/select2.min.js" type="text/javascript"></script>
+    <script src="../plugins/select2/angular-select2.js" type="text/javascript"></script>
+    <!--sweet alert-->
+    <link rel="stylesheet" href="../plugins/sweetalert/sweet-alert.css"/>
+    <script src="../plugins/sweetalert/sweet-alert.min.js" type="text/javascript"></script>
+
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="mailController"
+      ng-init="initForAdd()">
+<div class="box">
+    <!-- .box-body -->
+    <div class="box-header with-border">
+        <h3 class="box-title">邮件发送</h3>
+    </div>
+
+
+    <!-- 编辑窗口 -->
+
+    <div class="modal-body">
+        <table class="table table-bordered table-striped" width="800px">
+            <tr>
+                <td>收件人地址</td>
+                <td><input ng-model="mailRequest.receiver" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>主题</td>
+                <td>
+                    <input ng-model="mailRequest.subject" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td>正文</td>
+                <td>
+                    <textarea ng-model="mailRequest.content" class="form-control" rows="5"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="send()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">发送</button>
+    </div>
+</div>
+
+</body>
+</html>
