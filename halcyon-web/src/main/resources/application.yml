@@ -79,7 +79,7 @@ spring:
     host: smtp.qq.com
     username: 453607106@qq.com
     #授权码/密码
-    password: vigeiahatkmhcaad
+    password:
     port: 25
     protocol: smtp
 
