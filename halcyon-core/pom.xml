@@ -11,4 +11,17 @@
 
     <artifactId>halcyon-core</artifactId>
 
+
+    <!--生成的springboot 可运行jar包,添加classifier属性与普通jar包区分，防止覆盖-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>hal</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
