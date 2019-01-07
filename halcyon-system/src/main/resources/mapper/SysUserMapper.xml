@@ -32,7 +32,7 @@
     <select id="getUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from SYS_USER
+        from sys_user
         where user_name = #{username}
     </select>
 
