@@ -25,25 +25,25 @@ public class CommonController {
      */
     @RequestMapping(value = {"/{name}.html"})
     public ModelAndView renderView(@PathVariable String name) {
-        return new ModelAndView(name);
+        return new ModelAndView(new StringBuffer().append(name).toString());
     }
 
     @RequestMapping(value = {"/{folder1}/{name}.html"})
     public ModelAndView renderFolder1View(@PathVariable String folder1, @PathVariable String name) {
-        return new ModelAndView(new StringBuilder("/").append(folder1).append("/").append(name).toString());
+        return new ModelAndView(new StringBuilder().append(folder1).append("/").append(name).toString());
     }
 
     @RequestMapping(value = {"/{folder1}/{folder2}/{name}.html"})
     public ModelAndView renderFolder2View(@PathVariable String folder1, @PathVariable String folder2,
                                           @PathVariable String name) {
-        return new ModelAndView(new StringBuilder("/").append(folder1).append("/").append(folder2)
+        return new ModelAndView(new StringBuilder().append(folder1).append("/").append(folder2)
                 .append("/").append(name).toString());
     }
 
     @RequestMapping(value = {"/{folder1}/{folder2}/{folder3}/{name}.html"})
     public ModelAndView renderFolder3View(@PathVariable String folder1, @PathVariable String folder2,
                                           @PathVariable String folder3, @PathVariable String name) {
-        return new ModelAndView(new StringBuilder("/").append(folder1).append("/").append(folder2)
+        return new ModelAndView(new StringBuilder().append(folder1).append("/").append(folder2)
                 .append("/").append(folder3).append("/").append(name).toString());
     }
 }

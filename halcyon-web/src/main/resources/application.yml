@@ -44,9 +44,9 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
 
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
+  #  thymeleaf:
+  #    prefix: classpath:/templates/
+  #    suffix: .html
 
   quartz:
     auto-startup: false
@@ -88,7 +88,7 @@ spring:
     protocol: smtp
 
 
-
+  halcyon-web-1.0.0-SNAPSHOT.jar
 
 # mybatis配置
 mybatis:
