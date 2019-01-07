@@ -44,6 +44,10 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
 
+  thymeleaf:
+    prefix: classpath:/templates
+    suffix: .html
+
   quartz:
     auto-startup: false
     scheduler-name: quartzScheduler
