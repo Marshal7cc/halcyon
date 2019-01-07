@@ -88,8 +88,6 @@ spring:
     protocol: smtp
 
 
-  halcyon-web-1.0.0-SNAPSHOT.jar
-
 # mybatis配置
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
