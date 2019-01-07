@@ -45,7 +45,7 @@ spring:
       suffix: .html
 
   thymeleaf:
-    prefix: classpath:/templates
+    prefix: classpath:/templates/
     suffix: .html
 
   quartz:
