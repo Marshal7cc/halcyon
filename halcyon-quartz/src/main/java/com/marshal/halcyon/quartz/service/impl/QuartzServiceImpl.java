@@ -33,7 +33,7 @@ public class QuartzServiceImpl implements QuartzService {
 
     @Override
     public boolean startup() throws SchedulerException {
-        if(scheduler.isInStandbyMode()){
+        if (scheduler.isInStandbyMode()) {
             scheduler.start();
             return true;
         }
@@ -103,17 +103,17 @@ public class QuartzServiceImpl implements QuartzService {
 
     @Override
     public void pauseJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.pauseJob(new JobKey(jobName,jobGroup));
+        scheduler.pauseJob(new JobKey(jobName, jobGroup));
     }
 
     @Override
     public void resumeJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.resumeJob(new JobKey(jobName,jobGroup));
+        scheduler.resumeJob(new JobKey(jobName, jobGroup));
     }
 
     @Override
     public void deleteJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.deleteJob(new JobKey(jobName,jobGroup));
+        scheduler.deleteJob(new JobKey(jobName, jobGroup));
     }
 
     @Override
@@ -129,49 +129,49 @@ public class QuartzServiceImpl implements QuartzService {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        if(!assignableFrom||forName==null){
+        if (!assignableFrom || forName == null) {
             //throw new JobNotFoundException(jobClassName);
 
         }
 
         JobBuilder jobBuilder = JobBuilder.newJob(forName)
-                .withIdentity(jobCreateInfo.getJobName(),jobCreateInfo.getJobGroup())
+                .withIdentity(jobCreateInfo.getJobName(), jobCreateInfo.getJobGroup())
                 .withDescription(jobCreateInfo.getDescription());
-        if(jobCreateInfo.getJobData()!=null&&!jobCreateInfo.getJobData().isEmpty()){
+        if (jobCreateInfo.getJobData() != null && !jobCreateInfo.getJobData().isEmpty()) {
             List<JobData> jobData = jobCreateInfo.getJobData();
             JobDataMap jobDataMap = new JobDataMap();
-            for(JobData item :jobData){
-                jobDataMap.put(item.getName(),item.getValue());
+            for (JobData item : jobData) {
+                jobDataMap.put(item.getName(), item.getValue());
             }
             jobBuilder.usingJobData(jobDataMap);
         }
         JobDetail jobDetail = jobBuilder.build();
 
-        Integer triggerPriority = jobCreateInfo.getPriority()==null?5:jobCreateInfo.getPriority();
+        Integer triggerPriority = jobCreateInfo.getPriority() == null ? 5 : jobCreateInfo.getPriority();
         TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger()
-                .withIdentity(jobCreateInfo.getTriggerName(),jobCreateInfo.getTriggerGroup())
+                .withIdentity(jobCreateInfo.getTriggerName(), jobCreateInfo.getTriggerGroup())
                 .withPriority(triggerPriority)
                 .forJob(jobDetail);
-        if(jobCreateInfo.getStartTime()!=null){
+        if (jobCreateInfo.getStartTime() != null) {
             triggerBuilder.startAt(jobCreateInfo.getStartTime());
         }
-        if(jobCreateInfo.getEndTime()!=null){
+        if (jobCreateInfo.getEndTime() != null) {
             triggerBuilder.endAt(jobCreateInfo.getEndTime());
         }
 
         ScheduleBuilder schedule = null;
-        if(jobCreateInfo.getCronExpression()!=null&&!"".equals(jobCreateInfo.getCronExpression())){
+        if (jobCreateInfo.getCronExpression() != null && !"".equals(jobCreateInfo.getCronExpression())) {
             schedule = CronScheduleBuilder.cronSchedule(jobCreateInfo.getCronExpression());
-        }else{
-            if(jobCreateInfo.getRepeatCount()<1){
-                schedule=SimpleScheduleBuilder.repeatSecondlyForever();
-            }else{
-                schedule=SimpleScheduleBuilder.repeatSecondlyForTotalCount(jobCreateInfo.getRepeatCount(),jobCreateInfo.getRepeatInterval());
+        } else {
+            if (jobCreateInfo.getRepeatCount() == null || jobCreateInfo.getRepeatCount() < 1) {
+                schedule = SimpleScheduleBuilder.repeatSecondlyForever();
+            } else {
+                schedule = SimpleScheduleBuilder.repeatSecondlyForTotalCount(jobCreateInfo.getRepeatCount(), jobCreateInfo.getRepeatInterval());
             }
         }
 
         //schedule job
         Trigger trigger = triggerBuilder.withSchedule(schedule).build();
-        scheduler.scheduleJob(jobDetail,trigger);
+        scheduler.scheduleJob(jobDetail, trigger);
     }
 }
