@@ -4,8 +4,8 @@ import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.component.ResponseData;
 import com.marshal.halcyon.quartz.entity.JobCreateInfo;
 import com.marshal.halcyon.quartz.entity.JobDetails;
-import com.marshal.halcyon.quartz.entity.JobRunningInfo;
-import com.marshal.halcyon.quartz.service.JobRunningInfoService;
+import com.marshal.halcyon.quartz.entity.JobLogs;
+import com.marshal.halcyon.quartz.service.JobLogsService;
 import com.marshal.halcyon.quartz.service.QuartzService;
 
 import org.quartz.SchedulerException;
@@ -29,7 +29,7 @@ public class QuartzController extends BaseController {
     QuartzService quartzService;
 
     @Autowired
-    JobRunningInfoService jobRunningInfoService;
+    JobLogsService jobLogsService;
 
     /**
      * 启动调度器
@@ -108,11 +108,11 @@ public class QuartzController extends BaseController {
      * @param pageSize
      * @return
      */
-    @RequestMapping("/jobRunningInfo/query")
-    public ResponseData queryJobRunningInfo(@RequestBody JobRunningInfo condition,
+    @RequestMapping("/jobLogs/query")
+    public ResponseData queryJobLogs(@RequestBody JobLogs condition,
                                             @RequestParam("pageNum") int pageNum,
                                             @RequestParam("pageSize") int pageSize) {
-        return new ResponseData(jobRunningInfoService.queryJobRunningInfo(condition, pageNum, pageSize));
+        return new ResponseData(jobLogsService.queryJobLogs(condition, pageNum, pageSize));
     }
 
 }

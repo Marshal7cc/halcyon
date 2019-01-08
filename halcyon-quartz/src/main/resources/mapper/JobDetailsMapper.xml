@@ -30,22 +30,22 @@
         i.next_fire_time
         from qrtz_job_details j
         left join
-        qrtz_job_running_info i
+        qrtz_job_logs i
         on
         j.job_name = i.job_name
         and
         j.job_group=i.job_group
         where
-        (i.job_running_info_id =
+        (i.job_logs_id =
         (select
-        max(ii.job_running_info_id)
+        max(ii.job_logs_id)
         from
-        qrtz_job_running_info ii
+        qrtz_job_logs ii
         where
         ii.job_name=j.job_name
         and
         ii.job_group=j.job_group)
-        or i.job_running_info_id is null)
+        or i.job_logs_id is null)
 
         <if test="jobName!=null">
             and j.job_name like concat('%',#{jobName},'%')

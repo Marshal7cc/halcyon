@@ -1,5 +1,5 @@
 //控制层
-app.controller("jobRunningInfoController",function ($scope,$controller,jobRunningInfoService) {
+app.controller("jobLogsController", function ($scope, $controller, jobLogsService) {
     //继承
     $controller("baseController",{$scope:$scope});
 
@@ -7,7 +7,7 @@ app.controller("jobRunningInfoController",function ($scope,$controller,jobRunnin
     //查询,初始化查询条件为空
     $scope.condition={};
     $scope.query=function (pageNum,pageSize) {
-        jobRunningInfoService.query(pageNum,pageSize,$scope.condition).success(function (responseData) {
+        jobLogsService.query(pageNum, pageSize, $scope.condition).success(function (responseData) {
             $scope.parseResponse(responseData);
         });
     }

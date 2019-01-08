@@ -48,35 +48,56 @@ spring:
   #    prefix: classpath:/templates/
   #    suffix: .html
 
+
+  ################################
+  #####  Spring QUARTZ  ##########
+  ################################
   quartz:
+    #随项目启动而启动开关
     auto-startup: false
+    #调度器名称-对象名
     scheduler-name: quartzScheduler
+    #存储方式
     job-store-type: jdbc
     #额外属性
     properties:
       org:
         quartz:
           scheduler:
+            #调度器类型
             instanceName: DefaultQuartzScheduler
+            #每个集群节点要有独立的instanceId
             instanceId: AUTO
+          #线程池
           threadPool:
             class: org.quartz.simpl.SimpleThreadPool
             threadCount: 20
             threadPriority: 5
           jobStore:
             class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            #为false则jobData类型只能为String
             useProperties: false
+            #集群
             isClustered: true
             clusterCheckinInterval: 15000
             maxMisfiresToHandleAtATime: 1
             misfireThreshold: 12000
             tablePrefix: QRTZ_
+          #插件配置
           plugin:
+            #调度器监听器
             runningListener:
               class: com.marshal.halcyon.quartz.plugin.RunningListenerPlugin
               LogRunningInfo: true
+  ################################
+  #####  Spring QUARTZ  ##########
+  ################################
 
 
+
+  ################################
+  #####  Spring Mail    ##########
+  ################################
   # 邮件发送
   mail:
     default-encoding: UTF-8
@@ -86,6 +107,9 @@ spring:
     password:
     port: 25
     protocol: smtp
+  ################################
+  #####  Spring Mail    ##########
+  ################################
 
 
 # mybatis配置

@@ -2,32 +2,31 @@ package com.marshal.halcyon.quartz.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.marshal.halcyon.core.constants.BaseConstants;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/4
- * Time: 14:28
- * Description:用于创建job时接收前端参数
+ * @auth: Marshal
+ * @date: 2018/11/4
+ * @desc: 新建job实体类
  */
 public class JobCreateInfo implements Serializable {
 
     /**
      * job info
      */
-    @NotEmpty
+    @NotNull
     private String jobName;
 
-    @NotEmpty
+    @NotNull
     private String jobGroup;
 
     private String description;
 
-    @NotEmpty
+    @NotNull
     private String jobClassName;
 
     private List<JobData> jobData;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.marshal.halcyon.quartz.mapper.JobRunningInfoMapper">
-  <resultMap id="BaseResultMap" type="com.marshal.halcyon.quartz.entity.JobRunningInfo">
-    <id column="JOB_RUNNING_INFO_ID" jdbcType="BIGINT" property="jobRunningInfoId" />
+<mapper namespace="com.marshal.halcyon.quartz.mapper.JobLogsMapper">
+  <resultMap id="BaseResultMap" type="com.marshal.halcyon.quartz.entity.JobLogs">
+    <id column="JOB_LOGS_ID" jdbcType="BIGINT" property="jobLogsId"/>
     <result column="JOB_NAME" jdbcType="VARCHAR" property="jobName" />
     <result column="JOB_GROUP" jdbcType="VARCHAR" property="jobGroup" />
     <result column="JOB_RESULT" jdbcType="VARCHAR" property="jobResult" />
@@ -21,7 +21,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    JOB_RUNNING_INFO_ID, JOB_NAME, JOB_GROUP, JOB_RESULT, JOB_STATUS, JOB_STATUS_MESSAGE,
+    JOB_LOGS_ID, JOB_NAME, JOB_GROUP, JOB_RESULT, JOB_STATUS, JOB_STATUS_MESSAGE,
     TRIGGER_NAME, TRIGGER_GROUP, PREVIOUS_FIRE_TIME, FIRE_TIME, NEXT_FIRE_TIME, REFIRE_COUNT,
     FIRE_INSTANCE_ID, SCHEDULER_INSTANCE_ID, SCHEDULED_FIRE_TIME, EXECUTION_SUMMARY,
     IP_ADDRESS

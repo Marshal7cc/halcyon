@@ -3,11 +3,9 @@ package com.marshal.halcyon.quartz.entity;
 import java.io.Serializable;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/4
- * Time: 14:15
- * Description:job参数
+ * @auth: Marshal
+ * @date: 2018/11/4
+ * @desc: job参数实体类
  */
 public class JobData implements Serializable {
 

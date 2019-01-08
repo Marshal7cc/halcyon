@@ -1,14 +1,12 @@
 package com.marshal.halcyon.quartz.listener;
 import com.marshal.halcyon.core.util.ApplicationContextHolder;
-import com.marshal.halcyon.quartz.entity.JobRunningInfo;
-import com.marshal.halcyon.quartz.service.JobRunningInfoService;
+import com.marshal.halcyon.quartz.entity.JobLogs;
+import com.marshal.halcyon.quartz.service.JobLogsService;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.ContextLoader;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -16,11 +14,9 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 /**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/11/1
- * Time: 21:19
- * Description:记录job运行记录监听器
+ * @auth: Marshal
+ * @date: 2018/11/1
+ * @desc: 记录job运行记录监听器
  */
 public class JobRunningListener implements JobListener {
 
@@ -44,7 +40,7 @@ public class JobRunningListener implements JobListener {
     private String jobWasVetoedMessage = "Job {1}.{0} was vetoed.  It was to be fired (by trigger {4}.{3}) "
             + "at: {2, date, HH:mm:ss MM/dd/yyyy}";
 
-    private JobRunningInfoService jobRunningInfoService;
+    private JobLogsService jobLogsService;
 
     private ApplicationContext applicationContext;
 
@@ -56,68 +52,30 @@ public class JobRunningListener implements JobListener {
         return jobSuccessMessage;
     }
 
-    /**
-     * Get the message that is logged when a Job fails its execution.
-     *
-     * @return jobFailedMessage
-     */
     public String getJobFailedMessage() {
         return jobFailedMessage;
     }
 
-    /**
-     * Get the message that is logged when a Job is about to execute.
-     *
-     * @return jobToBeFiredMessage
-     */
     public String getJobToBeFiredMessage() {
         return jobToBeFiredMessage;
     }
 
-    /**
-     * Set the message that is logged when a Job successfully completes its
-     * execution.
-     *
-     * @param jobSuccessMessage String in java.text.MessageFormat syntax.
-     */
     public void setJobSuccessMessage(String jobSuccessMessage) {
         this.jobSuccessMessage = jobSuccessMessage;
     }
 
-    /**
-     * Set the message that is logged when a Job fails its execution.
-     *
-     * @param jobFailedMessage String in java.text.MessageFormat syntax.
-     */
     public void setJobFailedMessage(String jobFailedMessage) {
         this.jobFailedMessage = jobFailedMessage;
     }
 
-    /**
-     * Set the message that is logged when a Job is about to execute.
-     *
-     * @param jobToBeFiredMessage String in java.text.MessageFormat syntax.
-     */
     public void setJobToBeFiredMessage(String jobToBeFiredMessage) {
         this.jobToBeFiredMessage = jobToBeFiredMessage;
     }
 
-    /**
-     * Get the message that is logged when a Job execution is vetoed by a
-     * trigger listener.
-     *
-     * @return jobWasVetoedMessage
-     */
     public String getJobWasVetoedMessage() {
         return jobWasVetoedMessage;
     }
 
-    /**
-     * Set the message that is logged when a Job execution is vetoed by a
-     * trigger listener.
-     *
-     * @param jobWasVetoedMessage String in java.text.MessageFormat syntax.
-     */
     public void setJobWasVetoedMessage(String jobWasVetoedMessage) {
         this.jobWasVetoedMessage = jobWasVetoedMessage;
     }
@@ -167,13 +125,13 @@ public class JobRunningListener implements JobListener {
         if (getLog().isInfoEnabled()) {
             getLog().info(message);
         }
-        JobRunningInfo jobRunningInfo = getCurrentRunningInfo(jobExecutionContext);
+        JobLogs jobLogs = getCurrentRunningInfo(jobExecutionContext);
         if (message.length() > 2000) {
             message = message.substring(0, 2000);
         }
-        jobRunningInfo.setJobStatusMessage(message);
-        jobRunningInfo.setJobStatus(VETOED);
-        saveJobRunningInfo(jobRunningInfo);
+        jobLogs.setJobStatusMessage(message);
+        jobLogs.setJobStatus(VETOED);
+        saveJobLog(jobLogs);
     }
 
     /**
@@ -186,7 +144,7 @@ public class JobRunningListener implements JobListener {
         Trigger trigger = jobExecutionContext.getTrigger();
 
         Object[] args = null;
-        JobRunningInfo jobRunningInfo = getCurrentRunningInfo(jobExecutionContext);
+        JobLogs jobLogs = getCurrentRunningInfo(jobExecutionContext);
 
         if (jobException != null) {
             String errMsg = jobException.getMessage();
@@ -199,8 +157,8 @@ public class JobRunningListener implements JobListener {
             if (getLog().isWarnEnabled()) {
                 getLog().warn(message, jobException);
             }
-            jobRunningInfo.setJobStatusMessage(message);
-            jobRunningInfo.setJobStatus(FAILED);
+            jobLogs.setJobStatusMessage(message);
+            jobLogs.setJobStatus(FAILED);
 
         } else {
             String result = String.valueOf(jobExecutionContext.getResult());
@@ -212,21 +170,21 @@ public class JobRunningListener implements JobListener {
             if (getLog().isInfoEnabled()) {
                 getLog().info(message);
             }
-            jobRunningInfo.setJobStatusMessage(message);
-            jobRunningInfo.setJobStatus(FINISH);
+            jobLogs.setJobStatusMessage(message);
+            jobLogs.setJobStatus(FINISH);
         }
-        saveJobRunningInfo(jobRunningInfo);
+        saveJobLog(jobLogs);
         Job job = jobExecutionContext.getJobInstance();
         if (job instanceof JobListener) {
-            jobExecutionContext.put("JOB_RUNNING_INFO_ID", jobRunningInfo.getJobRunningInfoId());
+            jobExecutionContext.put("JOB_RUNNING_INFO_ID", jobLogs.getJobLogsId());
             ((JobListener) job).jobWasExecuted(jobExecutionContext, jobException);
         }
 
 
     }
 
-    private JobRunningInfo getCurrentRunningInfo(JobExecutionContext jobExecutionContext) {
-        JobRunningInfo record = new JobRunningInfo();
+    private JobLogs getCurrentRunningInfo(JobExecutionContext jobExecutionContext) {
+        JobLogs record = new JobLogs();
         JobDetail jobDetail = jobExecutionContext.getJobDetail();
         String jobName = jobDetail.getKey().getName();
         String jobGroup = jobDetail.getKey().getGroup();
@@ -276,10 +234,10 @@ public class JobRunningListener implements JobListener {
         return record;
     }
 
-    private void saveJobRunningInfo(JobRunningInfo jobRunningInfo) {
+    private void saveJobLog(JobLogs jobLogs) {
         applicationContext = ApplicationContextHolder.getApplicationContext();
-        jobRunningInfoService = (JobRunningInfoService)applicationContext.getBean(JobRunningInfoService.class);
-        jobRunningInfoService.saveJobRunningInfo(jobRunningInfo);
+        jobLogsService = (JobLogsService) applicationContext.getBean(JobLogsService.class);
+        jobLogsService.saveJobLog(jobLogs);
     }
 
 }
