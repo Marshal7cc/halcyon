@@ -1,25 +1,31 @@
 package com.marshal.halcyon.core.service;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 public interface BaseService<T> {
-    /**
-     * 与mapper同步的方法
-     */
+
     List<T> select(T condition, int pageNum, int pageSize);
+
+    List<T> selectAll();
 
     T selectByPrimaryKey(T record);
 
-    int insert(T record);
+    T insert(T record);
 
-    int insertSelective(T record);
+    T insertSelective(T record);
 
-    int updateByPrimaryKey(T record);
+    T updateByPrimaryKey(T record);
 
-    @Transactional(rollbackFor = Exception.class)
-    int updateByPrimaryKeySelective(T record);
+    T updateByPrimaryKeySelective(T record);
 
-    int deleteByPrimaryKey(T record);
+    /**
+     * 乐观锁检查
+     *
+     * @param record
+     * @return
+     */
+    boolean checkCAS(T record);
+
+    T deleteByPrimaryKey(T record);
+
 }

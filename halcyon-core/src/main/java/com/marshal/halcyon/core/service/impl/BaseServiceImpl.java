@@ -8,9 +8,8 @@ import java.util.List;
 
 /**
  * @auth: Marshal
- * @date: 2018/11/2
- * @desc: 通用Service方法
- * service方法可以继承该方法，调用泛型方法进行增删改查，目前暂未使用
+ * @date: 2018/1/7
+ * @desc: 通用Service
  */
 
 public class BaseServiceImpl<T> implements BaseService<T> {
@@ -24,32 +23,47 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
+    public List<T> selectAll() {
+        return mapper.selectAll();
+    }
+
+    @Override
     public T selectByPrimaryKey(T record) {
         return mapper.selectByPrimaryKey(record);
     }
 
     @Override
-    public int insert(T record) {
-        return mapper.insert(record);
+    public T insert(T record) {
+        mapper.insert(record);
+        return record;
     }
 
     @Override
-    public int insertSelective(T record) {
-        return mapper.insertSelective(record);
+    public T insertSelective(T record) {
+        mapper.insertSelective(record);
+        return record;
     }
 
     @Override
-    public int updateByPrimaryKey(T record) {
-        return mapper.updateByPrimaryKey(record);
+    public T updateByPrimaryKey(T record) {
+        return record;
     }
 
     @Override
-    public int updateByPrimaryKeySelective(T record) {
-        return mapper.updateByPrimaryKeySelective(record);
+    public T updateByPrimaryKeySelective(T record) {
+        return record;
     }
 
     @Override
-    public int deleteByPrimaryKey(T record) {
-        return mapper.deleteByPrimaryKey(record);
+    public boolean checkCAS(T record) {
+        T dto = mapper.selectByPrimaryKey(record);
+        //todo:version乐观锁
+        return false;
+    }
+
+    @Override
+    public T deleteByPrimaryKey(T record) {
+        mapper.deleteByPrimaryKey(record);
+        return record;
     }
 }
