@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.hr.mapper.HrCompanyMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.hr.entity.HrCompany">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="COMPANY_ID" jdbcType="BIGINT" property="companyId"/>
+        <result column="COMPANY_CODE" jdbcType="VARCHAR" property="companyCode"/>
+        <result column="COMPANY_TYPE" jdbcType="VARCHAR" property="companyType"/>
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+        <result column="COMPANY_LEVEL_ID" jdbcType="BIGINT" property="companyLevelId"/>
+        <result column="PARENT_COMPANY_ID" jdbcType="BIGINT" property="parentCompanyId"/>
+        <result column="CHIEF_POSITION_ID" jdbcType="BIGINT" property="chiefPositionId"/>
+        <result column="START_DATE_ACTIVE" jdbcType="TIMESTAMP" property="startDateActive"/>
+        <result column="END_DATE_ACTIVE" jdbcType="TIMESTAMP" property="endDateActive"/>
+        <result column="COMPANY_SHORT_NAME" jdbcType="VARCHAR" property="companyShortName"/>
+        <result column="COMPANY_FULL_NAME" jdbcType="VARCHAR" property="companyFullName"/>
+        <result column="ZIPCODE" jdbcType="VARCHAR" property="zipcode"/>
+        <result column="FAX" jdbcType="VARCHAR" property="fax"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="CONTACT_PERSON" jdbcType="VARCHAR" property="contactPerson"/>
+    </resultMap>
+</mapper>

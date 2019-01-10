@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.hr.mapper.HrEmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.hr.entity.HrEmployee">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="EMPLOYEE_ID" jdbcType="BIGINT" property="employeeId"/>
+        <result column="EMPLOYEE_CODE" jdbcType="VARCHAR" property="employeeCode"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="BORN_DATE" jdbcType="DATE" property="bornDate"/>
+        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="MOBIL" jdbcType="VARCHAR" property="mobil"/>
+        <result column="JOIN_DATE" jdbcType="DATE" property="joinDate"/>
+        <result column="GENDER" jdbcType="VARCHAR" property="gender"/>
+        <result column="CERTIFICATE_ID" jdbcType="VARCHAR" property="certificateId"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="ENABLED_FLAG" jdbcType="VARCHAR" property="enabledFlag"/>
+        <result column="CERTIFICATE_TYPE" jdbcType="VARCHAR" property="certificateType"/>
+    </resultMap>
+</mapper>
