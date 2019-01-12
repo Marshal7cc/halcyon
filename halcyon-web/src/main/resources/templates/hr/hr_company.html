@@ -52,25 +52,40 @@
             <tr>
                 <td>公司代码</td>
                 <td><input ng-model="hrCompany.companyCode" class="form-control"></td>
-            </tr>
-            <tr>
                 <td>公司简称</td>
                 <td><input ng-model="hrCompany.companyShortName" class="form-control"></td>
+            </tr>
+            <tr>
+
                 <td>公司全称</td>
                 <td>
                     <input ng-model="hrCompany.companyFullName" class="form-control">
                 </td>
-            </tr>
-            <tr>
                 <td>地址</td>
                 <td>
                     <input ng-model="hrCompany.address" class="form-control">
                 </td>
             </tr>
+            <tr>
+                <td>联系方式</td>
+                <td>
+                    <input ng-model="hrCompany.phone" class="form-control">
+                </td>
+                <td>联系人</td>
+                <td>
+                    <input ng-model="hrCompany.contactPerson" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td>邮编</td>
+                <td>
+                    <input ng-model="hrCompany.zipcode" class="form-control">
+                </td>
+            </tr>
         </table>
     </div>
     <div class="modal-footer">
-        <button ng-click="save()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">发送</button>
+        <button ng-click="save()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">保存</button>
     </div>
 </div>
 

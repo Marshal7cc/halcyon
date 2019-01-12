@@ -31,6 +31,7 @@ public class HrCompanyController extends BaseController {
 
     @RequestMapping("/save")
     public ResponseData save(@RequestBody HrCompany hrCompany) {
-        return new ResponseData(Arrays.asList(hrCompanyService.saveCompanyInfo(hrCompany)));
+        hrCompanyService.saveCompanyInfo(hrCompany);
+        return new ResponseData();
     }
 }

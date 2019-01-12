@@ -49,6 +49,8 @@ app.controller("baseController", function ($scope) {
                 if (responseData.message != null && responseData.message != undefined) {
                     swal("", responseData.message, "success");
                     $scope.reloadList();
+                } else {
+                    swal("", "操作成功", "success");
                 }
             }
         } else {
