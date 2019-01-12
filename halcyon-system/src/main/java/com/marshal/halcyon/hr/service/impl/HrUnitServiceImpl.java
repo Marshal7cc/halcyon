@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HrUnitServiceImpl implements HrUnitService {
@@ -66,4 +67,8 @@ public class HrUnitServiceImpl implements HrUnitService {
         return hrUnitMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public List<Map> getOptions() {
+        return hrUnitMapper.getParentUnitOptions();
+    }
 }

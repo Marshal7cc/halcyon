@@ -19,4 +19,8 @@ app.service("hrUnitService", function ($http) {
     this.queryById = function (id) {
         return $http.get("../hr/unit/selectByUnitId?unitId=" + id);
     }
+
+    this.getParentUnitOptions = function () {
+        return $http.get("../hr/unit/getParentUnitOptions");
+    }
 });

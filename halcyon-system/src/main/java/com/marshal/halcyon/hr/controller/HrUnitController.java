@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @auth: Marshal
@@ -65,10 +66,19 @@ public class HrUnitController extends BaseController {
         return new ResponseData(true, "删除成功");
     }
 
+    /**
+     * 根据部门id查询部门
+     *
+     * @param unitId
+     * @return
+     */
     @RequestMapping("/selectByUnitId")
     public HrUnit selectByUnitId(@RequestParam Long unitId) {
         return hrUnitService.selectByUnitId(unitId);
     }
 
-    
+    @RequestMapping("/getParentUnitOptions")
+    public List<Map> getOptions() {
+        return hrUnitService.getOptions();
+    }
 }

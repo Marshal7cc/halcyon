@@ -6,11 +6,13 @@ app.controller("hrUnitController", function ($scope, $controller, hrUnitService)
     //初始化
     $scope.initForAdd = function () {
         $scope.hrUnit = {};
+        $scope.getParentUnitOptions();
     }
     $scope.initForUpdate = function (id) {
         hrUnitService.queryById(id).success(function (data) {
             $scope.hrUnit = data;
         });
+        $scope.getParentUnitOptions();
     }
 
     //crud
@@ -40,10 +42,10 @@ app.controller("hrUnitController", function ($scope, $controller, hrUnitService)
 
     //获取下拉框数据
     //防止ajax异步导致为空，声明一个空的
-    $scope.hrUnitOptions = {data: []};
-    $scope.getOptions = function () {
-        hrUnitService.getOptions().success(function (data) {
-            $scope.hrUnitOptions = {data: data};
+    $scope.parentUnitOptions = {data: []};
+    $scope.getParentUnitOptions = function () {
+        hrUnitService.getParentUnitOptions().success(function (data) {
+            $scope.parentUnitOptions = {data: data};
         });
     }
 });

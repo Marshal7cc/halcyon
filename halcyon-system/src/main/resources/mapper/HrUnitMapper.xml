@@ -13,4 +13,9 @@
         <result column="UNIT_CATEGORY" jdbcType="VARCHAR" property="unitCategory"/>
         <result column="UNIT_TYPE" jdbcType="VARCHAR" property="unitType"/>
     </resultMap>
+
+    <select id="getParentUnitOptions" resultType="java.util.Map">
+      select unit_id as id,name as text
+      from hr_unit
+    </select>
 </mapper>
