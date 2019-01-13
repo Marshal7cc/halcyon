@@ -8,6 +8,8 @@ import java.util.Map;
 
 public interface SysUserMapper extends Mapper<SysUser> {
 
+    List<SysUser> query(SysUser condition);
+
     List<Map> getUserOptions();
 
     SysUser getUserByUsername(String username);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HrEmployeeServiceImpl implements HrEmployeeService {
@@ -26,7 +27,7 @@ public class HrEmployeeServiceImpl implements HrEmployeeService {
     @Override
     public List<HrEmployee> query(HrEmployee condition, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return hrEmployeeMapper.select(condition);
+        return hrEmployeeMapper.query(condition);
     }
 
     /**
@@ -66,4 +67,8 @@ public class HrEmployeeServiceImpl implements HrEmployeeService {
         return hrEmployeeMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public List<Map> getEmpOptions() {
+        return hrEmployeeMapper.getEmpOptions();
+    }
 }

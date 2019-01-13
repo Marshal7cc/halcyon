@@ -1,16 +1,19 @@
 //控制层
-app.controller("hrEmployeeController", function ($scope, $controller, hrEmployeeService) {
+app.controller("hrEmployeeController", function ($scope, $controller, hrEmployeeService, hrPositionService) {
     //继承
     $controller("baseController", {$scope: $scope});
 
     //初始化
     $scope.initForAdd = function () {
         $scope.hrEmployee = {};
+        $scope.getHrPositionOptions();
+
     }
     $scope.initForUpdate = function (id) {
         hrEmployeeService.queryById(id).success(function (data) {
             $scope.hrEmployee = data;
         });
+        $scope.getHrPositionOptions();
     }
 
     //crud
@@ -40,10 +43,10 @@ app.controller("hrEmployeeController", function ($scope, $controller, hrEmployee
 
     //获取下拉框数据
     //防止ajax异步导致为空，声明一个空的
-    $scope.hrEmployeeOptions = {data: []};
-    $scope.getOptions = function () {
-        hrEmployeeService.getOptions().success(function (data) {
-            $scope.hrEmployeeOptions = {data: data};
+    $scope.hrPositionOptions = {data: []};
+    $scope.getHrPositionOptions = function () {
+        hrPositionService.getParentPositionOptions().success(function (data) {
+            $scope.hrPositionOptions = {data: data};
         });
     }
 });

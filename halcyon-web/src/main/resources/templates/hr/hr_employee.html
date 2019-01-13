@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>用户定义</title>
+    <title>员工定义</title>
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
 
     <link rel="stylesheet" href="../css/halcyon-all.css">
@@ -19,9 +19,10 @@
     <script src="../plugins/angularjs/angular.min.js"></script>
     <!--AngularJS module/controller/service-->
     <script src="../js/module/base.js" type="text/javascript"></script>
-    <script src="../js/service/account/sysUserService.js" type="text/javascript"></script>
+    <script src="../js/service/hr/hrEmployeeService.js" type="text/javascript"></script>
+    <script src="../js/service/hr/hrPositionService.js" type="text/javascript"></script>
     <script src="../js/controller/baseController.js" type="text/javascript"></script>
-    <script src="../js/controller/account/sysUserController.js" type="text/javascript"></script>
+    <script src="../js/controller/hr/hrEmployeeController.js" type="text/javascript"></script>
     <!-- 分页插件 -->
     <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
     <script src="../plugins/angularjs/pagination.js"></script>
@@ -38,11 +39,11 @@
     <script src="../plugins/sweetalert/sweet-alert.min.js" type="text/javascript"></script>
 
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="sysUserController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="hrEmployeeController">
 <div class="box">
     <!-- .box-body -->
     <div class="box-header with-border">
-        <h3 class="box-title">用户定义</h3>
+        <h3 class="box-title">员工定义</h3>
     </div>
 
     <div class="box-body">
@@ -66,7 +67,7 @@
             </div>
             <div class="box-tools pull-right">
                 <div class="has-feedback">
-                    用户姓名：<input ng-model="condition.userName"/>
+                    员工姓名：<input ng-model="condition.userName"/>
                     <button type="button" class="btn btn-default" ng-click="query(1,pageConf.itemsPerPage)">
                         <i class="fa fa-search"></i>
                     </button>
@@ -81,29 +82,26 @@
                     <th class="" style="padding-right:0px">
                         <input id="selall" type="checkbox" class="icheckbox_square-blue">
                     </th>
-                    <th>用户名称</th>
-                    <th>联系方式</th>
+                    <th>员工编码</th>
+                    <th>员工姓名</th>
+                    <th>岗位名称</th>
                     <th>电子邮件</th>
-                    <th>账户有效期从</th>
-                    <th>账户有效期至</th>
-                    <th>最近一次登录</th>
-                    <th>状态</th>
+                    <th>移动电话</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in rows">
-                    <td><input type="checkbox" ng-click="updateSelected($event,item.userId)"></td>
+                    <td><input type="checkbox" ng-click="updateSelected($event,item.employeeId)"></td>
                     <!--<td>{{index+1}}</td>-->
-                    <td>{{item.userName}}</td>
-                    <td>{{item.phone}}</td>
+                    <td>{{item.employeeCode}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.positionName}}</td>
                     <td>{{item.email}}</td>
-                    <td>{{item.startActiveDate}}</td>
-                    <td>{{item.endActiveDate}}</td>
-                    <td>{{item.lastLoginDate}}</td>
-                    <th>{{sysUserStatusRender(item.status)}}</th>
+                    <td>{{item.mobil}}</td>
+
                     <td class="text-center">
-                        <button ng-click="initForUpdate(item.userId)" type="button" class="btn btn-sm btn-success"
+                        <button ng-click="initForUpdate(item.employeeId)" type="button" class="btn btn-sm btn-success"
                                 data-toggle="modal" data-target="#editWindow">
                             <i class="fa fa-edit"></i>
                         </button>
@@ -131,39 +129,32 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">用户编辑</h3>
+                <h3 id="myModalLabel">员工编辑</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped" width="800px">
                     <tr>
-                        <td>用户姓名</td>
-                        <td><input ng-model="sysUser.userName" class="form-control" placeholder="用户姓名"></td>
+                        <td>员工编码</td>
+                        <td><input ng-model="hrEmployee.employeeCode" class="form-control"></td>
+                        <td>员工姓名</td>
+                        <td>
+                            <input ng-model="hrEmployee.name" class="form-control">
+                        </td>
                     </tr>
                     <tr>
-                        <td>联系方式</td>
-                        <td>
-                            <input ng-model="sysUser.phone" class="form-control" placeholder="联系方式">
-                        </td>
                         <td>电子邮箱</td>
                         <td>
-                            <input ng-model="sysUser.email" class="form-control" placeholder="电子邮箱">
+                            <input ng-model="hrEmployee.email" class="form-control">
                         </td>
-
+                        <td>移动电话</td>
+                        <td>
+                            <input ng-model="hrEmployee.mobil" class="form-control">
+                        </td>
                     </tr>
                     <tr>
-                        <td>账户有效期从</td>
-                        <!--<td><input select2 config="sysUserOptions" ng-model="sysUser.userType" class="form-control" placeholder="联系方式"></td>-->
-                        <td>
-                            <wui-date id="startActiveDate" format="yyyy-mm-dd" placeholder="请选择或输入日期"
-                                      btns="{'ok':'确定','now':'此刻'}" ng-model="sysUser.startActiveDate">
-                            </wui-date>
-                        </td>
-                        <td>账户有效期至</td>
-                        <td>
-                            <wui-date id="endActiveDate" format="yyyy-mm-dd" placeholder="请选择或输入日期"
-                                      btns="{'ok':'确定','now':'此刻'}" ng-model="sysUser.endActiveDate">
-                            </wui-date>
-                        </td>
+                        <td>岗位名称</td>
+                        <td><input select2 config="hrPositionOptions" ng-model="hrEmployee.positionId"
+                                   class="form-control"></td>
                     </tr>
                 </table>
             </div>

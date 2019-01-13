@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @auth: Marshal
@@ -68,5 +69,10 @@ public class HrEmployeeController extends BaseController {
     @RequestMapping("/selectByEmployeeId")
     public HrEmployee selectByEmployeeId(@RequestParam Long employeeId) {
         return hrEmployeeService.selectByEmployeeId(employeeId);
+    }
+
+    @RequestMapping("/getEmpOptions")
+    public List<Map> getEmpOptions() {
+        return hrEmployeeService.getEmpOptions();
     }
 }

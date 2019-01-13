@@ -3,6 +3,7 @@ package com.marshal.halcyon.hr.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name = "hr_employee")
@@ -76,6 +77,20 @@ public class HrEmployee {
      */
     @Column(name = "CERTIFICATE_TYPE")
     private String certificateType;
+
+    @Column(name = "POSITION_ID")
+    private Long positionId;
+
+    @Transient
+    private String positionName;
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
 
     /**
      * @return EMPLOYEE_ID
@@ -287,5 +302,13 @@ public class HrEmployee {
      */
     public void setCertificateType(String certificateType) {
         this.certificateType = certificateType;
+    }
+
+    public Long getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(Long positionId) {
+        this.positionId = positionId;
     }
 }

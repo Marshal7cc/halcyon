@@ -16,6 +16,7 @@
         <result column="frozen_flag" jdbcType="VARCHAR" property="frozenFlag"/>
         <result column="frozen_date" jdbcType="TIMESTAMP" property="frozenDate"/>
         <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="EMPLOYEE_ID" jdbcType="BIGINT" property="employeeId"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,6 +24,14 @@
     END_ACTIVE_DATE, STATUS, LAST_LOGIN_DATE, LAST_PASSWORD_UPDATE_DATE, frozen_flag,
     frozen_date, DESCRIPTION
   </sql>
+
+    <select id="query" parameterType="com.marshal.halcyon.system.entity.SysUser" resultMap="BaseResultMap">
+    select su.*,he.name employeeName
+    from sys_user su
+    left join
+    hr_employee he
+    on su.employee_id = he.employee_id
+  </select>
 
     <select id="getUserOptions" resultType="java.util.Map">
     select user_id as id,user_name as text

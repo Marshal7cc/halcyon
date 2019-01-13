@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Table(name = "sys_user")
@@ -23,7 +24,7 @@ public class SysUser {
     @Email
     private String email;
 
-    @Pattern(regexp = BaseConstants.PATTERN_PHONE_REGEX,message = BaseConstants.PHONE_NOT_VALID)
+    @Pattern(regexp = BaseConstants.PATTERN_PHONE_REGEX, message = BaseConstants.PHONE_NOT_VALID)
     private String phone;
 
     @JsonFormat(pattern = BaseConstants.DATE_FORMAT)
@@ -45,6 +46,28 @@ public class SysUser {
     private Date frozenDate;
 
     private String description;
+
+    @NotEmpty
+    private String employeeId;
+
+    @Transient
+    private String employeeName;
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
 
     public Long getUserId() {
         return userId;

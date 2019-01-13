@@ -19,4 +19,8 @@ app.service("hrEmployeeService", function ($http) {
     this.queryById = function (id) {
         return $http.get("../hr/employee/selectByEmployeeId?employeeId=" + id);
     }
+
+    this.getEmpOptions = function () {
+        return $http.get("../hr/employee/getEmpOptions");
+    }
 });

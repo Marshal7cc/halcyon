@@ -1,16 +1,18 @@
 //控制层
-app.controller("sysUserController", function ($scope, $controller, sysUserService) {
+app.controller("sysUserController", function ($scope, $controller, sysUserService, hrEmployeeService) {
     //继承
     $controller("baseController", {$scope: $scope});
 
     //初始化
     $scope.initForAdd = function () {
         $scope.sysUser = {};
+        $scope.getEmpOptions();
     }
     $scope.initForUpdate = function (id) {
         sysUserService.queryById(id).success(function (data) {
             $scope.sysUser = data;
         });
+        $scope.getEmpOptions();
     }
 
     //crud
@@ -31,7 +33,8 @@ app.controller("sysUserController", function ($scope, $controller, sysUserServic
     $scope.delete = function () {
         $scope.deleteConfirm(deleteRows);
     }
-    function deleteRows(){
+
+    function deleteRows() {
         sysUserService.delete($scope.selectedIds).success(function (responseData) {
             $scope.parseResponse(responseData);
         });
@@ -43,6 +46,13 @@ app.controller("sysUserController", function ($scope, $controller, sysUserServic
     $scope.getOptions = function () {
         sysUserService.getOptions().success(function (data) {
             $scope.sysUserOptions = {data: data};
+        });
+    }
+
+    $scope.empOptions = {data: []};
+    $scope.getEmpOptions = function () {
+        hrEmployeeService.getEmpOptions().success(function (data) {
+            $scope.empOptions = {data: data};
         });
     }
 });

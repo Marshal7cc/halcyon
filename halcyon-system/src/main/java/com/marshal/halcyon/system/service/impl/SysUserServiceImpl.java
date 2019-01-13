@@ -27,7 +27,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUser> select(SysUser condition, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        return sysUserMapper.select(condition);
+        return sysUserMapper.query(condition);
     }
 
     @Override

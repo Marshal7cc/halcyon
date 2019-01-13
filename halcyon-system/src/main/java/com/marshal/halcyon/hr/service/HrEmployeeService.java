@@ -4,15 +4,18 @@ package com.marshal.halcyon.hr.service;
 import com.marshal.halcyon.hr.entity.HrEmployee;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HrEmployeeService {
 
     List<HrEmployee> query(HrEmployee condition, int pageNum, int pageSize);
 
-    public void submit(HrEmployee hrEmployee);
+    void submit(HrEmployee hrEmployee);
 
-    public void remove(Long[] idList);
+    void remove(Long[] idList);
 
-    public HrEmployee selectByEmployeeId(Long id);
+    HrEmployee selectByEmployeeId(Long id);
+
+    List<Map> getEmpOptions();
 
 }
