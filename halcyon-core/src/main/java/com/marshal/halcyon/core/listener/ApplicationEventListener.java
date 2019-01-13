@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import java.util.Map;
  * @date: 2019/1/13
  * @desc: halcyon核心监听器, 监听spring applicationContext上下文的事件
  */
+@Component
 public class ApplicationEventListener implements ApplicationListener {
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,30 +30,13 @@ public class SysFunctionController extends BaseController {
 
     /**
      * 获取菜单
+     *
      * @return
      */
     @RequestMapping("/getMenus")
-    public List<SysFunction> getMenuList(){
-        List<SysFunction> topFunctionList = sysFunctionService.selectTopFunctions();
-        getChildFunctions(topFunctionList);
-        return topFunctionList;
-    }
-    /**
-     * 递归填充最外层菜单的子菜单
-     * @param functionList
-     * @return
-     */
-    public List<SysFunction> getChildFunctions(List<SysFunction> functionList){
-        for(SysFunction item :functionList){
-            List<SysFunction> childList = sysFunctionService.selectChildFunctions(item.getFunctionId());
-            if(childList!=null&&childList.size()>0){
-                item.setChildFunctions(childList);
-                getChildFunctions(childList);
-            }else{
-                continue;
-            }
-        }
-        return functionList;
+    public List<SysFunction> getMenuList() {
+        List<SysFunction> menuList = sysFunctionService.getMenus();
+        return menuList;
     }
 
 

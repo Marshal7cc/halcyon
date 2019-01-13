@@ -18,7 +18,8 @@ import java.time.LocalTime;
                 "com.marshal.halcyon.**.controller",
                 "com.marshal.halcyon.**.service",
                 "com.marshal.halcyon.**.component",
-                "com.marshal.halcyon.core.*"}
+                "com.marshal.halcyon.core.*",
+                "com.marshal.halcyon.cache.impl"}
 )
 @tk.mybatis.spring.annotation.MapperScan(
         basePackages =

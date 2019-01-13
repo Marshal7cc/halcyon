@@ -28,6 +28,7 @@
     left join sys_resource sr on sf.resource_id=sr.resource_id
     where
     parent_function_id is null or parent_function_id =''
+    order by FUNCTION_SEQUENCE
   </select>
 
   <select id="selectChildFunctions" parameterType="java.lang.Long" resultMap="BaseResultMap">

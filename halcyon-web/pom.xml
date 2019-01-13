@@ -16,42 +16,42 @@
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-core</artifactId>
             <version>${halcyon.version}</version>
-            <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>halcyon-cache</artifactId>
+            <version>${halcyon.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-system</artifactId>
             <version>${halcyon.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-message</artifactId>
             <version>${halcyon.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-quartz</artifactId>
             <version>${halcyon.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-security</artifactId>
             <version>${halcyon.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-mail</artifactId>
             <version>${halcyon.version}</version>
-            <scope>compile</scope>
         </dependency>
         <!-- thymeleaf -->
         <dependency>

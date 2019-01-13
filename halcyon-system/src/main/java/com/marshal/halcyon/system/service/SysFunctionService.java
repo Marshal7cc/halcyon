@@ -17,7 +17,11 @@ public interface SysFunctionService {
 
     List<Map> getFunctionOptions();
 
+    List<SysFunction> getMenus();
+
     List<SysFunction> selectTopFunctions();
 
     List<SysFunction> selectChildFunctions(Long functionId);
+
+    List<SysFunction> getChildFunctions(List<SysFunction> topFunctionList);
 }
