@@ -4,15 +4,20 @@ package com.marshal.halcyon.hr.service;
 import com.marshal.halcyon.hr.entity.HrPosition;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HrPositionService {
 
     List<HrPosition> query(HrPosition condition, int pageNum, int pageSize);
 
-    public void submit(HrPosition hrPosition);
+    void submit(HrPosition hrPosition);
 
-    public void remove(Long[] idList);
+    void remove(Long[] idList);
 
-    public HrPosition selectByPositionId(Long id);
+    HrPosition selectByPositionId(Long id);
+
+    List<Map> selectByUnitId(Long unitId);
+
+    List<Map> getParentPositionOptions();
 
 }

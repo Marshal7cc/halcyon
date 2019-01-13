@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @auth: Marshal
@@ -22,11 +23,11 @@ import java.util.List;
 public class HrPositionController extends BaseController {
 
     @Autowired
-    HrPositionService hrOrgPositionService;
+    HrPositionService hrPositionService;
 
     @RequestMapping("/query")
     public ResponseData query(@RequestBody HrPosition condition, int pageNum, int pageSize) {
-        List<HrPosition> list = hrOrgPositionService.query(condition, pageNum, pageSize);
+        List<HrPosition> list = hrPositionService.query(condition, pageNum, pageSize);
         return new ResponseData(list);
     }
 
@@ -35,18 +36,28 @@ public class HrPositionController extends BaseController {
         if (!getValidator().isValid(hrOrgPosition)) {
             return new ResponseData(false, getValidator().getErrors(hrOrgPosition));
         }
-        hrOrgPositionService.submit(hrOrgPosition);
+        hrPositionService.submit(hrOrgPosition);
         return new ResponseData(true, "保存成功");
     }
 
     @RequestMapping("/remove")
     public ResponseData remove(@RequestParam("selectedIds") Long[] selectedIds) {
-        hrOrgPositionService.remove(selectedIds);
+        hrPositionService.remove(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 
     @RequestMapping("/selectByPositionId")
     public HrPosition selectByPositionId(@RequestParam Long positionId) {
-        return hrOrgPositionService.selectByPositionId(positionId);
+        return hrPositionService.selectByPositionId(positionId);
+    }
+
+    @RequestMapping("/getParentPositionOptions")
+    public List<Map> getParentPositionOptions() {
+        return hrPositionService.getParentPositionOptions();
+    }
+
+    @RequestMapping("/selectByUnitId")
+    public List<Map> selectByUnitId(@RequestParam Long unitId) {
+        return hrPositionService.selectByUnitId(unitId);
     }
 }

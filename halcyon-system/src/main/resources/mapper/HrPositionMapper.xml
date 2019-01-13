@@ -2,9 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.marshal.halcyon.hr.mapper.HrPositionMapper">
     <resultMap id="BaseResultMap" type="com.marshal.halcyon.hr.entity.HrPosition">
-        <!--
-          WARNING - @mbg.generated
-        -->
         <id column="POSITION_ID" jdbcType="BIGINT" property="positionId"/>
         <result column="UNIT_ID" jdbcType="BIGINT" property="unitId"/>
         <result column="POSITION_CODE" jdbcType="VARCHAR" property="positionCode"/>
@@ -13,4 +10,26 @@
         <result column="PARENT_POSITION_ID" jdbcType="BIGINT" property="parentPositionId"/>
         <result column="ENABLED_FLAG" jdbcType="VARCHAR" property="enabledFlag"/>
     </resultMap>
+
+
+    <select id="query" parameterType="com.marshal.halcyon.hr.entity.HrPosition" resultMap="BaseResultMap">
+        select hp.*,hu.name unitName,hp1.name parentPositionName
+        from hr_position hp
+        left join hr_unit hu
+        on hu.unit_id = hp.unit_id
+        left join hr_position hp1
+        on hp.parent_position_id = hp1.position_id
+    </select>
+
+    <select id="selectByUnitId" resultType="java.util.Map">
+        select position_id id,name text
+        from hr_position
+        where
+        unit_id = #{unitId}
+    </select>
+
+    <select id="getParentPositionOptions" resultType="java.util.Map">
+        select position_id id,name text
+        from hr_position
+    </select>
 </mapper>

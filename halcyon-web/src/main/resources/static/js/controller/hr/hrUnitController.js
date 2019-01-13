@@ -1,5 +1,5 @@
 //控制层
-app.controller("hrUnitController", function ($scope, $controller, hrUnitService) {
+app.controller("hrUnitController", function ($scope, $controller, hrUnitService, hrPositionService) {
     //继承
     $controller("baseController", {$scope: $scope});
 
@@ -13,6 +13,7 @@ app.controller("hrUnitController", function ($scope, $controller, hrUnitService)
             $scope.hrUnit = data;
         });
         $scope.getParentUnitOptions();
+        $scope.getManagerPositionOptions(id);
     }
 
     //crud
@@ -46,6 +47,13 @@ app.controller("hrUnitController", function ($scope, $controller, hrUnitService)
     $scope.getParentUnitOptions = function () {
         hrUnitService.getParentUnitOptions().success(function (data) {
             $scope.parentUnitOptions = {data: data};
+        });
+    }
+
+    $scope.managerPositionOptions = {data: []};
+    $scope.getManagerPositionOptions = function (unitId) {
+        hrPositionService.selectByUnitId(unitId).success(function (data) {
+            $scope.managerPositionOptions = {data: data};
         });
     }
 });

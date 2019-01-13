@@ -3,6 +3,7 @@ package com.marshal.halcyon.hr.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "hr_unit")
 public class HrUnit {
@@ -15,6 +16,12 @@ public class HrUnit {
      */
     @Column(name = "PARENT_ID")
     private Long parentId;
+
+    @Transient
+    private String parentUnitCode;
+
+    @Transient
+    private String parentUnitName;
 
     /**
      * 组织编码
@@ -36,6 +43,9 @@ public class HrUnit {
      */
     @Column(name = "MANAGER_POSITION")
     private Long managerPosition;
+
+    @Transient
+    private String managerPositionName;
 
     /**
      * 公司ID
@@ -231,5 +241,29 @@ public class HrUnit {
      */
     public void setUnitType(String unitType) {
         this.unitType = unitType;
+    }
+
+    public String getParentUnitCode() {
+        return parentUnitCode;
+    }
+
+    public void setParentUnitCode(String parentUnitCode) {
+        this.parentUnitCode = parentUnitCode;
+    }
+
+    public String getParentUnitName() {
+        return parentUnitName;
+    }
+
+    public void setParentUnitName(String parentUnitName) {
+        this.parentUnitName = parentUnitName;
+    }
+
+    public String getManagerPositionName() {
+        return managerPositionName;
+    }
+
+    public void setManagerPositionName(String managerPositionName) {
+        this.managerPositionName = managerPositionName;
     }
 }

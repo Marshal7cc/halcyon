@@ -17,7 +17,14 @@ app.service("hrPositionService", function ($http) {
     }
 
     this.queryById = function (id) {
-        return $http.get("../hr/position/selectByPositionId?position=" + id);
+        return $http.get("../hr/position/selectByPositionId?positionId=" + id);
     }
 
+    this.getParentPositionOptions = function () {
+        return $http.get("../hr/position/getParentPositionOptions");
+    }
+
+    this.selectByUnitId = function (id) {
+        return $http.get("../hr/position/selectByUnitId?unitId=" + id);
+    }
 });

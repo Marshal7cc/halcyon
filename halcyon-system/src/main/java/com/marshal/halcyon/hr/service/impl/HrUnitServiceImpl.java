@@ -27,7 +27,7 @@ public class HrUnitServiceImpl implements HrUnitService {
     @Override
     public List<HrUnit> query(HrUnit condition, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return hrUnitMapper.select(condition);
+        return hrUnitMapper.query(condition);
     }
 
     /**

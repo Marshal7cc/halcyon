@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HrPositionServiceImpl implements HrPositionService {
 
     @Autowired
-    HrPositionMapper hrOrgPostionMapper;
+    HrPositionMapper hrPostionMapper;
 
     /**
      * 部门职位信息查询
@@ -26,7 +27,7 @@ public class HrPositionServiceImpl implements HrPositionService {
     @Override
     public List<HrPosition> query(HrPosition condition, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return hrOrgPostionMapper.select(condition);
+        return hrPostionMapper.query(condition);
     }
 
     /**
@@ -37,9 +38,9 @@ public class HrPositionServiceImpl implements HrPositionService {
     @Override
     public void submit(HrPosition hrOrgPostion) {
         if (hrOrgPostion.getUnitId() != null) {
-            hrOrgPostionMapper.updateByPrimaryKey(hrOrgPostion);
+            hrPostionMapper.updateByPrimaryKey(hrOrgPostion);
         } else {
-            hrOrgPostionMapper.insert(hrOrgPostion);
+            hrPostionMapper.insert(hrOrgPostion);
         }
     }
 
@@ -51,7 +52,7 @@ public class HrPositionServiceImpl implements HrPositionService {
     @Override
     public void remove(Long[] idList) {
         for (Long id : idList) {
-            hrOrgPostionMapper.deleteByPrimaryKey(id);
+            hrPostionMapper.deleteByPrimaryKey(id);
         }
     }
 
@@ -63,7 +64,16 @@ public class HrPositionServiceImpl implements HrPositionService {
      */
     @Override
     public HrPosition selectByPositionId(Long id) {
-        return hrOrgPostionMapper.selectByPrimaryKey(id);
+        return hrPostionMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public List<Map> selectByUnitId(Long unitId) {
+        return hrPostionMapper.selectByUnitId(unitId);
+    }
+
+    @Override
+    public List<Map> getParentPositionOptions() {
+        return hrPostionMapper.getParentPositionOptions();
+    }
 }

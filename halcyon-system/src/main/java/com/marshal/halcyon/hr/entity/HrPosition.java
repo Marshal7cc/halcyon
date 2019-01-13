@@ -3,6 +3,7 @@ package com.marshal.halcyon.hr.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "hr_position")
 public class HrPosition {
@@ -36,6 +37,12 @@ public class HrPosition {
      */
     @Column(name = "PARENT_POSITION_ID")
     private Long parentPositionId;
+
+    @Transient
+    private String parentPositionName;
+
+    @Transient
+    private String unitName;
 
     /**
      * 启用状态
@@ -159,5 +166,21 @@ public class HrPosition {
      */
     public void setEnabledFlag(String enabledFlag) {
         this.enabledFlag = enabledFlag;
+    }
+
+    public String getParentPositionName() {
+        return parentPositionName;
+    }
+
+    public void setParentPositionName(String parentPositionName) {
+        this.parentPositionName = parentPositionName;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 }

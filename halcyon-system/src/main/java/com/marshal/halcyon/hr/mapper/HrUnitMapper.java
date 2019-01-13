@@ -8,6 +8,8 @@ import java.util.Map;
 
 public interface HrUnitMapper extends Mapper<HrUnit> {
 
+    List<HrUnit> query(HrUnit condition);
+
     List<Map> getParentUnitOptions();
 
 }
