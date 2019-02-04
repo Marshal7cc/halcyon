@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -18,13 +19,13 @@ import java.time.LocalTime;
                 "com.marshal.halcyon.**.controller",
                 "com.marshal.halcyon.**.service",
                 "com.marshal.halcyon.**.component",
-                "com.marshal.halcyon.core.*",
-                "com.marshal.halcyon.cache.impl"}
+                "com.marshal.halcyon.core.*"}
 )
 @tk.mybatis.spring.annotation.MapperScan(
         basePackages =
                 "com.marshal.halcyon.**.mapper"
 )
+@EnableCaching
 @EnableScheduling
 @EnableConfigurationProperties(HalcyonSecurityProperties.class)
 @SpringBootApplication

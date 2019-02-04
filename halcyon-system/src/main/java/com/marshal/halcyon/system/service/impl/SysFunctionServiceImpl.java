@@ -9,6 +9,7 @@ import com.marshal.halcyon.system.mapper.SysFunctionMapper;
 import com.marshal.halcyon.system.service.SysFunctionService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -66,20 +67,8 @@ public class SysFunctionServiceImpl implements SysFunctionService {
     }
 
     @Override
+    @Cacheable(value = "halcyon:cache:menu", key = "123")
     public List<SysFunction> getMenus() {
-        Map<Object, Object> requestMap = redisTemplate.opsForHash().entries("halcyon:cacheroleFunctionCache");
-        if (requestMap != null) {
-            List<SysFunction> topFunctionList = new ArrayList<>();
-            Iterator iter = requestMap.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
-                String string = (String) entry.getValue();
-                SysFunction sysFunction = JSON.parseObject(string, new TypeReference<SysFunction>() {
-                });
-                topFunctionList.add(sysFunction);
-            }
-            return topFunctionList;
-        }
         List<SysFunction> topFunctionList = selectTopFunctions();
         getChildFunctions(topFunctionList);
         return topFunctionList;
@@ -94,6 +83,7 @@ public class SysFunctionServiceImpl implements SysFunctionService {
     public List<SysFunction> selectTopFunctions() {
         return sysFunctionMapper.selectTopFunctions();
     }
+
 
     @Override
     public List<SysFunction> selectChildFunctions(Long functionId) {

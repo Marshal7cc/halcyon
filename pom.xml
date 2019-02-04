@@ -15,7 +15,6 @@
         <module>halcyon-activiti</module>
         <module>halcyon-message</module>
         <module>halcyon-mail</module>
-        <module>halcyon-cache</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -62,6 +61,11 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
+        <!--springboot redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
         <!--javaBean自动读取yml配置文件-->
         <dependency>
