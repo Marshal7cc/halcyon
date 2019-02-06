@@ -14,4 +14,6 @@ public interface HrPositionMapper extends Mapper<HrPosition> {
 
     List<Map> getParentPositionOptions();
 
+    List<HrPosition> getPositionByEmployeeCode(String empCode);
+
 }

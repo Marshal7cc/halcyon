@@ -17,12 +17,6 @@
             <artifactId>halcyon-core</artifactId>
             <version>${halcyon.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.marshal</groupId>
-            <artifactId>halcyon-cache</artifactId>
-            <version>${halcyon.version}</version>
-        </dependency>
-
 
         <dependency>
             <groupId>com.marshal</groupId>
@@ -53,6 +47,13 @@
             <artifactId>halcyon-mail</artifactId>
             <version>${halcyon.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>halcyon-workflow</artifactId>
+            <version>${halcyon.version}</version>
+        </dependency>
+
         <!-- thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

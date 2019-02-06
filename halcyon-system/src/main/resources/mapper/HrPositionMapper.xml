@@ -32,4 +32,13 @@
         select position_id id,name text
         from hr_position
     </select>
+
+    <select id="getPositionByEmployeeCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            hr_position hp
+        LEFT JOIN hr_employee he ON he.position_id = hp.position_id
+        WHERE he.employee_code = #{empCode}
+    </select>
 </mapper>

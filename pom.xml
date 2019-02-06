@@ -12,7 +12,7 @@
         <module>halcyon-quartz</module>
         <module>halcyon-core</module>
         <module>halcyon-system</module>
-        <module>halcyon-activiti</module>
+        <module>halcyon-workflow</module>
         <module>halcyon-message</module>
         <module>halcyon-mail</module>
     </modules>
@@ -138,10 +138,17 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
         </dependency>
 
         <dependency>
