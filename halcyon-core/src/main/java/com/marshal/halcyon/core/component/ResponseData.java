@@ -45,9 +45,14 @@ public class ResponseData implements Serializable {
      * @param rows
      */
     public ResponseData(List rows) {
-        Page<?> page = (Page<?>) rows;
-        this.rows = rows;
-        this.total = page.getTotal();
+        try {
+            Page<?> page = (Page<?>) rows;
+            this.rows = rows;
+            this.total = page.getTotal();
+        } catch (Exception e) {
+            this.rows = rows;
+            this.total = rows.size();
+        }
     }
 
     public ResponseData(boolean success, String message) {
