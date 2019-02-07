@@ -41,12 +41,12 @@ app.controller("baseController", function ($scope) {
      */
     $scope.parseResponse = function (responseData) {
         if (responseData.success) {
-            if (responseData.rows != null && responseData.rows != undefined) {
+            if (responseData.rows) {
                 $scope.rows = responseData.rows;
                 $scope.pageConf.totalItems = responseData.total;
                 $(".overlay").hide();
             } else {
-                if (responseData.message != null && responseData.message != undefined) {
+                if (responseData.message) {
                     swal("", responseData.message, "success");
                     $scope.reloadList();
                 } else {
