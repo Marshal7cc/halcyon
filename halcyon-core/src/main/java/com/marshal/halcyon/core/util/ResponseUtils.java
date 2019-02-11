@@ -15,9 +15,17 @@ public class ResponseUtils {
     private static final String DEFAULT_RESPONSE_FAIL_MSG = "操作失败!";
 
 
+    public static ResponseData responseOk() {
+        return responseOk("");
+    }
+
     public static ResponseData responseOk(String msg) {
         ResponseData responseData = new ResponseData(true, StringUtils.isNotEmpty(msg) ? msg : DEFAULT_RESPONSE_SUCCESS_MSG);
         return responseData;
+    }
+
+    public static ResponseData responseErr() {
+        return responseErr("");
     }
 
     public static ResponseData responseErr(String msg) {
