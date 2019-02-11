@@ -8,8 +8,16 @@ app.service("processDefinitionService", function ($http) {
         return $http.get(baseContextPath + "/repository/process-definitions?start=" + (pageNum - 1) * pageSize + "&size=" + pageSize);
     };
 
-    this.remove = function (processDefinitionRequest) {
-        return $http.post(baseContextPath + "/activiti/repository/processDefinitions", processDefinitionRequest);
+    this.delete = function (deploymentId) {
+        return $http.post(baseContextPath + "/workflow/repository/deployments/" + deploymentId + "/delete");
     };
+
+    this.processDefinitionDetail = function (processDefinitionId) {
+        return $http.get(baseContextPath + "/workflow/repository/process-definitions/" + processDefinitionId);
+    };
+
+    this.deploymentDetail = function (deploymentId) {
+        return $http.get(baseContextPath + "/workflow/repository/deployments/" + deploymentId);
+    }
 
 });

@@ -6,25 +6,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.marshal.halcyon.core.component.ResponseData;
 import com.marshal.halcyon.core.util.ResponseUtils;
+import com.marshal.halcyon.workflow.entity.TaskResponseExt;
 import com.marshal.halcyon.workflow.service.ActivitiService;
 import io.swagger.annotations.ApiParam;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
-import org.activiti.engine.ActivitiIllegalArgumentException;
-import org.activiti.engine.RepositoryService;
+import org.activiti.engine.*;
 import org.activiti.engine.impl.util.io.InputStreamSource;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
-import org.activiti.rest.common.api.DataResponse;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
+import org.activiti.image.ProcessDiagramGenerator;
 import org.activiti.rest.service.api.RestResponseFactory;
+import org.activiti.rest.service.api.repository.DeploymentResponse;
 import org.activiti.rest.service.api.repository.ModelRequest;
-import org.activiti.rest.service.api.repository.ModelResponse;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
-import org.apache.commons.collections.CollectionUtils;
+import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -41,10 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @auth: Marshal
@@ -61,10 +61,19 @@ public class ActivitiController {
     ObjectMapper objectMapper;
 
     @Autowired
+    RestResponseFactory restResponseFactory;
+
+    @Autowired
+    protected ProcessEngineConfiguration processEngineConfiguration;
+
+    @Autowired
     RepositoryService repositoryService;
 
     @Autowired
-    RestResponseFactory restResponseFactory;
+    TaskService taskService;
+
+    @Autowired
+    IdentityService identityService;
 
     @Autowired
     ActivitiService activitiService;
@@ -271,6 +280,127 @@ public class ActivitiController {
             logger.error(e.getMessage(), e);
             return "<script>window.parent.onImportComplete(false,'请上传符合 BPMN 规范的文件')</script>";
         }
+    }
+
+
+    /**
+     * 查询流程信息
+     *
+     * @param processDefinitionId
+     * @return
+     */
+    @RequestMapping("/repository/process-definitions/{processDefinitionId}")
+    public ProcessDefinitionResponse getProcessDefinitionFromRequest(@PathVariable String processDefinitionId) {
+        ProcessDefinition processDefinition = this.repositoryService.getProcessDefinition(processDefinitionId);
+        if (processDefinition == null) {
+            throw new ActivitiObjectNotFoundException("Could not find a process definition with id '" + processDefinitionId + "'.", ProcessDefinition.class);
+        } else {
+            return restResponseFactory.createProcessDefinitionResponse(processDefinition);
+        }
+    }
+
+    @RequestMapping("/repository/deployments/{deploymentId}")
+    public DeploymentResponse getDeployment(@PathVariable String deploymentId) {
+        Deployment deployment = this.repositoryService.createDeploymentQuery().deploymentId(deploymentId).singleResult();
+        if (deployment == null) {
+            throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.", Deployment.class);
+        }
+        DeploymentResponse deploymentResponse = restResponseFactory.createDeploymentResponse(deployment);
+        return deploymentResponse;
+    }
+
+    @RequestMapping("/repository/deployments/{deploymentId}/delete")
+    public ResponseData deleteDeployment(@PathVariable String deploymentId) {
+        Deployment deployment = this.repositoryService.createDeploymentQuery().deploymentId(deploymentId).singleResult();
+        if (deployment == null) {
+            throw new ActivitiObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.", Deployment.class);
+        }
+        try {
+            //级联删除相关的流程
+            repositoryService.deleteDeployment(deploymentId, true);
+        } catch (Exception e) {
+            ResponseUtils.responseErr("删除失败!");
+        }
+        return ResponseUtils.responseOk();
+    }
+
+
+    @RequestMapping(value = "/repository/process-definitions/{processDefinitionId}/image", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getModelResource(@ApiParam(name = "processDefinitionId") @PathVariable String processDefinitionId) {
+        ProcessDefinition processDefinition = repositoryService.getProcessDefinition(processDefinitionId);
+
+        InputStream imageStream = null;
+        if (processDefinition != null && processDefinition.hasGraphicalNotation()) {
+            BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
+            ProcessDiagramGenerator diagramGenerator = processEngineConfiguration.getProcessDiagramGenerator();
+
+            imageStream = diagramGenerator.generateDiagram(bpmnModel, "png", new ArrayList<>(),
+                    new ArrayList<>(), processEngineConfiguration.getActivityFontName(),
+                    processEngineConfiguration.getLabelFontName(), processEngineConfiguration.getAnnotationFontName(),
+                    processEngineConfiguration.getClassLoader(), 1.0);
+        }
+
+//        InputStream imageStream = repositoryService.getProcessDiagram(processDefinitionId);
+        if (imageStream != null) {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Content-Type", "image/png");
+            try {
+                return new ResponseEntity<byte[]>(IOUtils.toByteArray(imageStream), responseHeaders, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new ActivitiException("Error reading image stream", e);
+            }
+        } else {
+            throw new ActivitiIllegalArgumentException("Process definition with id '" + processDefinitionId + "' has no image.");
+        }
+    }
+
+
+    /**
+     * 查询我的待办
+     *
+     * @return
+     */
+    @RequestMapping("/tasks/query")
+    public ResponseData queryTasks() {
+        List<Task> tasks = taskService.createTaskQuery().list();
+        List<TaskResponseExt> taskList = new ArrayList<>();
+
+        tasks.forEach(item -> {
+            TaskResponseExt taskResponse = new TaskResponseExt(item);
+            taskList.add(taskResponse);
+        });
+
+        return new ResponseData(activitiService.getTaskList(taskList));
+    }
+
+    /**
+     * get task detail by processInstanceId
+     *
+     * @param request
+     * @param taskId
+     * @return
+     */
+    @RequestMapping("/tasks/{taskId}/details")
+    @ResponseBody
+    public TaskResponseExt taskDetails(HttpServletRequest request, @PathVariable String taskId) {
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        TaskResponseExt taskExt = new TaskResponseExt(task);
+
+        return activitiService.getTaskDetail(taskExt);
+    }
+
+
+    @RequestMapping("/task/handle/{taskId}")
+    @ResponseBody
+    public ResponseData teskHandle(HttpServletRequest request,
+                                   @PathVariable String taskId,
+                                   @RequestBody HashMap<String, String> auditResult) {
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        identityService.setAuthenticatedUserId("SunLei");
+        taskService.addComment(taskId, task.getProcessInstanceId(), "action", auditResult.get("action"));
+        taskService.addComment(taskId, task.getProcessInstanceId(), "comment", auditResult.get("comment"));
+        taskService.complete(taskId);
+        return ResponseUtils.responseOk();
     }
 
 }

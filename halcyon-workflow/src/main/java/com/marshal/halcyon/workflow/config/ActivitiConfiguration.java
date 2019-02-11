@@ -45,6 +45,11 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
                 transactionManager,
                 springAsyncExecutor);
 
+        //设置字体，防止流程图中文乱码
+        springProcessEngineConfiguration.setActivityFontName("宋体");
+        springProcessEngineConfiguration.setLabelFontName("宋体");
+        springProcessEngineConfiguration.setAnnotationFontName("宋体");
+
 
         // 配置自定义的用户和组管理
         springProcessEngineConfiguration.setUserEntityManager(customUserEntityManager());

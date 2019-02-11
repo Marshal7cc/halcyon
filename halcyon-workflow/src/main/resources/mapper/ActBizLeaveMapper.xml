@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.mapper.ActBizLeaveMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.leavebill.entity.ActBizLeave">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="USER_CODE" jdbcType="VARCHAR" property="userCode"/>
+        <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="LEAVE_REASON" jdbcType="VARCHAR" property="leaveReason"/>
+    </resultMap>
+</mapper>

@@ -29,4 +29,8 @@
         from
         hr_employee
     </select>
+
+    <select id="getEmployeeNameByCode" parameterType="java.lang.String" resultType="java.lang.String">
+        select name from hr_employee where employee_code = #{employeeCode}
+    </select>
 </mapper>

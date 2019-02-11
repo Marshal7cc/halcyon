@@ -49,12 +49,6 @@ app.controller("modelController", function ($scope, $controller, modelService) {
             });
     };
 
-    function deleteRows() {
-        modelService.delete($scope.selectedIds).success(function (responseData) {
-            $scope.parseResponse(responseData);
-        });
-    }
-
     //编辑模型
     $scope.edit = function (modelId) {
         var url = "../modeler.html?modelId=" + modelId;
