@@ -68,6 +68,11 @@ public class HrEmployeeServiceImpl implements HrEmployeeService {
     }
 
     @Override
+    public HrEmployee selectByUserId(Long userId) {
+        return hrEmployeeMapper.getEmployeeByUserId(userId);
+    }
+
+    @Override
     public List<Map> getEmpOptions() {
         return hrEmployeeMapper.getEmpOptions();
     }

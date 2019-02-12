@@ -16,6 +16,8 @@ public interface HrEmployeeService {
 
     HrEmployee selectByEmployeeId(Long id);
 
+    HrEmployee selectByUserId(Long userId);
+
     List<Map> getEmpOptions();
 
 }

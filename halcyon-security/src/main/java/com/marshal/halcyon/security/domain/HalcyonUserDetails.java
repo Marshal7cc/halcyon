@@ -68,4 +68,8 @@ public class HalcyonUserDetails implements UserDetails, Serializable {
     public boolean isEnabled() {
         return enabled;
     }
+
+    public Long getUserId() {
+        return userId;
+    }
 }

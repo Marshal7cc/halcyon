@@ -33,4 +33,17 @@
     <select id="getEmployeeNameByCode" parameterType="java.lang.String" resultType="java.lang.String">
         select name from hr_employee where employee_code = #{employeeCode}
     </select>
+
+    <select id="getEmployeeByUserId" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            he.EMPLOYEE_ID,
+            he.EMPLOYEE_CODE,
+            he. NAME
+        FROM
+            hr_employee he,
+            sys_user su
+        WHERE
+            su.EMPLOYEE_ID = he.EMPLOYEE_ID
+        AND su.user_id = #{userId}
+    </select>
 </mapper>

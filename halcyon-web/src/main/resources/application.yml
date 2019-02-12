@@ -144,7 +144,10 @@ pagehelper:
 # 时间类型格式化，时区为 +8区
 
 
-# 自定义属性
+##########################################
+############  Custom Prop    #############
+############  @自定义属性     #############
+##########################################
 halcyon:
   security:
     login-url: /login
@@ -153,3 +156,6 @@ halcyon:
     default-target-url: /index.html
     authentication-failure-url: /login.html
     static-resources: /css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
+##########################################
+############  Custom Prop    #############
+##########################################
