@@ -25,13 +25,15 @@ public class HalcyonUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = sysUserMapper.getUserByUsername(username);
-        if(sysUser==null){
-            throw new UsernameNotFoundException("user not found:"+username);
+        if (sysUser == null) {
+            throw new UsernameNotFoundException("user not found:" + username);
         }
 
+        //授权列表
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
+        //todo:角色授权
 //        for(String role:user.getRoleCode()){
 //            authorities.add(new SimpleGrantedAuthority(role));
 //        }

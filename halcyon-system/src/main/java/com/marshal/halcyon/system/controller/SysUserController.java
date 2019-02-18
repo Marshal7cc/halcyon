@@ -5,6 +5,7 @@ import com.marshal.halcyon.core.component.ResponseData;
 import com.marshal.halcyon.system.entity.SysUser;
 import com.marshal.halcyon.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,8 +25,13 @@ import java.util.Map;
 @RequestMapping("/account/user")
 public class SysUserController extends BaseController {
 
+    private static final String DEFAULT_PASSWORD = "123456";
+
     @Autowired
     SysUserService sysUserService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @RequestMapping("/query")
     public ResponseData query(@RequestBody SysUser condition, int pageNum, int pageSize) {
@@ -38,6 +44,7 @@ public class SysUserController extends BaseController {
         if (!getValidator().isValid(sysUser)) {
             return new ResponseData(false, getValidator().getErrors(sysUser));
         }
+        sysUser.setPasswordEncrypted(passwordEncoder.encode(DEFAULT_PASSWORD));
         sysUserService.save(sysUser);
         return new ResponseData(true, "保存成功");
     }
