@@ -11,6 +11,16 @@
 
     <artifactId>halcyon-core</artifactId>
 
+    <dependencies>
+        <!-- aliyun-sdk-oss -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+    </dependencies>
+
 
     <!--生成的springboot 可运行jar包,添加classifier属性与普通jar包区分，防止覆盖-->
     <build>

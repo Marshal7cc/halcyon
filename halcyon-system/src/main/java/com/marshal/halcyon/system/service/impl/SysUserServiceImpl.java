@@ -1,12 +1,12 @@
 package com.marshal.halcyon.system.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.marshal.halcyon.system.entity.SysUser;
 import com.marshal.halcyon.system.mapper.SysUserMapper;
 import com.marshal.halcyon.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +19,7 @@ import java.util.Map;
  * Description:
  */
 @Service
+@Transactional
 public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
@@ -26,7 +27,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<SysUser> select(SysUser condition, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         return sysUserMapper.query(condition);
     }
 

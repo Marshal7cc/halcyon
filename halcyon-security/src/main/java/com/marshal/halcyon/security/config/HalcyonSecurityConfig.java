@@ -86,6 +86,7 @@ public class HalcyonSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage(halcyonSecurityProperties.getLoginPage())
                 .loginProcessingUrl(halcyonSecurityProperties.getLoginUrl())
+                .successForwardUrl(halcyonSecurityProperties.getDefaultTargetUrl())
                 .successHandler(authenticateSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
              .and()
