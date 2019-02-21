@@ -24,6 +24,6 @@ public class MessageController {
 
     @RequestMapping("/publish")
     public void publish(){
-        redisTemplate.delete(SysRequestMessageSubscriber.h);
+//        redisTemplate.delete(SysRequestMessageSubscriber.h);
     }
 }

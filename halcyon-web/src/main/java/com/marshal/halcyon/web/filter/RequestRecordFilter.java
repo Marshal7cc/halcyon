@@ -1,6 +1,7 @@
 package com.marshal.halcyon.web.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.marshal.halcyon.message.component.impl.SysRequestMessageSubscriber;
 import com.marshal.halcyon.system.entity.SysRequestInfo;
 import com.marshal.halcyon.core.util.RequestHelper;
 import com.marshal.halcyon.message.component.impl.MessagePublisher;
@@ -24,8 +25,6 @@ import java.util.Map;
 @Order(value = 1)
 public class RequestRecordFilter implements Filter {
 
-    private static final String channel = "halcyon:sysRequestInfo";
-
     @Autowired
     MessagePublisher messagePublisher;
 
@@ -48,12 +47,12 @@ public class RequestRecordFilter implements Filter {
                 SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setDuration(endTime - startTime);
                 sysRequestInfo.setIsSuccess("Y");
-                messagePublisher.publish(RequestRecordFilter.channel, sysRequestInfo);
+                messagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
             } catch (Exception e) {
                 Map<String, String> map = RequestHelper.getSysRequestInfo(request);
                 SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setIsSuccess("N");
-                messagePublisher.publish(RequestRecordFilter.channel, sysRequestInfo);
+                messagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
             }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

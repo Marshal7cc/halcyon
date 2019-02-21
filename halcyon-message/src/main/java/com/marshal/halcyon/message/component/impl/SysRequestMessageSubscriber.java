@@ -4,6 +4,7 @@ import com.marshal.halcyon.message.component.IMessageSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
 /**
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Component
 public class SysRequestMessageSubscriber implements IMessageSubscriber {
 
-    public static final String h = "halcyon:sysRequestInfo";
+    public static final String h = "halcyon:cache:sysRequest";
 
     @Autowired
     RedisTemplate<String, String> redisTemplate;
@@ -23,6 +24,11 @@ public class SysRequestMessageSubscriber implements IMessageSubscriber {
     public void onMessage(Object message) {
         String hk = UUID.randomUUID().toString();
         redisTemplate.opsForHash().put(h, hk, message);
+    }
+
+    @Override
+    public String getChannelName() {
+        return h;
     }
 
 }

@@ -5,6 +5,7 @@ import com.marshal.halcyon.system.entity.SysUser;
 import com.marshal.halcyon.system.mapper.SysUserMapper;
 import com.marshal.halcyon.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     SysUserMapper sysUserMapper;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     @Override
     public List<SysUser> select(SysUser condition, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -33,7 +37,13 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser selectByPrimaryKey(Long id) {
-        return sysUserMapper.selectByPrimaryKey(id);
+        SysUser sysUser = (SysUser) redisTemplate.opsForHash().get("halcyon:user", id.toString());
+        if (sysUser != null) {
+            return (SysUser) sysUser;
+        } else {
+            redisTemplate.opsForHash().put("halcyon:user", id.toString(), sysUserMapper.selectByPrimaryKey(id));
+            return sysUserMapper.selectByPrimaryKey(id);
+        }
     }
 
     @Override

@@ -7,11 +7,15 @@ package com.marshal.halcyon.message.component;
  */
 public interface IMessageSubscriber {
 
+    String onMessageMethodName = "onMessage";
+
     /**
      * 监听到消息时的方法
      *
      * @param message
      */
     void onMessage(Object message);
+
+    String getChannelName();
 
 }

@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.marshal.halcyon.core.constants.BaseConstants;
 import org.hibernate.validator.constraints.Email;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Table(name = "sys_user")
-public class SysUser {
+public class SysUser implements Serializable {
     @Id
     @GeneratedValue(generator = "JDBC")
     private Long userId;
