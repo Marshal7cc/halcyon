@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface SysConfigMapper extends Mapper<SysConfig> {
 
-    Map getOssConfig();
+    Map getOSSConfig();
 
 }

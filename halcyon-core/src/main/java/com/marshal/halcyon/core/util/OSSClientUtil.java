@@ -4,10 +4,10 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.marshal.halcyon.core.listener.ContextRefreshedListener;
 import com.marshal.halcyon.core.mapper.SysConfigMapper;
+import com.marshal.halcyon.core.ueditor.controller.UEditorController;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,20 +25,20 @@ public class OSSClientUtil implements ContextRefreshedListener {
 
     private static Logger log = LoggerFactory.getLogger(OSSClientUtil.class);
 
+
     private static OSSClient ossClient;
 
     private static Map<String, String> OSSConfigMap;
 
-    @Autowired
     private static SysConfigMapper sysConfigMapper;
 
     private OSSClientUtil() {
 
     }
 
-    public synchronized static OSSClient getOssClient() throws Exception {
+    public synchronized static OSSClient getOSSClient() throws Exception {
         if (ossClient == null) {
-            OSSConfigMap = sysConfigMapper.getOssConfig();
+            OSSConfigMap = sysConfigMapper.getOSSConfig();
             if (OSSConfigMap == null) {
                 throw new Exception("error occured while getting ossClient");
             }
@@ -64,7 +64,7 @@ public class OSSClientUtil implements ContextRefreshedListener {
      * @param url
      * @throws Exception
      */
-    public void uploadImgToOss(String url) throws Exception {
+    public void uploadImgToOSS(String url) throws Exception {
         if (StringUtils.isEmpty(url)) {
             throw new Exception("file path error!");
         }
@@ -80,11 +80,11 @@ public class OSSClientUtil implements ContextRefreshedListener {
         }
     }
 
-    public static String uploadImgToOss(MultipartFile file) throws Exception {
-        return uploadImgToOss(file, null);
+    public static String uploadImgToOSS(MultipartFile file) throws Exception {
+        return uploadImgToOSS(file, null);
     }
 
-    public static String uploadImgToOss(MultipartFile file, String folderName) throws Exception {
+    public static String uploadImgToOSS(MultipartFile file, String folderName) throws Exception {
         if (file.getSize() > 1024 * 1024) {
             throw new Exception("上传图片大小不能超过1M！");
         }
@@ -121,7 +121,7 @@ public class OSSClientUtil implements ContextRefreshedListener {
             objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
             objectMetadata.setContentDisposition("inline;filename=" + fileName);
             //上传文件
-            OSSClient ossClient = getOssClient();
+            OSSClient ossClient = getOSSClient();
             String bucketName = OSSConfigMap.get("bucketName");
             if (StringUtils.isEmpty(foldName)) {
                 ossClient.putObject(bucketName, fileName, instream, objectMetadata);
@@ -135,7 +135,6 @@ public class OSSClientUtil implements ContextRefreshedListener {
                 if (instream != null) {
                     instream.close();
                 }
-//                ossClient.shutdown();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -155,7 +154,7 @@ public class OSSClientUtil implements ContextRefreshedListener {
         if (StringUtils.isAnyBlank(endPoint, accessKeyId, accessKeySecret, bucketName)) {
             return "";
         }
-        return "https://" + bucketName + "." + endPoint.substring(7) + "/ueditor/" + fileName;
+        return "https://" + bucketName + "." + endPoint.substring(7) + "/" + UEditorController.UEDITOR_UPLOAD_FOLDER + "/" + fileName;
     }
 
     /**

@@ -9,7 +9,7 @@
         <result column="CONFIG_CATEGORY" jdbcType="VARCHAR" property="configCategory"/>
     </resultMap>
 
-    <select id="getOssConfig" resultType="java.util.Map">
+    <select id="getOSSConfig" resultType="java.util.Map">
     SELECT
         (
             SELECT

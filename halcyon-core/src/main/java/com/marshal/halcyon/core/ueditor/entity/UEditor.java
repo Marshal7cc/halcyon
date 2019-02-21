@@ -3,7 +3,7 @@ package com.marshal.halcyon.core.ueditor.entity;
 /**
  * @auth: Marshal
  * @date: 2019/2/19
- * @desc: UEdi
+ * @desc: UEditor
  */
 public class UEditor {
 
