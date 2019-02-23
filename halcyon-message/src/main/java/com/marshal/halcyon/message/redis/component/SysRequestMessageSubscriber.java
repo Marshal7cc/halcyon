@@ -1,6 +1,6 @@
-package com.marshal.halcyon.message.component.impl;
+package com.marshal.halcyon.message.redis.component;
 
-import com.marshal.halcyon.message.component.IMessageSubscriber;
+import com.marshal.halcyon.message.IMessageSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.UUID;
  * @desc:
  */
 @Component
-public class SysRequestMessageSubscriber implements IMessageSubscriber {
+public class SysRequestMessageSubscriber extends RedisMessageSubscriber {
 
     public static final String h = "halcyon:cache:sysRequest";
 

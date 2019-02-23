@@ -44,6 +44,14 @@ spring:
         min-idle: 0
     timeout: 100ms
 
+  jms:
+    pub-sub-domain: false
+
+  activemq:
+    broker-url: tcp://132.232.243.120:61616
+    in-memory: false
+    close-timeout: 15s
+
 
   jackson:
     time-zone: GMT+8
@@ -127,6 +135,7 @@ spring:
   ################################
   #####  Spring Mail    ##########
   ################################
+
 
 
 # mybatis配置

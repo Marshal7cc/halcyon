@@ -1,10 +1,10 @@
 package com.marshal.halcyon.web.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.marshal.halcyon.message.component.impl.SysRequestMessageSubscriber;
+import com.marshal.halcyon.message.redis.component.SysRequestMessageSubscriber;
 import com.marshal.halcyon.system.entity.SysRequestInfo;
 import com.marshal.halcyon.core.util.RequestHelper;
-import com.marshal.halcyon.message.component.impl.MessagePublisher;
+import com.marshal.halcyon.message.redis.component.RedisMessagePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class RequestRecordFilter implements Filter {
 
     @Autowired
-    MessagePublisher messagePublisher;
+    RedisMessagePublisher redisMessagePublisher;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -46,12 +46,12 @@ public class RequestRecordFilter implements Filter {
                 SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setDuration(endTime - startTime);
                 sysRequestInfo.setIsSuccess("Y");
-                messagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
+                redisMessagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
             } catch (Exception e) {
                 Map<String, String> map = RequestHelper.getSysRequestInfo(request);
                 SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setIsSuccess("N");
-                messagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
+                redisMessagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
             }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

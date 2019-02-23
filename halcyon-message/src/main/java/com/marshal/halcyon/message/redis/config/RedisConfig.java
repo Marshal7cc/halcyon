@@ -1,11 +1,11 @@
-package com.marshal.halcyon.message.config;
+package com.marshal.halcyon.message.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marshal.halcyon.core.util.ApplicationContextHolder;
-import com.marshal.halcyon.message.component.IMessageSubscriber;
-import com.marshal.halcyon.message.component.impl.SysRequestMessageSubscriber;
+import com.marshal.halcyon.message.IMessageSubscriber;
+import com.marshal.halcyon.message.redis.component.RedisMessageSubscriber;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,6 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,33 +32,7 @@ import java.util.Map;
 public class RedisConfig {
 
     /**
-     * key序列化器
-     *
-     * @return
-     */
-    @Bean
-    RedisSerializer<String> keySerializer() {
-        return new StringRedisSerializer();
-    }
-
-    /**
-     * value序列化器
-     *
-     * @return
-     */
-    @Bean
-    RedisSerializer<Object> valueSerializer() {
-        Jackson2JsonRedisSerializer valueSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        valueSerializer.setObjectMapper(mapper);
-        return valueSerializer;
-    }
-
-    /**
-     * redisTemplate配置
-     * 配置key和value的序列化器
+     * redisTemplate配置-->配置key和value的序列化器
      *
      * @param connectionFactory
      * @return
@@ -78,40 +50,13 @@ public class RedisConfig {
         redisTemplate.setHashKeySerializer(keySerializer());
         redisTemplate.setHashValueSerializer(valueSerializer());
         redisTemplate.afterPropertiesSet();
-
         return redisTemplate;
     }
 
     /**
-     * StringRedisTemplate
-     *
-     * @param factory
-     * @return
-     */
-    @Bean
-    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory factory) {
-        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-        stringRedisTemplate.setConnectionFactory(factory);
-        return stringRedisTemplate;
-    }
-
-
-    /**
-     * 通过消息监听器得到监听适配器，以加载到container里
-     * 消息监听器适配器，绑定消息监听器，利用反射技术调用消息处理器的业务方法
-     *
-     * @param iMessageSubscriber
-     * @return
-     */
-    @Bean
-    MessageListenerAdapter messageListenerAdapter(IMessageSubscriber iMessageSubscriber) {
-        return new MessageListenerAdapter(iMessageSubscriber, IMessageSubscriber.onMessageMethodName);
-    }
-
-    /**
-     * redis消息监听器容器container
-     * 可以添加多个监听不同话题的redis监听器，只需要把消息监听器和相应的消息订阅处理器绑定，该消息监听器
-     * 通过反射技术调用消息订阅处理器的相关方法进行一些业务处理
+     * redis消息监听器container
+     * 可以添加多个监听不同话题的redis监听器，
+     * 只需要把消息监听器和相应的消息订阅处理器绑定
      *
      * @param connectionFactory
      * @return
@@ -121,16 +66,20 @@ public class RedisConfig {
 
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        Map<String, IMessageSubscriber> messageSubscribers = ApplicationContextHolder.getApplicationContext().getBeansOfType(IMessageSubscriber.class);
+        Map<String, RedisMessageSubscriber> messageSubscribers = ApplicationContextHolder.getApplicationContext().getBeansOfType(RedisMessageSubscriber.class);
+        //添加所有消息监听适配器
         messageSubscribers.forEach((k, v) -> {
-            container.addMessageListener(messageListenerAdapter(v), new PatternTopic(v.getChannelName()));
+            MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(v, RedisMessageSubscriber.onMessageMethodName);
+            //手动执行afterPropertiesSet方法，否则无法创建invoker,导致空指针
+            messageListenerAdapter.afterPropertiesSet();
+            container.addMessageListener(messageListenerAdapter, new PatternTopic(v.getChannelName()));
         });
         return container;
     }
 
 
     /**
-     * SpringCache配置
+     * SpringCache
      *
      * @param redisConnectionFactory
      * @return
@@ -148,6 +97,29 @@ public class RedisConfig {
         return RedisCacheManager
                 .builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
                 .cacheDefaults(redisCacheConfiguration).build();
+    }
+
+
+    @Bean
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory factory) {
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+        stringRedisTemplate.setConnectionFactory(factory);
+        return stringRedisTemplate;
+    }
+
+    @Bean
+    RedisSerializer<String> keySerializer() {
+        return new StringRedisSerializer();
+    }
+
+    @Bean
+    RedisSerializer<Object> valueSerializer() {
+        Jackson2JsonRedisSerializer valueSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        valueSerializer.setObjectMapper(mapper);
+        return valueSerializer;
     }
 
 }

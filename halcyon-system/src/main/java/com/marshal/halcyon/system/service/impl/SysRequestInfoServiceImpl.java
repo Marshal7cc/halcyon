@@ -2,7 +2,7 @@ package com.marshal.halcyon.system.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.marshal.halcyon.system.entity.SysRequestInfo;
-import com.marshal.halcyon.message.component.impl.SysRequestMessageSubscriber;
+import com.marshal.halcyon.message.redis.component.SysRequestMessageSubscriber;
 import com.marshal.halcyon.system.mapper.SysRequestInfoMapper;
 import com.marshal.halcyon.system.service.SysRequestInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

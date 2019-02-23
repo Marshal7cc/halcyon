@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import tk.mybatis.spring.annotation.MapperScan;
 
@@ -33,6 +34,7 @@ import java.time.LocalTime;
         basePackages =
                 "com.marshal.halcyon.**.mapper"
 )
+@EnableJms
 @EnableCaching
 @EnableScheduling
 @EnableConfigurationProperties(HalcyonSecurityProperties.class)

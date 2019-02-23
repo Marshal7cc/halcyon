@@ -1,9 +1,9 @@
-package com.marshal.halcyon.message.component;
+package com.marshal.halcyon.message;
 
 /**
  * @auth: Marshal
  * @date: 2018/12/8
- * @desc: redis消息发布器
+ * @desc: 消息发布器
  */
 public interface IMessagePublisher {
 
