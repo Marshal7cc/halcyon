@@ -15,6 +15,7 @@
         <module>halcyon-workflow</module>
         <module>halcyon-message</module>
         <module>halcyon-mail</module>
+        <module>halcyon-solr</module>
     </modules>
     <packaging>pom</packaging>
 

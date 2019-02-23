@@ -55,6 +55,11 @@ public class ResponseData implements Serializable {
         }
     }
 
+    public ResponseData(List rows, int total) {
+        this.rows = rows;
+        this.total = total;
+    }
+
     public ResponseData(boolean success, String message) {
         this.success = success;
         this.message = message;

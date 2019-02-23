@@ -20,6 +20,12 @@
 
         <dependency>
             <groupId>com.marshal</groupId>
+            <artifactId>halcyon-solr</artifactId>
+            <version>${halcyon.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.marshal</groupId>
             <artifactId>halcyon-system</artifactId>
             <version>${halcyon.version}</version>
         </dependency>

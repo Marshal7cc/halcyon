@@ -54,6 +54,13 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
 
+  data:
+    solr:
+      host: http://localhost:8080/solr/halcyon-core
+      repositories:
+        enabled: true
+      default-field: hal_keywords
+
   #  thymeleaf:
   #    prefix: classpath:/templates/
   #    suffix: .html

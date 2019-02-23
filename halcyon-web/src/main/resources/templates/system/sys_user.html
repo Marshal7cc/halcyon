@@ -89,6 +89,7 @@
                     <th>账户有效期至</th>
                     <th>最近一次登录</th>
                     <th>员工姓名</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -103,6 +104,7 @@
                     <td>{{item.endActiveDate}}</td>
                     <td>{{item.lastLoginDate}}</td>
                     <th>{{item.employeeName}}</th>
+                    <th><span class="attr" ng-bind-html="item.status | trustHTML"></span></th>
                     <td class="text-center">
                         <button ng-click="initForUpdate(item.userId)" type="button" class="btn btn-sm btn-success"
                                 data-toggle="modal" data-target="#editWindow">
