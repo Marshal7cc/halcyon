@@ -15,7 +15,9 @@ import java.util.UUID;
 @Component
 public class SysRequestMessageSubscriber extends RedisMessageSubscriber {
 
-    public static final String h = "halcyon:cache:sysRequest";
+    public static final String h = "halcyon:cache:sys_request";
+
+    public static final String topic = "halcyon:topic:sys_request";
 
     @Autowired
     RedisTemplate<String, String> redisTemplate;
@@ -27,8 +29,8 @@ public class SysRequestMessageSubscriber extends RedisMessageSubscriber {
     }
 
     @Override
-    public String getChannelName() {
-        return h;
+    public String getTopicName() {
+        return topic;
     }
 
 }

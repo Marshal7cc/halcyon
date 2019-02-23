@@ -9,8 +9,8 @@ public interface IMessageSubscriber {
 
     void onMessage(Object message);
 
-    void onMessage(String text);
+    void onTextMessage(String text);
 
-    String getChannelName();
+    String getTopicName();
 
 }

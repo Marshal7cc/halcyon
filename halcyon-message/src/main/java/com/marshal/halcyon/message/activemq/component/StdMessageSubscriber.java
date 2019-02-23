@@ -18,7 +18,7 @@ public class StdMessageSubscriber extends ACMQMessageSubscriber {
 
     @Override
     @JmsListener(destination = "topic:std", containerFactory = "topicListenerFactory")
-    public void onMessage(String text) {
+    public void onTextMessage(String text) {
         System.out.println("订阅者拿到消息" + text);
     }
 

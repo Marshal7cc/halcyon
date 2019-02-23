@@ -25,12 +25,12 @@ public class RedisMessagePublisher implements IMessagePublisher {
     @Autowired
     RedisTemplate<String, String> redisTemplate;
 
-    public void publish(String channel, Object message) {
+    public void publish(String topic, Object message) {
         if (message instanceof String || message instanceof Number) {
-            redisTemplate.convertAndSend(channel, message.toString());
+            redisTemplate.convertAndSend(topic, message.toString());
         } else {
             try {
-                redisTemplate.convertAndSend(channel, objectMapper.writeValueAsString(message));
+                redisTemplate.convertAndSend(topic, objectMapper.writeValueAsString(message));
             } catch (JsonProcessingException e) {
                 if (logger.isErrorEnabled()) {
                     logger.error("publish message failed.", e);

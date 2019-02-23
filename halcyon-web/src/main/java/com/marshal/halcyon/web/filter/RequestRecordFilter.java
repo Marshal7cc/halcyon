@@ -46,12 +46,12 @@ public class RequestRecordFilter implements Filter {
                 SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setDuration(endTime - startTime);
                 sysRequestInfo.setIsSuccess("Y");
-                redisMessagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
+                redisMessagePublisher.publish(SysRequestMessageSubscriber.topic, sysRequestInfo);
             } catch (Exception e) {
                 Map<String, String> map = RequestHelper.getSysRequestInfo(request);
                 SysRequestInfo sysRequestInfo = JSONObject.parseObject(JSONObject.toJSONString(map)).toJavaObject(SysRequestInfo.class);
                 sysRequestInfo.setIsSuccess("N");
-                redisMessagePublisher.publish(SysRequestMessageSubscriber.h, sysRequestInfo);
+                redisMessagePublisher.publish(SysRequestMessageSubscriber.topic, sysRequestInfo);
             }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

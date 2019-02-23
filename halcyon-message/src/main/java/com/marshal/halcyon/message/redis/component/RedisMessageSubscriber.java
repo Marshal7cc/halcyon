@@ -12,7 +12,7 @@ public abstract class RedisMessageSubscriber implements IMessageSubscriber {
     public static String onMessageMethodName = "onMessage";
 
     @Override
-    public void onMessage(String text) {
+    public void onTextMessage(String text) {
 
     }
 }

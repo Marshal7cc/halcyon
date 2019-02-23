@@ -45,7 +45,7 @@ spring:
     timeout: 100ms
 
   jms:
-    pub-sub-domain: false
+    pub-sub-domain: true
 
   activemq:
     broker-url: tcp://132.232.243.120:61616

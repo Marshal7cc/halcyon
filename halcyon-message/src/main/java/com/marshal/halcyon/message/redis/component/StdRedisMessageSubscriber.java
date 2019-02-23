@@ -18,7 +18,7 @@ public class StdRedisMessageSubscriber extends RedisMessageSubscriber {
     }
 
     @Override
-    public String getChannelName() {
+    public String getTopicName() {
         return channelName;
     }
 }

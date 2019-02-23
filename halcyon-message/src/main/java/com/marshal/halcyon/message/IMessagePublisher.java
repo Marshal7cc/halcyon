@@ -7,6 +7,6 @@ package com.marshal.halcyon.message;
  */
 public interface IMessagePublisher {
 
-    void publish(String channel, Object message);
+    void publish(String topic, Object message);
 
 }

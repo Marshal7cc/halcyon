@@ -72,7 +72,7 @@ public class RedisConfig {
             MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(v, RedisMessageSubscriber.onMessageMethodName);
             //手动执行afterPropertiesSet方法，否则无法创建invoker,导致空指针
             messageListenerAdapter.afterPropertiesSet();
-            container.addMessageListener(messageListenerAdapter, new PatternTopic(v.getChannelName()));
+            container.addMessageListener(messageListenerAdapter, new PatternTopic(v.getTopicName()));
         });
         return container;
     }

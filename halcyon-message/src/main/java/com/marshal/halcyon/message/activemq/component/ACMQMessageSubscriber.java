@@ -15,7 +15,7 @@ public abstract class ACMQMessageSubscriber implements IMessageSubscriber {
     }
 
     @Override
-    public String getChannelName() {
+    public String getTopicName() {
         return null;
     }
 }
