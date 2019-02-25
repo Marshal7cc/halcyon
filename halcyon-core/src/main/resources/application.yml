@@ -7,6 +7,7 @@ server:
     context-path: /halcyon
 
 
+
 spring:
   activiti:
     async-executor-activate: true
@@ -164,16 +165,21 @@ pagehelper:
 ############  Custom Prop    #############
 ############  @自定义属性     #############
 ##########################################
-halcyon:
-  ueditor:
-    img-save-path: d:/ueditor/images/
-  security:
-    login-url: /login
-    logout-url: /logout
-    login-page: /login.html
-    default-target-url: /index.html
-    authentication-failure-url: /login.html
-    static-resources: /css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
+security:
+  host-url: http://localhost:8888
+  login-url: /login
+  logout-url: /logout
+  login-page: /login.html
+  default-target-url: /index.html
+  authentication-failure-url: /login.html
+  static-resources: /css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
+
+  cas:
+    server:
+      host-url: http://localhost:8081/cas
+      login_url: ${cas.server.host.url}/login
+      logout_url: ${cas.server.host.url}/logout?service=${halcyon.host-url}
+
 ##########################################
 ############  Custom Prop    #############
 ##########################################

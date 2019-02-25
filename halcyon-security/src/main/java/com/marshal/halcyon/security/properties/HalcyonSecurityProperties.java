@@ -8,8 +8,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @desc: halcyon spring security 相关配置属性
  * @ConfigurationProperties注解从yml中直接读取属性
  */
-@ConfigurationProperties(prefix = "halcyon.security")
+@ConfigurationProperties(prefix = "security")
 public class HalcyonSecurityProperties {
+
+    private String hostUrl;
 
     private String loginUrl;
 
@@ -22,6 +24,14 @@ public class HalcyonSecurityProperties {
     private String authenticationFailureUrl;
 
     private String staticResources;
+
+    public String getHostUrl() {
+        return hostUrl;
+    }
+
+    public void setHostUrl(String hostUrl) {
+        this.hostUrl = hostUrl;
+    }
 
     public String getLoginUrl() {
         return loginUrl;

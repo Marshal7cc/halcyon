@@ -37,7 +37,6 @@ import java.time.LocalTime;
 @EnableJms
 @EnableCaching
 @EnableScheduling
-@EnableConfigurationProperties(HalcyonSecurityProperties.class)
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class HalcyonApplication {
     public static void main(String[] args) {

@@ -24,6 +24,13 @@
             <version>${halcyon.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- CAS -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!--生成的springboot 可运行jar包,添加classifier属性与普通jar包区分，防止覆盖-->
