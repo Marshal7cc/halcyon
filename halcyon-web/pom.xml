@@ -68,10 +68,6 @@
 
         <!-- ueditor -->
         <!--UEditor依赖的jar包 -->
-        <!--<dependency>-->
-        <!--<groupId>org.json</groupId>-->
-        <!--<artifactId>json</artifactId>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>

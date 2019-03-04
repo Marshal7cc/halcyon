@@ -38,6 +38,7 @@ import java.time.LocalTime;
 @EnableCaching
 @EnableScheduling
 @EnableConfigurationProperties(HalcyonSecurityProperties.class)
+//默认扫描主类所在包下的所有类
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class HalcyonApplication {
     public static void main(String[] args) {

@@ -54,9 +54,9 @@ public class HalcyonAuthenticationSuccessHandler extends SavedRequestAwareAuthen
             }
         }
 
-        String sessionId = authDetails.getSessionId();
-        sessionRegistry.removeSessionInformation(sessionId);
-        sessionRegistry.registerNewSession(sessionId, principal);
+//        String sessionId = authDetails.getSessionId();
+//        sessionRegistry.removeSessionInformation(sessionId);
+//        sessionRegistry.registerNewSession(sessionId, principal);
 
         handle(httpServletRequest, httpServletResponse, authentication);
     }

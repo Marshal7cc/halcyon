@@ -63,6 +63,8 @@ spring:
     view:
       prefix: classpath:/templates/
       suffix: .html
+    favicon:
+      enabled: true
 
   data:
     solr:
