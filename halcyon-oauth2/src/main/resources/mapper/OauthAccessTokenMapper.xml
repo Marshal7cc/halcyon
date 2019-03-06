@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.security.mapper.OauthAccessTokenMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.oauth2.entity.OauthAccessToken">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="USER_ID" jdbcType="BIGINT" property="userId"/>
+        <result column="CLIENT_ID" jdbcType="VARCHAR" property="clientId"/>
+        <result column="TOKEN" jdbcType="VARCHAR" property="token"/>
+        <result column="TOKEN_ACCESS_TIME" jdbcType="TIMESTAMP" property="tokenAccessTime"/>
+        <result column="TOKEN_ACCESS_TYPE" jdbcType="VARCHAR" property="tokenAccessType"/>
+        <result column="TOKEN_EXPIRES_TIME" jdbcType="TIMESTAMP" property="tokenExpiresTime"/>
+        <result column="REVOKE_FLAG" jdbcType="VARCHAR" property="revokeFlag"/>
+    </resultMap>
+</mapper>

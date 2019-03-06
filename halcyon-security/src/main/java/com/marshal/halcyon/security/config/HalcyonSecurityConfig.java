@@ -10,7 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -26,6 +28,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
  * @desc: spring security配置
  */
 @Configuration
+@EnableWebSecurity
 public class HalcyonSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -37,7 +40,7 @@ public class HalcyonSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public HalcyonUserDetailService halcyonUserDetailService(){
+    public HalcyonUserDetailService halcyonUserDetailService() {
         return new HalcyonUserDetailService();
     }
 
@@ -49,28 +52,36 @@ public class HalcyonSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler(){
+    public AuthenticationFailureHandler authenticationFailureHandler() {
         HalcyonAuthenticationFailureHandler authenticationFailureHandler = new HalcyonAuthenticationFailureHandler();
         return authenticationFailureHandler;
     }
 
     @Bean
-    public HalcyonAuthenticationAccessDeniedHandler authenticationAccessDeniedHandler(){
+    public HalcyonAuthenticationAccessDeniedHandler authenticationAccessDeniedHandler() {
         return new HalcyonAuthenticationAccessDeniedHandler();
     }
 
     @Bean
-    public LogoutHandler logoutHandler(){
+    public LogoutHandler logoutHandler() {
         HalcyonLogoutHandler logoutHandler = new HalcyonLogoutHandler();
         logoutHandler.setSessionRegistry(sessionRegistry());
         return logoutHandler;
     }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     /**
      * 密码加密工具，注入即自动检测使用
+     *
      * @return
      */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -82,38 +93,41 @@ public class HalcyonSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.exceptionHandling().accessDeniedHandler(authenticationAccessDeniedHandler())//权限不足处理器
 
-             .and()
+                .and()
                 .formLogin()
                 .loginPage(halcyonSecurityProperties.getLoginPage())
                 .loginProcessingUrl(halcyonSecurityProperties.getLoginUrl())
                 .successForwardUrl(halcyonSecurityProperties.getDefaultTargetUrl())
                 .successHandler(authenticateSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
-             .and()
+                .and()
                 .userDetailsService(halcyonUserDetailService())
                 .sessionManagement()
                 .maximumSessions(1)
                 .sessionRegistry(sessionRegistry())
-             .and()
-             .and()
+                .and()
+                .and()
                 .logout()
                 .addLogoutHandler(logoutHandler())
                 .logoutUrl(halcyonSecurityProperties.getLogoutUrl())
                 .logoutSuccessUrl(halcyonSecurityProperties.getLoginPage())
                 .deleteCookies("JSESSIONID")
-             .and()
+                .and()
                 .authorizeRequests() // 授权配置
                 .antMatchers(staticResources).permitAll() // 免认证静态资源路径
                 .antMatchers(
                         halcyonSecurityProperties.getLoginPage(),// 登录路径
-                        halcyonSecurityProperties.getLoginUrl()
-                ).permitAll() // 配置免认证路径
-                .anyRequest()  // 所有请求
+                        halcyonSecurityProperties.getLoginUrl(),
+                        "/oauth/token",
+                        "/api/**"
+                ).permitAll()
+                // 配置免认证路径
+                .anyRequest() // 所有请求
                 .authenticated() // 都需要认证
-             .and()//允许iframe
+                .and()//允许iframe
                 .headers()
                 .frameOptions().sameOrigin()
-             .and()
+                .and()
                 .csrf().disable();
     }
 }

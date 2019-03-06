@@ -13,7 +13,7 @@ public class HalcyonTest {
 
     public static void main(String args[]){
         Logger logger = LoggerFactory.getLogger(HalcyonTest.class);
-        String pwd = "1";
+        String pwd = "123456";
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         // 加密
         String encodedPassword = passwordEncoder.encode(pwd);
