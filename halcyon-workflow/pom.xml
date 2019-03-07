@@ -20,13 +20,13 @@
         <dependency>
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-system</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${halcyon.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>6.0.0</version>
+            <version>${activiti.version}</version>
         </dependency>
 
         <dependency>
@@ -95,8 +95,6 @@
         </dependency>
     </dependencies>
 
-
-    <!--生成的springboot 可运行jar包,添加classifier属性与普通jar包区分，防止覆盖-->
     <build>
         <plugins>
             <plugin>

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marshal.halcyon.oauth2.entity.OauthAccessToken;
 import com.marshal.halcyon.oauth2.service.OauthAccessTokenService;
-import com.marshal.halcyon.security.domain.HalcyonUserDetails;
+import com.marshal.halcyon.security.domain.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +61,8 @@ public class CustomRedisTokenStore extends RedisTokenStore {
         String clientId = authentication.getOAuth2Request().getClientId();
         OauthAccessToken oauthAccessToken = new OauthAccessToken();
         Object principal = authentication.getPrincipal();
-        if (principal instanceof HalcyonUserDetails) {
-            HalcyonUserDetails details = (HalcyonUserDetails) principal;
+        if (principal instanceof CustomUserDetails) {
+            CustomUserDetails details = (CustomUserDetails) principal;
             oauthAccessToken.setUserId(details.getUserId());
         }
         oauthAccessToken.setToken(token.getValue());

@@ -1,11 +1,10 @@
 package com.marshal.halcyon.web;
 
-import com.marshal.halcyon.security.properties.HalcyonSecurityProperties;
+import com.marshal.halcyon.security.properties.SecurityProperties;
 import org.activiti.spring.boot.SecurityAutoConfiguration;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jms.annotation.EnableJms;
@@ -37,7 +36,6 @@ import java.time.LocalTime;
 @EnableJms
 @EnableCaching
 @EnableScheduling
-@EnableConfigurationProperties(HalcyonSecurityProperties.class)
 //默认扫描主类所在包下的所有类
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class HalcyonApplication {

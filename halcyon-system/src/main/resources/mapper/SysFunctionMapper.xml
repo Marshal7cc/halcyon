@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.marshal.halcyon.system.mapper.SysFunctionMapper">
-  <resultMap id="BaseResultMap" type="com.marshal.halcyon.system.entity.SysFunction">
+<mapper namespace="com.marshal.halcyon.function.mapper.SysFunctionMapper">
+  <resultMap id="BaseResultMap" type="com.marshal.halcyon.function.entity.SysFunction">
     <id column="FUNCTION_ID" jdbcType="BIGINT" property="functionId" />
     <result column="MODULE_CODE" jdbcType="VARCHAR" property="moduleCode" />
     <result column="FUNCTION_ICON" jdbcType="VARCHAR" property="functionIcon" />

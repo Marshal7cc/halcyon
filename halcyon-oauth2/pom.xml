@@ -16,21 +16,20 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>halcyon-security</artifactId>
+            <version>${halcyon.version}</version>
+        </dependency>
+
         <!--oauth2-->
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>${oauth2.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.marshal</groupId>
-            <artifactId>halcyon-security</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
-    <!--生成的springboot 可运行jar包,添加classifier属性与普通jar包区分，防止覆盖-->
     <build>
         <plugins>
             <plugin>
@@ -42,5 +41,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
