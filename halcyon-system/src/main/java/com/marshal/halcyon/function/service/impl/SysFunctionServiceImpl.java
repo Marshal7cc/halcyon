@@ -62,7 +62,7 @@ public class SysFunctionServiceImpl implements SysFunctionService {
     }
 
     @Override
-    @Cacheable(value = "halcyon:cache:menu", key = "123")
+//    @Cacheable(value = "halcyon:cache:menu", key = "123")
     public List<SysFunction> getMenus() {
         List<SysFunction> topFunctionList = selectTopFunctions();
         getChildFunctions(topFunctionList);

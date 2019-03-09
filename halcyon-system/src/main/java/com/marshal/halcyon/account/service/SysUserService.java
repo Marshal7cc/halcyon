@@ -2,19 +2,13 @@ package com.marshal.halcyon.account.service;
 
 
 import com.marshal.halcyon.account.entity.SysUser;
+import com.marshal.halcyon.core.service.BaseService;
 
 import java.util.List;
 import java.util.Map;
 
-public interface SysUserService{
-
-    List<SysUser> select(SysUser condition, int pageNum, int pageSize);
-
-    public SysUser selectByPrimaryKey(Long id);
-
-    public void save(SysUser SysUser);
-
-    public void delete(Long[] idList);
+public interface SysUserService extends BaseService<SysUser> {
 
     List<Map> getUserOptions();
+
 }

@@ -2,6 +2,7 @@ package com.marshal.halcyon.account.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.marshal.halcyon.core.constants.BaseConstants;
+import com.marshal.halcyon.core.entity.BaseEntity;
 import org.hibernate.validator.constraints.Email;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Table(name = "sys_user")
-public class SysUser implements Serializable {
+public class SysUser extends BaseEntity {
     @Id
     @GeneratedValue(generator = "JDBC")
     private Long userId;

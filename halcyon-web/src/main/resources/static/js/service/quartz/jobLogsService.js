@@ -1,6 +1,6 @@
 /**
  * author:Marshal
- * description:service层,与数据库交互
+ * description:service层
  */
 app.service("jobLogsService", function ($http) {
     //base crud

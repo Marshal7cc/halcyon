@@ -3,50 +3,54 @@ package com.marshal.halcyon.oauth2.controller;
 import com.marshal.halcyon.core.component.ResponseData;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.util.ResponseUtils;
-import com.marshal.halcyon.oauth2.entity.OauthAccessToken;
-import com.marshal.halcyon.oauth2.service.OauthAccessTokenService;
+import com.marshal.halcyon.oauth2.entity.OauthClientDetails;
+import com.marshal.halcyon.oauth2.service.OauthClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @auth: Marshal
- * @date: 2019/3/6
+ * @date: 2019/3/8
  * @desc:
  */
 @RestController
-@RequestMapping("/oauth2/accessToken")
-public class OauthAccessTokenController extends BaseController {
+@RequestMapping("/oauth2/clients")
+public class OauthClientDetailsController extends BaseController {
 
     @Autowired
-    OauthAccessTokenService oauthAccessTokenService;
+    OauthClientDetailsService oauthClientDetailsService;
 
     @RequestMapping("/query")
-    public ResponseData query(@RequestBody OauthAccessToken condition,
+    public ResponseData query(@RequestBody OauthClientDetails condition,
                               @RequestParam int pageNum,
                               @RequestParam int pageSize) {
-        return new ResponseData(oauthAccessTokenService.select(condition, pageNum, pageSize));
+        List<OauthClientDetails> list = oauthClientDetailsService.select(condition, pageNum, pageSize);
+        return new ResponseData(list);
     }
 
     @RequestMapping("/submit")
-    public ResponseData save(@RequestBody OauthAccessToken oauthClientDetails) {
+    public ResponseData save(@RequestBody OauthClientDetails oauthClientDetails) {
         if (!getValidator().isValid(oauthClientDetails)) {
             return new ResponseData(false, getValidator().getErrors(oauthClientDetails));
         }
-        oauthAccessTokenService.updateByPrimaryKeySelective(oauthClientDetails);
+        oauthClientDetailsService.updateByPrimaryKeySelective(oauthClientDetails);
         return ResponseUtils.responseOk("保存成功");
     }
 
     @RequestMapping("/remove")
     public ResponseData delete(@RequestParam("selectedIds") Long[] selectedIds) {
-        oauthAccessTokenService.batchDelete(selectedIds);
+        oauthClientDetailsService.batchDelete(selectedIds);
         return ResponseUtils.responseOk("删除成功");
     }
 
     @RequestMapping("/queryById")
-    public OauthAccessToken queryById(@RequestParam Long id) {
-        return oauthAccessTokenService.selectByPrimaryKey(id);
+    public OauthClientDetails queryById(@RequestParam Long id) {
+        return oauthClientDetailsService.selectByPrimaryKey(id);
     }
+
 }

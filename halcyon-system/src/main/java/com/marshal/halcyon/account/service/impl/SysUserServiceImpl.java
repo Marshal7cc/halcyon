@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.marshal.halcyon.account.entity.SysUser;
 import com.marshal.halcyon.account.mapper.SysUserMapper;
 import com.marshal.halcyon.account.service.SysUserService;
+import com.marshal.halcyon.core.service.BaseService;
+import com.marshal.halcyon.core.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -21,46 +23,10 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class SysUserServiceImpl implements SysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysUserService {
 
     @Autowired
     SysUserMapper sysUserMapper;
-
-    @Autowired
-    RedisTemplate redisTemplate;
-
-    @Override
-    public List<SysUser> select(SysUser condition, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        return sysUserMapper.query(condition);
-    }
-
-    @Override
-    public SysUser selectByPrimaryKey(Long id) {
-        SysUser sysUser = (SysUser) redisTemplate.opsForHash().get("halcyon:user", id.toString());
-        if (sysUser != null) {
-            return (SysUser) sysUser;
-        } else {
-            redisTemplate.opsForHash().put("halcyon:user", id.toString(), sysUserMapper.selectByPrimaryKey(id));
-            return sysUserMapper.selectByPrimaryKey(id);
-        }
-    }
-
-    @Override
-    public void save(SysUser SysUser) {
-        if (SysUser.getUserId() != null) {
-            sysUserMapper.updateByPrimaryKey(SysUser);
-        } else {
-            sysUserMapper.insert(SysUser);
-        }
-    }
-
-    @Override
-    public void delete(Long[] idList) {
-        for (Long id : idList) {
-            sysUserMapper.deleteByPrimaryKey(id);
-        }
-    }
 
     @Override
     public List<Map> getUserOptions() {

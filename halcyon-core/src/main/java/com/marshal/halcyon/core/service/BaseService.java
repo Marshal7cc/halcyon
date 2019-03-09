@@ -6,26 +6,28 @@ public interface BaseService<T> {
 
     List<T> select(T condition, int pageNum, int pageSize);
 
+    List<T> select(T condition);
+
     List<T> selectAll();
 
-    T selectByPrimaryKey(T record);
+    T selectOne(T condition);
 
-    T insert(T record);
+    T selectByPrimaryKey(Object record);
 
-    T insertSelective(T record);
+    int insert(T record);
 
-    T updateByPrimaryKey(T record);
+    int insertSelective(T record);
 
-    T updateByPrimaryKeySelective(T record);
+    int updateByPrimaryKey(T record);
 
-    /**
-     * 乐观锁检查
-     *
-     * @param record
-     * @return
-     */
-    boolean checkCAS(T record);
+    int updateByPrimaryKeySelective(T record);
 
-    T deleteByPrimaryKey(T record);
+    int deleteByPrimaryKey(Object record);
+
+    void batchDelete(Object[] keys);
+
+    void batchDelete(List<T> records);
+
+    int save(T records);
 
 }

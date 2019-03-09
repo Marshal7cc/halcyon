@@ -4,6 +4,7 @@ import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.component.ResponseData;
 import com.marshal.halcyon.account.entity.SysUser;
 import com.marshal.halcyon.account.service.SysUserService;
+import com.marshal.halcyon.core.util.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,13 +46,15 @@ public class SysUserController extends BaseController {
             return new ResponseData(false, getValidator().getErrors(sysUser));
         }
         sysUser.setPasswordEncrypted(passwordEncoder.encode(DEFAULT_PASSWORD));
-        sysUserService.save(sysUser);
-        return new ResponseData(true, "保存成功");
+        if (sysUserService.save(sysUser) == 0) {
+            return ResponseUtils.responseErr();
+        }
+        return ResponseUtils.responseOk();
     }
 
     @RequestMapping("/delete")
     public ResponseData delete(@RequestParam("selectedIds") Long[] selectedIds) {
-        sysUserService.delete(selectedIds);
+        sysUserService.batchDelete(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 

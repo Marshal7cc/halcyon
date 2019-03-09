@@ -2,6 +2,9 @@ package com.marshal.halcyon.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.marshal.halcyon.core.service.BaseService;
+import com.marshal.halcyon.core.util.MapperUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -9,11 +12,12 @@ import java.util.List;
 /**
  * @auth: Marshal
  * @date: 2018/1/7
- * @desc: 通用Service
+ * @desc: common service
  */
-
+@Transactional
 public class BaseServiceImpl<T> implements BaseService<T> {
 
+    @Autowired
     Mapper<T> mapper;
 
     @Override
@@ -23,47 +27,72 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
+    public List<T> select(T condition) {
+        return mapper.select(condition);
+    }
+
+    @Override
     public List<T> selectAll() {
         return mapper.selectAll();
     }
 
     @Override
-    public T selectByPrimaryKey(T record) {
+    public T selectOne(T condition) {
+        return mapper.selectOne(condition);
+    }
+
+    @Override
+    public T selectByPrimaryKey(Object record) {
         return mapper.selectByPrimaryKey(record);
     }
 
     @Override
-    public T insert(T record) {
-        mapper.insert(record);
-        return record;
+    public int insert(T record) {
+        record = (T) MapperUtils.setCreateAttribute(record);
+        return mapper.insert(record);
     }
 
     @Override
-    public T insertSelective(T record) {
-        mapper.insertSelective(record);
-        return record;
+    public int insertSelective(T record) {
+        record = (T) MapperUtils.setCreateAttribute(record);
+        return mapper.insertSelective(record);
     }
 
     @Override
-    public T updateByPrimaryKey(T record) {
-        return record;
+    public int updateByPrimaryKey(T record) {
+        record = (T) MapperUtils.setUpdateAttribute(record);
+        return mapper.updateByPrimaryKey(record);
     }
 
     @Override
-    public T updateByPrimaryKeySelective(T record) {
-        return record;
+    public int updateByPrimaryKeySelective(T record) {
+        record = (T) MapperUtils.setUpdateAttribute(record);
+        return mapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public boolean checkCAS(T record) {
-        T dto = mapper.selectByPrimaryKey(record);
-        //todo:version乐观锁
-        return false;
+    public int deleteByPrimaryKey(Object record) {
+        return mapper.deleteByPrimaryKey(record);
     }
 
     @Override
-    public T deleteByPrimaryKey(T record) {
-        mapper.deleteByPrimaryKey(record);
-        return record;
+    public int save(T record) {
+        if (MapperUtils.isPrimaryKeyNull(record)) {
+            return this.insertSelective(record);
+        } else {
+            return this.updateByPrimaryKey(record);
+        }
+    }
+
+    @Override
+    public void batchDelete(Object[] keys) {
+        for (Object primaryKey : keys) {
+            this.deleteByPrimaryKey(primaryKey);
+        }
+    }
+
+    @Override
+    public void batchDelete(List<T> records) {
+        records.forEach(item -> this.deleteByPrimaryKey(item));
     }
 }
