@@ -10,5 +10,8 @@
     <result column="remote_addr" jdbcType="VARCHAR" property="remoteAddr" />
     <result column="duration" jdbcType="BIGINT" property="duration" />
     <result column="is_success" jdbcType="VARCHAR" property="isSuccess" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
   </resultMap>
 </mapper>

@@ -7,6 +7,9 @@
         <result column="CONFIG_KEY" jdbcType="VARCHAR" property="configKey"/>
         <result column="CONFIG_VALUE" jdbcType="VARCHAR" property="configValue"/>
         <result column="CONFIG_CATEGORY" jdbcType="VARCHAR" property="configCategory"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
     </resultMap>
 
     <select id="getOSSConfig" resultType="java.util.Map">

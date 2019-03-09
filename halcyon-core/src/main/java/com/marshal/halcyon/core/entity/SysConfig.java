@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "sys_config")
-public class SysConfig {
+public class SysConfig extends BaseEntity {
     @Id
     @Column(name = "CONFIG_ID")
     private Long configId;

@@ -1,7 +1,7 @@
 package com.marshal.halcyon.account.controller;
 
 import com.marshal.halcyon.core.controller.BaseController;
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.account.entity.SysUser;
 import com.marshal.halcyon.account.service.SysUserService;
 import com.marshal.halcyon.core.util.ResponseUtils;

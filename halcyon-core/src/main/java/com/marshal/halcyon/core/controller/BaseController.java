@@ -1,6 +1,6 @@
 package com.marshal.halcyon.core.controller;
 
-import com.marshal.halcyon.core.validator.CommonValidator;
+import com.marshal.halcyon.core.component.CommonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @desc: 基础controller
  */
 public class BaseController {
+
     @Autowired
     private CommonValidator validator;
 

@@ -1,4 +1,4 @@
-package com.marshal.halcyon.core.validator;
+package com.marshal.halcyon.core.component;
 
 import org.springframework.stereotype.Component;
 import javax.validation.*;

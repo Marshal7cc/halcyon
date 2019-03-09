@@ -1,19 +1,15 @@
 package com.marshal.halcyon.function.service;
 
 
+import com.marshal.halcyon.core.service.BaseService;
 import com.marshal.halcyon.function.entity.SysFunction;
 
 import java.util.List;
 import java.util.Map;
 
-public interface SysFunctionService {
+public interface SysFunctionService extends BaseService<SysFunction> {
+
     List<SysFunction> selectFunctions(SysFunction condition, int pageNum, int pageSize);
-
-    SysFunction selectByPrimaryKey(Long id);
-
-    void save(SysFunction sysFunction);
-
-    void delete(Long[] idList);
 
     List<Map> getFunctionOptions();
 

@@ -1,9 +1,11 @@
 package com.marshal.halcyon.function.entity;
 
+import com.marshal.halcyon.core.entity.BaseEntity;
+
 import javax.persistence.*;
 
 @Table(name = "sys_resource")
-public class SysResource {
+public class SysResource extends BaseEntity {
     @Id
     @Column(name = "RESOURCE_ID")
     @GeneratedValue(generator = "JDBC")

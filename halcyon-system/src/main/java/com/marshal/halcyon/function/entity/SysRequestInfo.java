@@ -1,5 +1,7 @@
 package com.marshal.halcyon.function.entity;
 
+import com.marshal.halcyon.core.entity.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,7 +9,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Table(name = "sys_request_info")
-public class SysRequestInfo {
+public class SysRequestInfo extends BaseEntity {
     @Id
     @Column(name = "request_id")
     @GeneratedValue(generator = "JDBC")

@@ -1,12 +1,14 @@
 package com.marshal.halcyon.oauth2.entity;
 
+import com.marshal.halcyon.core.entity.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
 @Table(name = "oauth_access_token")
-public class OauthAccessToken {
+public class OauthAccessToken extends BaseEntity {
     @Id
     @Column(name = "ID")
     private Long id;

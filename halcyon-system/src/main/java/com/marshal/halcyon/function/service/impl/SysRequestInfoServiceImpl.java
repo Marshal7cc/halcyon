@@ -1,6 +1,7 @@
 package com.marshal.halcyon.function.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.marshal.halcyon.core.service.impl.BaseServiceImpl;
 import com.marshal.halcyon.function.entity.SysRequestInfo;
 import com.marshal.halcyon.message.redis.component.SysRequestMessageSubscriber;
 import com.marshal.halcyon.function.mapper.SysRequestInfoMapper;
@@ -18,7 +19,7 @@ import java.util.*;
  * @desc:
  */
 @Service
-public class SysRequestInfoServiceImpl implements SysRequestInfoService {
+public class SysRequestInfoServiceImpl extends BaseServiceImpl<SysRequestInfo> implements SysRequestInfoService {
 
     @Autowired
     SysRequestInfoMapper sysRequestInfoMapper;

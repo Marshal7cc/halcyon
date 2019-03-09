@@ -1,12 +1,14 @@
 package com.marshal.halcyon.hr.entity;
 
+import com.marshal.halcyon.core.entity.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
 @Table(name = "hr_company")
-public class HrCompany {
+public class HrCompany extends BaseEntity {
     @Id
     @Column(name = "COMPANY_ID")
     private Long companyId;

@@ -20,5 +20,8 @@
         <result column="FAX" jdbcType="VARCHAR" property="fax"/>
         <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
         <result column="CONTACT_PERSON" jdbcType="VARCHAR" property="contactPerson"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
     </resultMap>
 </mapper>

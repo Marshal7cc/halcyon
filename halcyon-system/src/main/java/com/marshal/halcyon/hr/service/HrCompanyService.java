@@ -1,5 +1,6 @@
 package com.marshal.halcyon.hr.service;
 
+import com.marshal.halcyon.core.service.BaseService;
 import com.marshal.halcyon.hr.entity.HrCompany;
 
 import java.util.List;
@@ -9,9 +10,6 @@ import java.util.List;
  * @date: 2019/1/9
  * @desc:
  */
-public interface HrCompanyService {
+public interface HrCompanyService extends BaseService<HrCompany> {
 
-    List<HrCompany> queryCompanyInfo();
-
-    HrCompany saveCompanyInfo(HrCompany hrCompany);
 }

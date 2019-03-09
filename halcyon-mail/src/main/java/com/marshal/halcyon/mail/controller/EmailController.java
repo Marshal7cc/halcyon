@@ -1,6 +1,6 @@
 package com.marshal.halcyon.mail.controller;
 
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.mail.entity.MailRequest;
 import com.marshal.halcyon.mail.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.marshal.halcyon.hr.controller;
 
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.hr.entity.HrEmployee;
 import com.marshal.halcyon.hr.service.HrEmployeeService;
@@ -35,7 +35,7 @@ public class HrEmployeeController extends BaseController {
      */
     @RequestMapping("/query")
     public ResponseData query(@RequestBody HrEmployee condition, int pageNum, int pageSize) {
-        List<HrEmployee> list = hrEmployeeService.query(condition, pageNum, pageSize);
+        List<HrEmployee> list = hrEmployeeService.select(condition, pageNum, pageSize);
         return new ResponseData(list);
     }
 
@@ -50,7 +50,7 @@ public class HrEmployeeController extends BaseController {
         if (!getValidator().isValid(hrEmployee)) {
             return new ResponseData(false, getValidator().getErrors(hrEmployee));
         }
-        hrEmployeeService.submit(hrEmployee);
+        hrEmployeeService.save(hrEmployee);
         return new ResponseData(true, "保存成功");
     }
 
@@ -62,13 +62,13 @@ public class HrEmployeeController extends BaseController {
      */
     @RequestMapping("/remove")
     public ResponseData remove(@RequestParam("selectedIds") Long[] selectedIds) {
-        hrEmployeeService.remove(selectedIds);
+        hrEmployeeService.batchDelete(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 
     @RequestMapping("/selectByEmployeeId")
     public HrEmployee selectByEmployeeId(@RequestParam Long employeeId) {
-        return hrEmployeeService.selectByEmployeeId(employeeId);
+        return hrEmployeeService.selectByPrimaryKey(employeeId);
     }
 
     @RequestMapping("/getEmpOptions")

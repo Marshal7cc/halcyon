@@ -1,5 +1,7 @@
 package com.marshal.halcyon.hr.entity;
 
+import com.marshal.halcyon.core.entity.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -7,7 +9,7 @@ import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name = "hr_employee")
-public class HrEmployee {
+public class HrEmployee extends BaseEntity {
     @Id
     @Column(name = "EMPLOYEE_ID")
     private Long employeeId;

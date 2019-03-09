@@ -1,4 +1,5 @@
 package com.marshal.halcyon.quartz.listener;
+
 import com.marshal.halcyon.core.util.ApplicationContextHolder;
 import com.marshal.halcyon.quartz.entity.JobLogs;
 import com.marshal.halcyon.quartz.service.JobLogsService;
@@ -112,6 +113,7 @@ public class JobRunningListener implements JobListener {
 
     /**
      * job被自定义TriggerListener否决的时候执行
+     *
      * @param jobExecutionContext
      */
     @Override
@@ -136,6 +138,7 @@ public class JobRunningListener implements JobListener {
 
     /**
      * job执行后
+     *
      * @param jobExecutionContext
      * @param jobException
      */
@@ -237,7 +240,7 @@ public class JobRunningListener implements JobListener {
     private void saveJobLog(JobLogs jobLogs) {
         applicationContext = ApplicationContextHolder.getApplicationContext();
         jobLogsService = (JobLogsService) applicationContext.getBean(JobLogsService.class);
-        jobLogsService.saveJobLog(jobLogs);
+        jobLogsService.save(jobLogs);
     }
 
 }

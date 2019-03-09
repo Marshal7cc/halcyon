@@ -1,4 +1,4 @@
-package com.marshal.halcyon.core.component;
+package com.marshal.halcyon.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.pagehelper.Page;

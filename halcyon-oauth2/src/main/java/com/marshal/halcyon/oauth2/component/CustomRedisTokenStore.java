@@ -74,7 +74,7 @@ public class CustomRedisTokenStore extends RedisTokenStore {
         expiration.add(Calendar.SECOND, -token.getExpiresIn());
         oauthAccessToken.setTokenAccessTime(expiration.getTime());
         oauthAccessToken.setTokenExpiresTime(token.getExpiration());
-        oauthAccessTokenService.addTokenLogs(oauthAccessToken);
+        oauthAccessTokenService.save(oauthAccessToken);
         String tokenString = "";
         try {
             tokenString = new ObjectMapper().writeValueAsString(oauthAccessToken);

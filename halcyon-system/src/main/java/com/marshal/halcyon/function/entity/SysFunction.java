@@ -1,11 +1,13 @@
 package com.marshal.halcyon.function.entity;
 
+import com.marshal.halcyon.core.entity.BaseEntity;
+
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "sys_function")
-public class SysFunction {
+public class SysFunction extends BaseEntity {
     @Id
     @Column(name = "FUNCTION_ID")
     @GeneratedValue(generator = "JDBC")

@@ -2,6 +2,7 @@ package com.marshal.halcyon.function.service.impl;
 
 import com.github.pagehelper.PageHelper;
 
+import com.marshal.halcyon.core.service.impl.BaseServiceImpl;
 import com.marshal.halcyon.function.entity.SysFunction;
 import com.marshal.halcyon.function.mapper.SysFunctionMapper;
 import com.marshal.halcyon.function.service.SysFunctionService;
@@ -21,7 +22,7 @@ import java.util.Map;
  * Description:
  */
 @Service
-public class SysFunctionServiceImpl implements SysFunctionService {
+public class SysFunctionServiceImpl extends BaseServiceImpl<SysFunction> implements SysFunctionService {
 
     @Autowired
     SysFunctionMapper sysFunctionMapper;
@@ -33,27 +34,6 @@ public class SysFunctionServiceImpl implements SysFunctionService {
     public List<SysFunction> selectFunctions(SysFunction condition, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return sysFunctionMapper.selectFunctions(condition);
-    }
-
-    @Override
-    public SysFunction selectByPrimaryKey(Long id) {
-        return sysFunctionMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public void save(SysFunction sysFunction) {
-        if (sysFunction.getFunctionId() == null) {
-            sysFunctionMapper.insertSelective(sysFunction);
-        } else {
-            sysFunctionMapper.updateByPrimaryKeySelective(sysFunction);
-        }
-    }
-
-    @Override
-    public void delete(Long[] idList) {
-        for (Long id : idList) {
-            sysFunctionMapper.deleteByPrimaryKey(id);
-        }
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.marshal.halcyon.function.controller;
 
 
 import com.marshal.halcyon.core.controller.BaseController;
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.function.entity.SysResource;
 import com.marshal.halcyon.function.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class SysResourceController extends BaseController {
 
     @RequestMapping("/delete")
     public ResponseData delete(@RequestParam("selectedIds") Long[] selectedIds) {
-        sysResourceService.delete(selectedIds);
+        sysResourceService.batchDelete(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 

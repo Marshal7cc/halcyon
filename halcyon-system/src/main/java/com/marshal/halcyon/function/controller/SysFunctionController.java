@@ -2,7 +2,7 @@ package com.marshal.halcyon.function.controller;
 
 
 import com.marshal.halcyon.core.controller.BaseController;
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.function.entity.SysFunction;
 import com.marshal.halcyon.function.service.SysFunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public class SysFunctionController extends BaseController {
 
     @RequestMapping("/delete")
     public ResponseData delete(@RequestParam("selectedIds") Long[] selectedIds) {
-        sysFunctionService.delete(selectedIds);
+        sysFunctionService.batchDelete(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 

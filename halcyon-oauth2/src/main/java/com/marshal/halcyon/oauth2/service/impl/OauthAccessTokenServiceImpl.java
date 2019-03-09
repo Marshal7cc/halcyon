@@ -21,15 +21,4 @@ public class OauthAccessTokenServiceImpl extends BaseServiceImpl<OauthAccessToke
     @Autowired
     OauthAccessTokenMapper oauthAccessTokenMapper;
 
-    @Override
-    public OauthAccessToken addTokenLogs(OauthAccessToken token) {
-        oauthAccessTokenMapper.insertSelective(token);
-        return token;
-    }
-
-    @Override
-    public List<OauthAccessToken> selectOauthAccessTokens(OauthAccessToken condition, int pagenum, int pagesize) {
-        PageHelper.startPage(pagenum, pagesize);
-        return oauthAccessTokenMapper.select(condition);
-    }
 }

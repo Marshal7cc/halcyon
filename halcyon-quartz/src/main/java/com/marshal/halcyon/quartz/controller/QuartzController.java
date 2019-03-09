@@ -1,7 +1,7 @@
 package com.marshal.halcyon.quartz.controller;
 
 import com.marshal.halcyon.core.controller.BaseController;
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.quartz.entity.JobCreateInfo;
 import com.marshal.halcyon.quartz.entity.JobDetails;
 import com.marshal.halcyon.quartz.entity.JobLogs;
@@ -54,7 +54,6 @@ public class QuartzController extends BaseController {
     }
 
 
-
     /**
      * 获取jobDetail信息
      *
@@ -95,9 +94,9 @@ public class QuartzController extends BaseController {
             return new ResponseData(false, getValidator().getErrors(jobCreateInfo));
         }
         jobCreateInfo.setTriggerGroup(jobCreateInfo.getJobGroup());
-        jobCreateInfo.setTriggerName(jobCreateInfo.getJobName()+"_trigger");
+        jobCreateInfo.setTriggerName(jobCreateInfo.getJobName() + "_trigger");
         quartzService.createJob(jobCreateInfo);
-        return new ResponseData(true,"新增成功!");
+        return new ResponseData(true, "新增成功!");
     }
 
     /**
@@ -110,9 +109,9 @@ public class QuartzController extends BaseController {
      */
     @RequestMapping("/jobLogs/query")
     public ResponseData queryJobLogs(@RequestBody JobLogs condition,
-                                            @RequestParam("pageNum") int pageNum,
-                                            @RequestParam("pageSize") int pageSize) {
-        return new ResponseData(jobLogsService.queryJobLogs(condition, pageNum, pageSize));
+                                     @RequestParam("pageNum") int pageNum,
+                                     @RequestParam("pageSize") int pageSize) {
+        return new ResponseData(jobLogsService.select(condition, pageNum, pageSize));
     }
 
 }

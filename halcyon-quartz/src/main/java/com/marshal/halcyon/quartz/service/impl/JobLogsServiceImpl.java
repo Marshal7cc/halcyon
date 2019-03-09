@@ -1,6 +1,7 @@
 package com.marshal.halcyon.quartz.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.marshal.halcyon.core.service.impl.BaseServiceImpl;
 import com.marshal.halcyon.quartz.entity.JobLogs;
 import com.marshal.halcyon.quartz.mapper.JobLogsMapper;
 import com.marshal.halcyon.quartz.service.JobLogsService;
@@ -15,7 +16,7 @@ import java.util.List;
  * @desc:
  */
 @Service
-public class JobLogsServiceImpl implements JobLogsService {
+public class JobLogsServiceImpl extends BaseServiceImpl<JobLogs> implements JobLogsService {
 
     @Autowired
     JobLogsMapper jobLogsMapper;
@@ -26,14 +27,4 @@ public class JobLogsServiceImpl implements JobLogsService {
     public JobLogsServiceImpl() {
     }
 
-    @Override
-    public List<JobLogs> queryJobLogs(JobLogs condition, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        return jobLogsMapper.select(condition);
-    }
-
-    @Override
-    public void saveJobLog(JobLogs jobLogs) {
-        jobLogsMapper.insertSelective(jobLogs);
-    }
 }

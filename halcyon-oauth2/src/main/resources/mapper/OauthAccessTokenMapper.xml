@@ -10,5 +10,8 @@
         <result column="TOKEN_ACCESS_TYPE" jdbcType="VARCHAR" property="tokenAccessType"/>
         <result column="TOKEN_EXPIRES_TIME" jdbcType="TIMESTAMP" property="tokenExpiresTime"/>
         <result column="REVOKE_FLAG" jdbcType="VARCHAR" property="revokeFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
     </resultMap>
 </mapper>

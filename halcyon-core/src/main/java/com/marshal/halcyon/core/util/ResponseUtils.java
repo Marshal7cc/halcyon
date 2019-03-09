@@ -1,6 +1,6 @@
 package com.marshal.halcyon.core.util;
 
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import org.apache.commons.lang3.StringUtils;
 
 /**

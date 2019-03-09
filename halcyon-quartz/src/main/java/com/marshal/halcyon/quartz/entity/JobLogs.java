@@ -2,6 +2,7 @@ package com.marshal.halcyon.quartz.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.marshal.halcyon.core.constants.BaseConstants;
+import com.marshal.halcyon.core.entity.BaseEntity;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import javax.persistence.*;
  * 记录任务执行日志
  */
 @Table(name = "qrtz_job_logs")
-public class JobLogs {
+public class JobLogs extends BaseEntity {
     @Id
     @Column(name = "JOB_LOGS_ID")
     @GeneratedValue(generator = "JDBC")

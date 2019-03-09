@@ -1,6 +1,6 @@
 package com.marshal.halcyon.oauth2.controller;
 
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.util.ResponseUtils;
 import com.marshal.halcyon.oauth2.entity.OauthClientDetails;
@@ -38,7 +38,7 @@ public class OauthClientDetailsController extends BaseController {
         if (!getValidator().isValid(oauthClientDetails)) {
             return new ResponseData(false, getValidator().getErrors(oauthClientDetails));
         }
-        oauthClientDetailsService.updateByPrimaryKeySelective(oauthClientDetails);
+        oauthClientDetailsService.save(oauthClientDetails);
         return ResponseUtils.responseOk("保存成功");
     }
 

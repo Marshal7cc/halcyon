@@ -15,23 +15,9 @@ import java.util.List;
  * @desc:
  */
 @Service
-public class HrCompanyServiceImpl implements HrCompanyService {
+public class HrCompanyServiceImpl extends BaseServiceImpl<HrCompany> implements HrCompanyService {
 
     @Autowired
     HrCompanyMapper hrCompanyMapper;
 
-    @Override
-    public List<HrCompany> queryCompanyInfo() {
-        return hrCompanyMapper.selectAll();
-    }
-
-    @Override
-    public HrCompany saveCompanyInfo(HrCompany hrCompany) {
-        if (hrCompany.getCompanyId() == null) {
-            hrCompanyMapper.insert(hrCompany);
-        } else {
-            hrCompanyMapper.updateByPrimaryKey(hrCompany);
-        }
-        return hrCompany;
-    }
 }

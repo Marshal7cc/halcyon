@@ -12,5 +12,8 @@
     <result column="START_ACTIVE_DATE" jdbcType="DATE" property="startActiveDate" />
     <result column="END_ACTIVE_DATE" jdbcType="DATE" property="endActiveDate" />
     <result column="ENABLE_FLAG" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
   </resultMap>
 </mapper>

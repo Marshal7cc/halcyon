@@ -1,6 +1,6 @@
 package com.marshal.halcyon.hr.controller;
 
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.hr.entity.HrUnit;
 import com.marshal.halcyon.hr.service.HrUnitService;
@@ -35,7 +35,7 @@ public class HrUnitController extends BaseController {
      */
     @RequestMapping("/query")
     public ResponseData query(@RequestBody HrUnit condition, int pageNum, int pageSize) {
-        List<HrUnit> list = hrUnitService.query(condition, pageNum, pageSize);
+        List<HrUnit> list = hrUnitService.select(condition, pageNum, pageSize);
         return new ResponseData(list);
     }
 
@@ -50,7 +50,7 @@ public class HrUnitController extends BaseController {
         if (!getValidator().isValid(hrUnit)) {
             return new ResponseData(false, getValidator().getErrors(hrUnit));
         }
-        hrUnitService.submit(hrUnit);
+        hrUnitService.save(hrUnit);
         return new ResponseData(true, "保存成功");
     }
 
@@ -62,7 +62,7 @@ public class HrUnitController extends BaseController {
      */
     @RequestMapping("/remove")
     public ResponseData remove(@RequestParam("selectedIds") Long[] selectedIds) {
-        hrUnitService.remove(selectedIds);
+        hrUnitService.batchDelete(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 
@@ -74,7 +74,7 @@ public class HrUnitController extends BaseController {
      */
     @RequestMapping("/selectByUnitId")
     public HrUnit selectByUnitId(@RequestParam Long unitId) {
-        return hrUnitService.selectByUnitId(unitId);
+        return hrUnitService.selectByPrimaryKey(unitId);
     }
 
     @RequestMapping("/getParentUnitOptions")

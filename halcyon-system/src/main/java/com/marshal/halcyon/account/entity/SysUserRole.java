@@ -1,11 +1,13 @@
 package com.marshal.halcyon.account.entity;
 
+import com.marshal.halcyon.core.entity.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "sys_user_role")
-public class SysUserRole {
+public class SysUserRole extends BaseEntity {
     @Id
     @Column(name = "SUR_ID")
     private Long surId;

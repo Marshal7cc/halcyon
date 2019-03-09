@@ -1,6 +1,6 @@
 package com.marshal.halcyon.hr.controller;
 
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.hr.entity.HrPosition;
 import com.marshal.halcyon.hr.service.HrPositionService;
@@ -27,7 +27,7 @@ public class HrPositionController extends BaseController {
 
     @RequestMapping("/query")
     public ResponseData query(@RequestBody HrPosition condition, int pageNum, int pageSize) {
-        List<HrPosition> list = hrPositionService.query(condition, pageNum, pageSize);
+        List<HrPosition> list = hrPositionService.select(condition, pageNum, pageSize);
         return new ResponseData(list);
     }
 
@@ -36,19 +36,19 @@ public class HrPositionController extends BaseController {
         if (!getValidator().isValid(hrOrgPosition)) {
             return new ResponseData(false, getValidator().getErrors(hrOrgPosition));
         }
-        hrPositionService.submit(hrOrgPosition);
+        hrPositionService.save(hrOrgPosition);
         return new ResponseData(true, "保存成功");
     }
 
     @RequestMapping("/remove")
     public ResponseData remove(@RequestParam("selectedIds") Long[] selectedIds) {
-        hrPositionService.remove(selectedIds);
+        hrPositionService.batchDelete(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 
     @RequestMapping("/selectByPositionId")
     public HrPosition selectByPositionId(@RequestParam Long positionId) {
-        return hrPositionService.selectByPositionId(positionId);
+        return hrPositionService.selectByPrimaryKey(positionId);
     }
 
     @RequestMapping("/getParentPositionOptions")

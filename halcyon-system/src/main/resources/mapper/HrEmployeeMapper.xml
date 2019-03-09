@@ -15,6 +15,9 @@
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
         <result column="ENABLED_FLAG" jdbcType="VARCHAR" property="enabledFlag"/>
         <result column="CERTIFICATE_TYPE" jdbcType="VARCHAR" property="certificateType"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
     </resultMap>
 
     <select id="query" parameterType="com.marshal.halcyon.hr.entity.HrEmployee" resultMap="BaseResultMap">

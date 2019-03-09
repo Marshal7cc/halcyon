@@ -1,17 +1,12 @@
 package com.marshal.halcyon.solr.controller;
 
-import com.marshal.halcyon.core.component.ResponseData;
 import com.marshal.halcyon.solr.service.SolrService;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

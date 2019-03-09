@@ -1,6 +1,6 @@
 package com.marshal.halcyon.workflow.leavebill.controller;
 
-import com.marshal.halcyon.core.component.ResponseData;
+import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.util.ResponseUtils;
 import com.marshal.halcyon.workflow.leavebill.entity.ActBizLeave;
 import com.marshal.halcyon.workflow.leavebill.service.LeaveBillService;
