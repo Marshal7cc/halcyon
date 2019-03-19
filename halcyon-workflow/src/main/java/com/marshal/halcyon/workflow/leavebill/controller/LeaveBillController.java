@@ -1,7 +1,7 @@
 package com.marshal.halcyon.workflow.leavebill.controller;
 
 import com.marshal.halcyon.core.entity.ResponseData;
-import com.marshal.halcyon.core.util.ResponseUtils;
+import com.marshal.halcyon.core.util.ResponseUtil;
 import com.marshal.halcyon.workflow.leavebill.entity.ActBizLeave;
 import com.marshal.halcyon.workflow.leavebill.service.LeaveBillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +28,9 @@ public class LeaveBillController {
         try {
             leaveBillService.createLeaveBillInstance(actBizLeave);
         } catch (Exception e) {
-            return ResponseUtils.responseErr();
+            return ResponseUtil.responseErr();
         }
-        return ResponseUtils.responseOk("申请成功!");
+        return ResponseUtil.responseOk("申请成功!");
     }
 
     @RequestMapping("/queryById/{id}")

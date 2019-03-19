@@ -11,7 +11,7 @@
         <module>halcyon-security</module>
         <module>halcyon-quartz</module>
         <module>halcyon-core</module>
-        <module>halcyon-system</module>
+        <module>halcyon-base</module>
         <module>halcyon-workflow</module>
         <module>halcyon-message</module>
         <module>halcyon-mail</module>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
 
         <!--spring security-->

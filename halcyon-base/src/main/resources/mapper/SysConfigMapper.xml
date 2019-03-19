@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.base.ueditor.mapper.SysConfigMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.base.ueditor.entity.SysConfig">
+        <id column="CONFIG_ID" jdbcType="BIGINT" property="configId"/>
+        <result column="CONFIG_CODE" jdbcType="VARCHAR" property="configCode"/>
+        <result column="CONFIG_KEY" jdbcType="VARCHAR" property="configKey"/>
+        <result column="CONFIG_VALUE" jdbcType="VARCHAR" property="configValue"/>
+        <result column="CONFIG_CATEGORY" jdbcType="VARCHAR" property="configCategory"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
+    </resultMap>
+
+    <select id="getOSSConfig" resultType="java.util.Map">
+    SELECT
+        (
+            SELECT
+                CONFIG_VALUE
+            FROM
+                sys_config
+            WHERE
+                CONFIG_CODE = 'OSS'
+            AND CONFIG_KEY = 'endPoint'
+        ) endpoint,
+        (
+            SELECT
+                CONFIG_VALUE
+            FROM
+                sys_config
+            WHERE
+                CONFIG_CODE = 'OSS'
+            AND CONFIG_KEY = 'accessKeyId'
+        ) accessKeyId,
+        (
+            SELECT
+                CONFIG_VALUE
+            FROM
+                sys_config
+            WHERE
+                CONFIG_CODE = 'OSS'
+            AND CONFIG_KEY = 'accessKeySecret'
+        ) accessKeySecret,
+        (
+            SELECT
+                CONFIG_VALUE
+            FROM
+                sys_config
+            WHERE
+                CONFIG_CODE = 'OSS'
+            AND CONFIG_KEY = 'bucketName'
+        ) bucketName
+    FROM
+    DUAL
+  </select>
+</mapper>

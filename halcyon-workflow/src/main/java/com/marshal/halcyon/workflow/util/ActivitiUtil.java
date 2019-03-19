@@ -1,7 +1,8 @@
 package com.marshal.halcyon.workflow.util;
 
-import com.marshal.halcyon.hr.entity.HrEmployee;
-import com.marshal.halcyon.hr.entity.HrPosition;
+
+import com.marshal.halcyon.base.hr.entity.HrEmployee;
+import com.marshal.halcyon.base.hr.entity.HrPosition;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.GroupEntityImpl;

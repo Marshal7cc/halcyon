@@ -1,9 +1,10 @@
 package com.marshal.halcyon.workflow.manager;
 
-import com.marshal.halcyon.hr.entity.HrEmployee;
-import com.marshal.halcyon.hr.entity.HrPosition;
-import com.marshal.halcyon.hr.mapper.HrEmployeeMapper;
-import com.marshal.halcyon.hr.mapper.HrPositionMapper;
+
+import com.marshal.halcyon.base.hr.entity.HrEmployee;
+import com.marshal.halcyon.base.hr.entity.HrPosition;
+import com.marshal.halcyon.base.hr.mapper.HrEmployeeMapper;
+import com.marshal.halcyon.base.hr.mapper.HrPositionMapper;
 import com.marshal.halcyon.workflow.util.ActivitiUtil;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.Picture;

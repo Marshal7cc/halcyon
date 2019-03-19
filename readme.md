@@ -69,7 +69,7 @@ halcyon是一个综合应用平台。项目基础框架采用全新的Java Web�
 	<td>基础模块，主要包含一些工具类，基础配置</td>
 </tr>	
 <tr>
-	<td>halcyon-system</td>
+	<td>halcyon-base</td>
 	<td>系统模块，增删改查服务</td>
 </tr>
 <tr>

@@ -2,7 +2,7 @@ package com.marshal.halcyon.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.marshal.halcyon.core.service.BaseService;
-import com.marshal.halcyon.core.util.MapperUtils;
+import com.marshal.halcyon.core.util.DtoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.common.Mapper;
@@ -48,25 +48,25 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
     @Override
     public int insert(T record) {
-        record = (T) MapperUtils.setCreateAttribute(record);
+        record = (T) DtoUtil.setCreateAttribute(record);
         return mapper.insert(record);
     }
 
     @Override
     public int insertSelective(T record) {
-        record = (T) MapperUtils.setCreateAttribute(record);
+        record = (T) DtoUtil.setCreateAttribute(record);
         return mapper.insertSelective(record);
     }
 
     @Override
     public int updateByPrimaryKey(T record) {
-        record = (T) MapperUtils.setUpdateAttribute(record);
+        record = (T) DtoUtil.setUpdateAttribute(record);
         return mapper.updateByPrimaryKey(record);
     }
 
     @Override
     public int updateByPrimaryKeySelective(T record) {
-        record = (T) MapperUtils.setUpdateAttribute(record);
+        record = (T) DtoUtil.setUpdateAttribute(record);
         return mapper.updateByPrimaryKeySelective(record);
     }
 
@@ -77,7 +77,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
     @Override
     public int save(T record) {
-        if (MapperUtils.isPrimaryKeyNull(record)) {
+        if (DtoUtil.isPrimaryKeyNull(record)) {
             return this.insertSelective(record);
         } else {
             return this.updateByPrimaryKey(record);

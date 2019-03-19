@@ -1,6 +1,7 @@
 package com.marshal.halcyon.core.component;
 
 import org.springframework.stereotype.Component;
+
 import javax.validation.*;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import java.util.Set;
  */
 @Component
 public class CommonValidator {
+
     private static Validator validator;
 
     static {
@@ -20,6 +22,7 @@ public class CommonValidator {
 
     /**
      * 返回不符合规范de错误信息
+     *
      * @param t
      * @param <T>
      * @return
@@ -28,13 +31,14 @@ public class CommonValidator {
         Set<ConstraintViolation<T>> set = validator.validate(t);
         StringBuilder validateError = new StringBuilder();
         for (ConstraintViolation<T> val : set) {
-            validateError.append(val.getPropertyPath()+":"+val.getMessage() + ";\r\n");
+            validateError.append(val.getPropertyPath() + ":" + val.getMessage() + ";\r\n");
         }
         return validateError.toString();
     }
 
     /**
      * 验证是否通过
+     *
      * @param t
      * @param <T>
      * @return

@@ -1,8 +1,8 @@
 package com.marshal.halcyon.web.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.marshal.halcyon.base.function.entity.SysRequestInfo;
 import com.marshal.halcyon.message.redis.component.SysRequestMessageSubscriber;
-import com.marshal.halcyon.function.entity.SysRequestInfo;
 import com.marshal.halcyon.core.util.RequestHelper;
 import com.marshal.halcyon.message.redis.component.RedisMessagePublisher;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,18 +11,6 @@
 
     <artifactId>halcyon-core</artifactId>
 
-    <properties>
-        <aliyun.oss.version>3.4.1</aliyun.oss.version>
-    </properties>
-
-    <dependencies>
-        <!-- aliyun-sdk-oss -->
-        <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>${aliyun.oss.version}</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>

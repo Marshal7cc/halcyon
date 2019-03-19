@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.base.hr.mapper.HrEmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.base.hr.entity.HrEmployee">
+        <id column="EMPLOYEE_ID" jdbcType="BIGINT" property="employeeId"/>
+        <result column="EMPLOYEE_CODE" jdbcType="VARCHAR" property="employeeCode"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="POSITION_ID" jdbcType="BIGINT" property="positionId"/>
+        <result column="BORN_DATE" jdbcType="DATE" property="bornDate"/>
+        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="MOBIL" jdbcType="VARCHAR" property="mobil"/>
+        <result column="JOIN_DATE" jdbcType="DATE" property="joinDate"/>
+        <result column="GENDER" jdbcType="VARCHAR" property="gender"/>
+        <result column="CERTIFICATE_ID" jdbcType="VARCHAR" property="certificateId"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="ENABLED_FLAG" jdbcType="VARCHAR" property="enabledFlag"/>
+        <result column="CERTIFICATE_TYPE" jdbcType="VARCHAR" property="certificateType"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
+    </resultMap>
+
+    <select id="query" parameterType="com.marshal.halcyon.base.hr.entity.HrEmployee" resultMap="BaseResultMap">
+        select he.*,hp.name positionName
+        from hr_employee he
+        left join hr_position hp
+        on he.position_id = hp.position_id
+    </select>
+
+    <select id="getEmpOptions" resultType="java.util.Map">
+        select employee_id id,name text
+        from
+        hr_employee
+    </select>
+
+    <select id="getEmployeeNameByCode" parameterType="java.lang.String" resultType="java.lang.String">
+        select name from hr_employee where employee_code = #{employeeCode}
+    </select>
+
+    <select id="getEmployeeByUserId" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            he.EMPLOYEE_ID,
+            he.EMPLOYEE_CODE,
+            he. NAME
+        FROM
+            hr_employee he,
+            sys_user su
+        WHERE
+            su.EMPLOYEE_ID = he.EMPLOYEE_ID
+        AND su.user_id = #{userId}
+    </select>
+</mapper>

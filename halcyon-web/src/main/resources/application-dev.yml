@@ -49,10 +49,10 @@ spring:
   jms:
     pub-sub-domain: true
 
-  activemq:
-    broker-url: tcp://132.232.243.120:61616
-    in-memory: false
-    close-timeout: 15s
+  #  activemq:
+  #    broker-url: tcp://132.232.243.120:61616
+  #    in-memory: false
+  #    close-timeout: 15s
 
 
   jackson:

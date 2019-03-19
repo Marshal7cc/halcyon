@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.marshal</groupId>
-            <artifactId>halcyon-system</artifactId>
+            <artifactId>halcyon-base</artifactId>
             <version>${halcyon.version}</version>
         </dependency>
 

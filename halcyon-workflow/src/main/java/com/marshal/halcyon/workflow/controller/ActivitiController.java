@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.marshal.halcyon.core.entity.ResponseData;
-import com.marshal.halcyon.core.util.ResponseUtils;
+import com.marshal.halcyon.core.util.ResponseUtil;
 import com.marshal.halcyon.workflow.entity.TaskResponseExt;
 import com.marshal.halcyon.workflow.service.ActivitiService;
 import io.swagger.annotations.ApiParam;
@@ -120,7 +120,7 @@ public class ActivitiController {
         }
 
         restResponseFactory.createModelResponse(model);
-        return ResponseUtils.responseOk("创建模型成功！");
+        return ResponseUtil.responseOk("创建模型成功！");
     }
 
     /**
@@ -134,9 +134,9 @@ public class ActivitiController {
         try {
             repositoryService.deleteModel(modelId);
         } catch (Exception e) {
-            ResponseUtils.responseErr("删除失败!");
+            ResponseUtil.responseErr("删除失败!");
         }
-        return ResponseUtils.responseOk("删除成功!");
+        return ResponseUtil.responseOk("删除成功!");
     }
 
     /**
@@ -318,9 +318,9 @@ public class ActivitiController {
             //级联删除相关的流程
             repositoryService.deleteDeployment(deploymentId, true);
         } catch (Exception e) {
-            ResponseUtils.responseErr("删除失败!");
+            ResponseUtil.responseErr("删除失败!");
         }
-        return ResponseUtils.responseOk();
+        return ResponseUtil.responseOk();
     }
 
 
@@ -399,7 +399,7 @@ public class ActivitiController {
         taskService.addComment(taskId, task.getProcessInstanceId(), "action", auditResult.get("action"));
         taskService.addComment(taskId, task.getProcessInstanceId(), "comment", auditResult.get("comment"));
         taskService.complete(taskId);
-        return ResponseUtils.responseOk();
+        return ResponseUtil.responseOk();
     }
 
 }

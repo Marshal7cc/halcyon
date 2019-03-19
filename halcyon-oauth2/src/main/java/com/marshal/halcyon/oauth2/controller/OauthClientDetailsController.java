@@ -2,7 +2,7 @@ package com.marshal.halcyon.oauth2.controller;
 
 import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.controller.BaseController;
-import com.marshal.halcyon.core.util.ResponseUtils;
+import com.marshal.halcyon.core.util.ResponseUtil;
 import com.marshal.halcyon.oauth2.entity.OauthClientDetails;
 import com.marshal.halcyon.oauth2.service.OauthClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +39,13 @@ public class OauthClientDetailsController extends BaseController {
             return new ResponseData(false, getValidator().getErrors(oauthClientDetails));
         }
         oauthClientDetailsService.save(oauthClientDetails);
-        return ResponseUtils.responseOk("保存成功");
+        return ResponseUtil.responseOk("保存成功");
     }
 
     @RequestMapping("/remove")
     public ResponseData delete(@RequestParam("selectedIds") Long[] selectedIds) {
         oauthClientDetailsService.batchDelete(selectedIds);
-        return ResponseUtils.responseOk("删除成功");
+        return ResponseUtil.responseOk("删除成功");
     }
 
     @RequestMapping("/queryById")

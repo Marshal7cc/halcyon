@@ -1,9 +1,10 @@
 package com.marshal.halcyon.security.handler;
 
+import com.marshal.halcyon.base.hr.entity.HrEmployee;
+import com.marshal.halcyon.base.hr.service.HrEmployeeService;
 import com.marshal.halcyon.core.listener.ContextRefreshedListener;
 import com.marshal.halcyon.core.util.ApplicationContextHolder;
-import com.marshal.halcyon.hr.entity.HrEmployee;
-import com.marshal.halcyon.hr.service.HrEmployeeService;
+
 import com.marshal.halcyon.security.domain.CustomUserDetails;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;

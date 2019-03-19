@@ -2,7 +2,7 @@ package com.marshal.halcyon.workflow.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marshal.halcyon.hr.mapper.HrEmployeeMapper;
+import com.marshal.halcyon.base.hr.mapper.HrEmployeeMapper;
 import com.marshal.halcyon.workflow.entity.HistoricTaskInstanceResponseExt;
 import com.marshal.halcyon.workflow.entity.TaskResponseExt;
 import com.marshal.halcyon.workflow.service.ActivitiService;
