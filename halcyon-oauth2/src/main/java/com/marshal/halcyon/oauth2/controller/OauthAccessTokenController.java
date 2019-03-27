@@ -32,7 +32,7 @@ public class OauthAccessTokenController extends BaseController {
 
     @RequestMapping("/submit")
     public ResponseData save(@RequestBody OauthAccessToken oauthClientDetails) {
-        if (!getValidator().isValid(oauthClientDetails)) {
+        if (!getValidator().hasError(oauthClientDetails)) {
             return new ResponseData(false, getValidator().getErrors(oauthClientDetails));
         }
         oauthAccessTokenService.save(oauthClientDetails);

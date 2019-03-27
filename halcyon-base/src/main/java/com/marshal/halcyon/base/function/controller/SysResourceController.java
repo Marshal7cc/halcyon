@@ -36,7 +36,7 @@ public class SysResourceController extends BaseController {
 
     @RequestMapping("/save")
     public ResponseData save(@RequestBody SysResource sysResource) {
-        if (!getValidator().isValid(sysResource)) {
+        if (!getValidator().hasError(sysResource)) {
             return new ResponseData(false, getValidator().getErrors(sysResource));
         }
         sysResourceService.save(sysResource);

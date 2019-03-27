@@ -47,7 +47,7 @@ public class HrUnitController extends BaseController {
      */
     @RequestMapping("/submit")
     public ResponseData submit(@RequestBody HrUnit hrUnit) {
-        if (!getValidator().isValid(hrUnit)) {
+        if (!getValidator().hasError(hrUnit)) {
             return new ResponseData(false, getValidator().getErrors(hrUnit));
         }
         hrUnitService.save(hrUnit);

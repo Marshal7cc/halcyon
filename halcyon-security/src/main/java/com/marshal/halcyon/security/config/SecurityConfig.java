@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsUtils;
 
 /**
  * @auth: Marshal
@@ -116,6 +117,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .and()
                 .authorizeRequests() // 授权配置
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(staticResources).permitAll() // 免认证静态资源路径
                 .antMatchers(
                         securityProperties.getLoginPage(),// 登录路径

@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @auth: Marshal
  * @date: 2018/10/28
- * @desc: 通用校验器
+ * @desc: 通用校验器，用于校验数据，通过属性的限制性注解进行校验判断
  */
 @Component
 public class CommonValidator {
@@ -43,12 +43,12 @@ public class CommonValidator {
      * @param <T>
      * @return
      */
-    public <T> boolean isValid(T t) {
+    public <T> boolean hasError(T t) {
         Set<ConstraintViolation<T>> set = validator.validate(t);
         if (set.size() > 0) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 }

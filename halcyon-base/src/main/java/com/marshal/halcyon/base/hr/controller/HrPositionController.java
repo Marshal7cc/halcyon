@@ -33,7 +33,7 @@ public class HrPositionController extends BaseController {
 
     @RequestMapping("/submit")
     public ResponseData submit(@RequestBody HrPosition hrOrgPosition) {
-        if (!getValidator().isValid(hrOrgPosition)) {
+        if (!getValidator().hasError(hrOrgPosition)) {
             return new ResponseData(false, getValidator().getErrors(hrOrgPosition));
         }
         hrPositionService.save(hrOrgPosition);

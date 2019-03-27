@@ -35,7 +35,7 @@ public class OauthClientDetailsController extends BaseController {
 
     @RequestMapping("/submit")
     public ResponseData save(@RequestBody OauthClientDetails oauthClientDetails) {
-        if (!getValidator().isValid(oauthClientDetails)) {
+        if (!getValidator().hasError(oauthClientDetails)) {
             return new ResponseData(false, getValidator().getErrors(oauthClientDetails));
         }
         oauthClientDetailsService.save(oauthClientDetails);

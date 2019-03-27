@@ -47,7 +47,7 @@ public class HrEmployeeController extends BaseController {
      */
     @RequestMapping("/submit")
     public ResponseData submit(@RequestBody HrEmployee hrEmployee) {
-        if (!getValidator().isValid(hrEmployee)) {
+        if (!getValidator().hasError(hrEmployee)) {
             return new ResponseData(false, getValidator().getErrors(hrEmployee));
         }
         hrEmployeeService.save(hrEmployee);

@@ -175,7 +175,7 @@ halcyon:
     login-page: /login.html
     default-target-url: /index.html
     authentication-failure-url: /login.html
-    static-resources: /css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
+    static-resources: /static/**,/login/**,/css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
     #数组写法[a,b,c]
 ##########################################
 ############  Custom Prop    #############

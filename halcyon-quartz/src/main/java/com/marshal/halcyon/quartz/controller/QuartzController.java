@@ -90,7 +90,7 @@ public class QuartzController extends BaseController {
 
     @RequestMapping("/job/createJob")
     public ResponseData resumeJob(@RequestBody JobCreateInfo jobCreateInfo) throws Exception {
-        if (!getValidator().isValid(jobCreateInfo)) {
+        if (!getValidator().hasError(jobCreateInfo)) {
             return new ResponseData(false, getValidator().getErrors(jobCreateInfo));
         }
         jobCreateInfo.setTriggerGroup(jobCreateInfo.getJobGroup());

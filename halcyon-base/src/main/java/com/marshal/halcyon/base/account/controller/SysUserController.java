@@ -42,7 +42,7 @@ public class SysUserController extends BaseController {
 
     @RequestMapping("/save")
     public ResponseData save(@RequestBody SysUser sysUser) {
-        if (!getValidator().isValid(sysUser)) {
+        if (!getValidator().hasError(sysUser)) {
             return new ResponseData(false, getValidator().getErrors(sysUser));
         }
         sysUser.setPasswordEncrypted(passwordEncoder.encode(DEFAULT_PASSWORD));
