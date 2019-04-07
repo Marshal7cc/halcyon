@@ -3,7 +3,6 @@ package com.marshal.halcyon.workflow.service;
 import com.marshal.halcyon.core.component.SessionContext;
 import com.marshal.halcyon.workflow.entity.HistoricProcessInstanceResponseExt;
 import com.marshal.halcyon.workflow.exception.TaskActionException;
-import com.marshal.halcyon.workflow.entity.HistoricProcessInstanceExt;
 import com.marshal.halcyon.workflow.entity.TaskActionRequestExt;
 import com.marshal.halcyon.workflow.entity.TaskResponseExt;
 import org.activiti.engine.task.Task;
