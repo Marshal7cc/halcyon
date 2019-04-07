@@ -75,4 +75,9 @@ public class HrEmployeeController extends BaseController {
     public List<Map> getEmpOptions() {
         return hrEmployeeService.getEmpOptions();
     }
+
+    @RequestMapping("/getEmpCodeOptions")
+    public List<Map> getEmpCodeOptions() {
+        return hrEmployeeService.getEmpCodeOptions();
+    }
 }

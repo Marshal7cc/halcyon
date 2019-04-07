@@ -1,8 +1,10 @@
 package com.marshal.halcyon.core.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.marshal.halcyon.core.component.SessionContext;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
 
@@ -12,6 +14,24 @@ import java.util.Map;
  * @desc: 请求request相关的工具类
  */
 public class RequestHelper {
+
+    public static SessionContext getSessionContext(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (session != null) {
+            SessionContext sessionContext = new SessionContext();
+            if (session.getAttribute("userId") != null) {
+                sessionContext.setUserId((Long) session.getAttribute("userId"));
+            }
+            if (session.getAttribute("roleId") != null) {
+                sessionContext.setRoleId((Long) session.getAttribute("roleId"));
+            }
+            if (session.getAttribute("employeeCode") != null) {
+                sessionContext.setEmployeeCode((String) session.getAttribute("employeeCode"));
+            }
+            return sessionContext;
+        }
+        return new SessionContext();
+    }
 
     /**
      * 判断是否为ajax请求

@@ -9,6 +9,7 @@ import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +40,11 @@ public class LeaveBillServiceImpl implements LeaveBillService {
     public void createLeaveBillInstance(ActBizLeave actBizLeave) {
         actBizLeaveMapper.insertSelective(actBizLeave);
 
+        List<String> assignList = Arrays.asList("Marshal", "SunLei");
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("leaveReason", actBizLeave.getLeaveReason());
-
+        variables.put("assignList", assignList);
         identityService.setAuthenticatedUserId("Marshal");
         runtimeService.startProcessInstanceByKey(LeaveBillProcessDefinitionKey, String.valueOf(actBizLeave.getId()), variables);
 

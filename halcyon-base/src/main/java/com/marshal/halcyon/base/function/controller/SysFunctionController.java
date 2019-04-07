@@ -51,7 +51,7 @@ public class SysFunctionController extends BaseController {
 
     @RequestMapping("/save")
     public ResponseData save(@RequestBody SysFunction sysFunction) {
-        if (!getValidator().hasError(sysFunction)) {
+        if (getValidator().hasError(sysFunction)) {
             return new ResponseData(false, getValidator().getErrors(sysFunction));
         }
         sysFunctionService.save(sysFunction);

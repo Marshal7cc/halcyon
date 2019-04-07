@@ -15,5 +15,12 @@ app.controller("leaveBillController", function ($scope, $controller, leaveBillSe
         });
     };
 
-
+    $scope.loadFormData = function () {
+        var businessKey = getQueryString('businessKey');
+        debugger
+        leaveBillService.queryById(businessKey).success(function (responseData) {
+            debugger;
+            $scope.formData = responseData;
+        });
+    }
 });

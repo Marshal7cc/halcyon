@@ -17,6 +17,8 @@ public interface BaseConstants {
     /**
      * 时间格式
      */
+    String SYS_TIME_ZONE = "GMT+8";
+
     String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     String DATE_FORMAT = "yyyy-MM-dd";

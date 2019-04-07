@@ -28,7 +28,7 @@
     frozen_date, DESCRIPTION
   </sql>
 
-    <select id="query" parameterType="com.marshal.halcyon.base.account.entity.SysUser" resultMap="BaseResultMap">
+    <select id="selectUsers" parameterType="com.marshal.halcyon.base.account.entity.SysUser" resultMap="BaseResultMap">
     select su.*,he.name employeeName
     from sys_user su
     left join

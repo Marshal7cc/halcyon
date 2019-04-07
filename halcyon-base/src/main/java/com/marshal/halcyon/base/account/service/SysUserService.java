@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface SysUserService extends BaseService<SysUser> {
 
+    List<SysUser> selectUsers(int pageNum, int pageSize, SysUser condition);
+
     List<Map> getUserOptions();
 
 }

@@ -1,6 +1,5 @@
-package com.marshal.halcyon.web;
+package com.marshal.halcyon;
 
-import com.marshal.halcyon.security.properties.SecurityProperties;
 import org.activiti.spring.boot.SecurityAutoConfiguration;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +23,7 @@ import java.time.LocalTime;
                 "com.marshal.halcyon.**.filter",
                 "com.marshal.halcyon.**.controller",
                 "com.marshal.halcyon.**.service",
+                "com.marshal.halcyon.**.task",
                 "com.marshal.halcyon.**.component",
                 "com.marshal.halcyon.**.json",
                 "org.activiti.rest.service.api",

@@ -23,4 +23,8 @@ app.service("hrEmployeeService", function ($http) {
     this.getEmpOptions = function () {
         return $http.get("../hr/employee/getEmpOptions");
     }
+
+    this.getEmpCodeOptions = function () {
+        return $http.get("../hr/employee/getEmpCodeOptions");
+    }
 });

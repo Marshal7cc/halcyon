@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script id="header" th:replace="common/header"></script>
+<script src="../js/module/base.js" type="text/javascript"></script>
+<script src="../js/service/workflow/leavebill/leaveBillService.js" type="text/javascript"></script>
+<script src="../js/service/workflow/taskService.js" type="text/javascript"></script>
+<script src="../js/controller/baseController.js" type="text/javascript"></script>
+<script src="../js/controller/workflow/taskController.js" type="text/javascript"></script>
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="taskController">
+<div class="box">
+    <!-- 标题 -->
+    <div class="box-header with-border">
+        <h3 class="box-title">我的待办</h3>
+    </div>
+    <!--标题end-->
+    <div class="box-body">
+
+        <!-- 搜索条件 -->
+        <div class="box box-info collapsed-box search-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">搜索条件</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="display: none">
+                <form role="form" class="form-inline">
+                    <div class="form-group col-lg-4">
+                        <label for="name">名称</label>
+                        <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- 搜索条件end -->
+
+        <!--数据表格-->
+        <div class="box box-info data-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">模型信息</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <!-- 数据表格 -->
+                <div class="table-box">
+
+                    <!--工具栏-->
+                    <div class="pull-left">
+                        <div class="form-group form-inline">
+                            <div class="btn-group">
+                                <button ng-click="initForAdd()" type="button" class="btn btn-primary btn-sm"
+                                        data-toggle="modal"
+                                        data-target="#editWindow"><i class="fa fa-file-o"></i> 新建
+                                </button>
+                                <button ng-click="delete()" type="button" class="btn btn-primary btn-sm"><i
+                                        class="fa fa-trash-o"></i>
+                                    删除
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-search"></i> 查询
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-download"></i> 导出
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--工具栏/-->
+
+                    <!--数据列表-->
+                    <table id="dataList"
+                           class="table table-bordered table-striped table-hover dataTable table-condensed">
+                        <thead>
+                        <tr>
+                            <th class="" style="padding-right:0px">
+                                <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                            </th>
+                            <th>流程ID</th>
+                            <th>流程名称</th>
+                            <th>流程描述</th>
+                            <th>审批环节</th>
+                            <th>申请人</th>
+                            <th>当前审批人</th>
+                            <th>创建时间</th>
+                            <th>优先级</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in rows">
+                            <td><input type="checkbox" ng-click="updateSelected($event,item.id)"></td>
+                            <td>{{item.processInstanceId}}</td>
+                            <td>{{item.processName}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.startUserName}}</td>
+                            <td>{{item.assignee}}</td>
+                            <td>{{formatDateTime(item.createTime)}}</td>
+                            <th>{{item.priority}}</th>
+                            <td class="text-center">
+                                <button ng-click="queryTaskDetail(item.id)" type="button" class="btn btn-sm btn-success"
+                                        data-toggle="modal" data-target="#detailWindow">
+                                    <i class="fa fa-edit"></i>办理
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--数据列表/-->
+                </div>
+                <script id="footer" th:replace="common/footer"></script>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- task detail明细窗口 -->
+    <div class="modal fade" id="detailWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">流程办理</h3>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#approveInfo" data-toggle="tab">流程信息</a></li>
+                        <li><a href="#approveHistory" data-toggle="tab">审批历史</a></li>
+                        <li><a href="#processImg" data-toggle="tab">流程图</a></li>
+                    </ul>
+
+                    <!-- 选项卡开始 -->
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane active in" id="approveInfo">
+                            <br>
+                            <span class="modal-title">流程信息</span>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>流程名称</td>
+                                    <td>
+                                        <span>{{task.processName}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>流程ID</td>
+                                    <td>
+                                        <span>{{task.processInstanceId}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>申请人</td>
+                                    <td>
+                                        <span>{{task.startUserName}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>申请时间</td>
+                                    <td>
+                                        <span>{{formatDateTime(task.createTime)}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>优先级</td>
+                                    <td>
+                                        <span>{{task.priority}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>流程描述</td>
+                                    <td>
+                                        <span>{{task.description}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br>
+                            <span class="modal-title">审批事项</span>
+                            <div>
+                                <iframe id="businessFormData" frameborder="no">
+                                </iframe>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="approveHistory">
+                            <br>
+                            <table id="historyList" class="table table-bordered table-striped table-hover dataTable">
+                                <thead>
+                                <tr>
+                                    <th>审批时间</th>
+                                    <th>审批环节</th>
+                                    <th>审批人</th>
+                                    <th>审批动作</th>
+                                    <th>审批意见</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in hisRows">
+                                    <td>{{formatDateTime(item.endTime)}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.assignee}}</td>
+                                    <td>{{renderAction(item.action)}}</td>
+                                    <td>{{item.comment}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="processImg">
+                            <br>
+                            <header class="unselectable">预览图</header>
+                            <div class="panel-body">
+                                <img id="processDetailImg"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 选项卡结束 -->
+
+
+                    <span class="modal-title">审批意见</span>
+
+                    <div>
+                        <div style="margin-bottom: 20px;margin-top:20px;">
+                        <textarea ng-model="taskActionRequest.comment" class="form-control" rows="5"
+                                  placeholder="请输入审批意见..."></textarea>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success" ng-click="approve()">
+                            <i class="fa fa-reorder"></i>同意
+                        </button>
+                        <button type="button" ng-click="reject()" class="btn btn-sm btn-success">
+                            <i class="fa fa-reorder"></i>拒绝
+                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-dismiss="modal"
+                                aria-hidden="true">
+                            <i class="fa fa-reorder"></i>关闭
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

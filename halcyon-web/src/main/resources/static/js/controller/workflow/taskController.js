@@ -15,23 +15,49 @@ app.controller("taskController", function ($scope, $controller, taskService, lea
         $scope.auditTaskId = taskId;
         taskService.queryTaskDetail(taskId).success(function (responseData) {
             $scope.task = responseData;
-            $("#businessFormData").attr("th:replace", responseData.formKey);
-
-            // $("#includeFrame").attr("src", baseContextPath + "/" + responseData.formKey);
-            $scope.actBizLeave = {};
             $scope.hisRows = responseData.historicTaskList;
 
-            leaveBillService.queryById(responseData.processInstance.businessKey).success(function (responseData) {
-                $scope.actBizLeave = responseData;
-            });
+            var url = baseContextPath + "/" + responseData.formKey + "?businessKey=" + responseData.processInstance.businessKey;
+            $("#businessFormData").attr("src", url);
+
         });
     };
-    $scope.auditResult = {};
+    $scope.taskActionRequest = {};
     $scope.approve = function () {
-        $scope.auditResult.action = "approve";
-        taskService.approve($scope.auditTaskId, $scope.auditResult).success(function (responseData) {
+        $scope.taskActionRequest.action = "complete";
+        taskService.handle($scope.auditTaskId, $scope.taskActionRequest).success(function (responseData) {
             $scope.parseResponse(responseData);
         });
     };
+
+    $scope.reject = function () {
+        $scope.taskActionRequest.action = "reject";
+        taskService.handle($scope.auditTaskId, $scope.taskActionRequest).success(function (responseData) {
+            $scope.parseResponse(responseData);
+        });
+    };
+
+    $scope.renderAction = function (action) {
+        if (action == 'approve') {
+            apprvText = "同意";
+        } else if (action == 'reject') {
+            apprvText = "拒绝";
+        } else if (action == 'add_sign') {
+            apprvText = "加签";
+        } else if (action == 'delegate') {
+            apprvText = "转交";
+        } else if (action == 'jump') {
+            apprvText = "跳转";
+        } else if (action == 'recall') {
+            apprvText = "撤回";
+        } else if (action == "auto_delegate") {
+            apprvText = "自动转交";
+        } else if (action == "CARBON_COPY") {
+            apprvText = "抄送";
+        } else {
+            apprvText = action || ''
+        }
+        return apprvText;
+    }
 
 });

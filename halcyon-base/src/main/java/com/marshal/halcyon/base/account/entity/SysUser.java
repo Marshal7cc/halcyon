@@ -29,18 +29,18 @@ public class SysUser extends BaseEntity {
     @Pattern(regexp = BaseConstants.PATTERN_PHONE_REGEX, message = BaseConstants.PHONE_NOT_VALID)
     private String phone;
 
-    @JsonFormat(pattern = BaseConstants.DATE_FORMAT)
+    @JsonFormat(pattern = BaseConstants.DATE_FORMAT, timezone = BaseConstants.SYS_TIME_ZONE)
     private Date startActiveDate;
 
-    @JsonFormat(pattern = BaseConstants.DATE_FORMAT)
+    @JsonFormat(pattern = BaseConstants.DATE_FORMAT, timezone = BaseConstants.SYS_TIME_ZONE)
     private Date endActiveDate;
 
     private String status;
 
-    @JsonFormat(pattern = BaseConstants.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = BaseConstants.DATE_TIME_FORMAT, timezone = BaseConstants.SYS_TIME_ZONE)
     private Date lastLoginDate;
 
-    @JsonFormat(pattern = BaseConstants.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = BaseConstants.DATE_TIME_FORMAT, timezone = BaseConstants.SYS_TIME_ZONE)
     private Date lastPasswordUpdateDate;
 
     private String frozenFlag;

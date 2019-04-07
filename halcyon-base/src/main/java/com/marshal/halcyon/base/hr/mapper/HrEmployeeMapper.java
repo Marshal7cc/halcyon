@@ -12,6 +12,8 @@ public interface HrEmployeeMapper extends Mapper<HrEmployee> {
 
     List<Map> getEmpOptions();
 
+    List<Map> getEmpCodeOptions();
+
     String getEmployeeNameByCode(String employeeCode);
 
     HrEmployee getEmployeeByUserId(Long userId);

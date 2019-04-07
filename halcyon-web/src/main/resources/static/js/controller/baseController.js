@@ -10,7 +10,7 @@ app.controller("baseController", function ($scope) {
     $scope.pageConf = {
         currentPage: 1,
         totalItems: 0,
-        itemsPerPage: 8,
+        itemsPerPage: 10,
         perPageOptions: [5, 10, 20, 30, 40, 50],
         onChange: function () {
             $scope.reloadList();//重新加载
@@ -83,6 +83,28 @@ app.controller("baseController", function ($scope) {
                     window[deleteRows()].call();
                 }
             });
+    }
+
+
+    //格式化时间
+    $scope.formatDateTime = function (item) {
+        if (item) {
+            var date = new Date(item);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            var h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            var minute = date.getMinutes();
+            minute = minute < 10 ? ('0' + minute) : minute;
+            var second = date.getSeconds();
+            second = second < 10 ? ('0' + second) : second;
+            return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+        } else {
+            return "";
+        }
     }
 
 });

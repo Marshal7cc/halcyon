@@ -46,11 +46,6 @@ public class ActivitiUtil {
         return groupEntity;
     }
 
-    public static List<Group> toActivitiGroups(List<String> groupIds) {
-        return null;
-    }
-
-
     /**
      * 返回第二个日期与第一个日期之间相差的秒数
      *

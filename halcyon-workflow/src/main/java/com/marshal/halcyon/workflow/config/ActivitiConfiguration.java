@@ -1,5 +1,6 @@
 package com.marshal.halcyon.workflow.config;
 
+import com.marshal.halcyon.workflow.component.ActivitiBeanProvider;
 import com.marshal.halcyon.workflow.manager.CustomGroupEntityManagerFactory;
 import com.marshal.halcyon.workflow.manager.CustomUserEntityManager;
 import com.marshal.halcyon.workflow.manager.CustomGroupEntityManager;
@@ -37,6 +38,9 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
     @Autowired
     DataSource dataSource;
 
+    @Autowired
+    ActivitiBeanProvider activitiBeanProvider;
+
     @Bean
     public SpringProcessEngineConfiguration springProcessEngineConfiguration(PlatformTransactionManager transactionManager,
                                                                              SpringAsyncExecutor springAsyncExecutor) throws IOException {
@@ -50,6 +54,8 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
         springProcessEngineConfiguration.setLabelFontName("宋体");
         springProcessEngineConfiguration.setAnnotationFontName("宋体");
 
+        //配置beans
+        springProcessEngineConfiguration.setBeans(activitiBeanProvider);
 
         // 配置自定义的用户和组管理
         springProcessEngineConfiguration.setUserEntityManager(customUserEntityManager());
@@ -67,7 +73,6 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
     UserEntityManager customUserEntityManager() {
         return new CustomUserEntityManager();
     }
-
 
     @Bean
     GroupEntityManager customGroupEntityManager() {

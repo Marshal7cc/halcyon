@@ -36,13 +36,13 @@ public class SysUserController extends BaseController {
 
     @RequestMapping("/query")
     public ResponseData query(@RequestBody SysUser condition, int pageNum, int pageSize) {
-        List<SysUser> list = sysUserService.select(condition, pageNum, pageSize);
+        List<SysUser> list = sysUserService.selectUsers(pageNum, pageSize, condition);
         return new ResponseData(list);
     }
 
     @RequestMapping("/save")
     public ResponseData save(@RequestBody SysUser sysUser) {
-        if (!getValidator().hasError(sysUser)) {
+        if (getValidator().hasError(sysUser)) {
             return new ResponseData(false, getValidator().getErrors(sysUser));
         }
         sysUser.setPasswordEncrypted(passwordEncoder.encode(DEFAULT_PASSWORD));

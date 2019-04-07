@@ -25,4 +25,9 @@ public class HrEmployeeServiceImpl extends BaseServiceImpl<HrEmployee> implement
     public List<Map> getEmpOptions() {
         return hrEmployeeMapper.getEmpOptions();
     }
+
+    @Override
+    public List<Map> getEmpCodeOptions() {
+        return hrEmployeeMapper.getEmpCodeOptions();
+    }
 }

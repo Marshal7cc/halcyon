@@ -13,4 +13,6 @@ public interface HrEmployeeService extends BaseService<HrEmployee> {
 
     List<Map> getEmpOptions();
 
+    List<Map> getEmpCodeOptions();
+
 }

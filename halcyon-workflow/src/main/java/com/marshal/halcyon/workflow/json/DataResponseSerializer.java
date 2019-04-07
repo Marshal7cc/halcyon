@@ -1,13 +1,19 @@
 package com.marshal.halcyon.workflow.json;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.marshal.halcyon.core.util.ResponseUtil;
 import org.activiti.rest.common.api.DataResponse;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,12 +27,14 @@ public class DataResponseSerializer extends JsonSerializer<DataResponse> {
         if (dataResponse != null) {
             Map<String, Object> result = new HashMap<>();
             result.put("total", dataResponse.getTotal());
-            result.put("rows", dataResponse.getData());
+            List<Map> rows = JSONObject.parseObject(JSON.toJSONString(dataResponse.getData(), SerializerFeature.WriteDateUseDateFormat), new TypeReference<List<Map>>() {
+            });
+            result.put("rows", rows);
             result.put("success", true);
             result.put("message", "success");
             jsonGenerator.writeObject(result);
         } else {
-            jsonGenerator.writeObject(JSON.toJSON(dataResponse));
+            jsonGenerator.writeObject(ResponseUtil.responseErr("数据为空!"));
         }
     }
 }

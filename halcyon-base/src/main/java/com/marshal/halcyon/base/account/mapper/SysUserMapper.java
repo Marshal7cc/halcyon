@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface SysUserMapper extends Mapper<SysUser>, Serializable {
 
-    List<SysUser> query(SysUser condition);
+    List<SysUser> selectUsers(SysUser condition);
 
     List<Map> getUserOptions();
 

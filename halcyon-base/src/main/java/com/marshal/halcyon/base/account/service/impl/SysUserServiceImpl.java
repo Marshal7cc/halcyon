@@ -1,5 +1,6 @@
 package com.marshal.halcyon.base.account.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.marshal.halcyon.base.account.entity.SysUser;
 import com.marshal.halcyon.base.account.mapper.SysUserMapper;
 import com.marshal.halcyon.base.account.service.SysUserService;
@@ -24,6 +25,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 
     @Autowired
     SysUserMapper sysUserMapper;
+
+    @Override
+    public List<SysUser> selectUsers(int pageNum, int pageSize, SysUser condition) {
+        PageHelper.startPage(pageNum, pageSize);
+        return sysUserMapper.selectUsers(condition);
+    }
 
     @Override
     public List<Map> getUserOptions() {

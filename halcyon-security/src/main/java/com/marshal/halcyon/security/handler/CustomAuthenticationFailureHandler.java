@@ -1,9 +1,15 @@
 package com.marshal.halcyon.security.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.marshal.halcyon.core.util.ResponseUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,13 +19,16 @@ import java.io.IOException;
 /**
  * @auth: Marshal
  * @date: 2018/11/29
- * @desc:
+ * @desc: spring security认证失败处理器
  */
+@Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException exception) throws IOException, ServletException {
 
-        String message;
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+
+        String message = null;
+
         if (exception instanceof UsernameNotFoundException) {
             message = "用户不存在！";
         } else if (exception instanceof BadCredentialsException) {
@@ -35,6 +44,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         } else {
             message = "认证失败，请联系网站管理员！";
         }
-        httpServletResponse.getWriter().write(message);
+
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/login.html").forward(request, response);
     }
 }

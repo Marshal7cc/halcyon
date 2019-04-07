@@ -172,7 +172,7 @@
                     <!--devtools-->
                     <fork>true</fork>
                     <addResources>true</addResources>
-                    <mainClass>com.marshal.halcyon.web.HalcyonApplication</mainClass>
+                    <mainClass>com.marshal.halcyon.HalcyonApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

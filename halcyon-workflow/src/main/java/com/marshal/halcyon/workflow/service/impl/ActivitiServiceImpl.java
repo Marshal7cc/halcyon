@@ -1,28 +1,31 @@
 package com.marshal.halcyon.workflow.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marshal.halcyon.base.hr.mapper.HrEmployeeMapper;
-import com.marshal.halcyon.workflow.entity.HistoricTaskInstanceResponseExt;
-import com.marshal.halcyon.workflow.entity.TaskResponseExt;
+import com.marshal.halcyon.core.component.SessionContext;
+import com.marshal.halcyon.workflow.entity.*;
+import com.marshal.halcyon.workflow.exception.TaskActionException;
 import com.marshal.halcyon.workflow.service.ActivitiService;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.impl.persistence.entity.CommentEntityImpl;
-import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.Model;
+import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
+import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskInfo;
 import org.activiti.rest.service.api.RestResponseFactory;
+import org.activiti.rest.service.api.runtime.task.TaskActionRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @auth: Marshal
@@ -56,27 +59,138 @@ public class ActivitiServiceImpl implements ActivitiService {
     @Autowired
     HrEmployeeMapper employeeMapper;
 
-
     @Override
-    public Model deployModel(String modelId) throws Exception {
-        Model model = repositoryService.getModel(modelId);
+    public void executeTaskAction(SessionContext sessionContext, String taskId, TaskActionRequestExt taskActionRequest, boolean isAdmin) throws TaskActionException, IllegalArgumentException {
+        if (StringUtils.isEmpty(taskActionRequest.getAction())) {
+            throw new TaskActionException(TaskActionException.UNKNOWN_OPERATOR);
+        }
 
-        byte[] modelData = repositoryService.getModelEditorSource(modelId);
-        JsonNode jsonNode = objectMapper.readTree(modelData);
-        BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(jsonNode);
+        if (taskId.split(",").length > 1) {
+            throw new IllegalArgumentException("多审批人节点暂不支持此操作!");
+        }
 
-        // byte[] xmlBytes = new BpmnXMLConverter().convertToXML(bpmnModel,
-        // "UTF-8");
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        if (task == null) {
+            throw new ActivitiObjectNotFoundException("Could not find a task with id '" + taskId + "'.", Task.class);
+        }
 
-        Deployment deploy = repositoryService.createDeployment().category(model.getCategory()).name(model.getName())
-                .key(model.getKey()).addBpmnModel(model.getKey() + ".bpmn20.xml", bpmnModel).deploy();
+        if (!(isAdmin || task.getAssignee().equals(sessionContext.getEmployeeCode()))) {
+            throw new TaskActionException(TaskActionException.COMPLETE_TASK_NEED_ASSIGNEE_OR_ADMIN);
+        }
 
-        model.setDeploymentId(deploy.getId());
-        repositoryService.saveModel(model);
-        return model;
+        Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
+
+        try {
+            // 处理抄送
+//            carbonCopy(sessionContext, task, taskActionRequest);
+            if (TaskActionRequest.ACTION_COMPLETE.equalsIgnoreCase(taskActionRequest.getAction())) {
+                completeTask(sessionContext, task, taskActionRequest);
+                return;
+            }
+            if (TaskActionRequestExt.ACTION_REJECT.equalsIgnoreCase(taskActionRequest.getAction())) {
+                rejectTask(sessionContext, task, taskActionRequest);
+                return;
+            }
+            if (TaskActionRequest.ACTION_DELEGATE.equalsIgnoreCase(taskActionRequest.getAction())) {
+                delegateTask(sessionContext, task, taskActionRequest);
+                return;
+            }
+
+//            if (TaskActionRequest.ACTION_RESOLVE.equalsIgnoreCase(taskActionRequest.getAction())) {
+//                resolveTask(sessionContext, task, taskActionRequest);
+//                return;
+//            }
+
+//            if (ACTION_JUMP.equalsIgnoreCase(taskActionRequest.getAction())) {
+//                jumpTo(sessionContext, task, taskActionRequest);
+//                return;
+//            }
+//            if (ACTION_ADD_SIGN.equals(taskActionRequest.getAction())) {
+//                addSignTask(sessionContext, task, taskActionRequest);
+//                return;
+//            }
+
+        } catch (ActivitiException e) {
+//            self().saveException(taskId, e);
+            throw e;
+        }
     }
 
+    @Override
+    public void executeTaskByAdmin(SessionContext sessionContext, String procId, TaskActionRequestExt taskActionRequest) throws TaskActionException {
+        this.executeTaskAction(sessionContext, procId, taskActionRequest, true);
+    }
 
+    @Override
+    public void completeTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
+        String taskId = taskEntity.getId();
+
+        Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
+
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "action", actionRequest.getAction());
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "comment", actionRequest.getComment());
+
+        HashMap<String, Object> variables = new HashMap<>();
+        variables.put("approveResult", "approve");
+        taskService.setVariables(taskId, variables);
+        taskService.complete(taskId);
+
+    }
+
+    @Override
+    public void rejectTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
+        String taskId = taskEntity.getId();
+
+        Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
+
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "action", actionRequest.getAction());
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "comment", actionRequest.getComment());
+
+        HashMap<String, Object> variables = new HashMap<>();
+        variables.put("approveResult", "reject");
+        taskService.setVariables(taskId, variables);
+        taskService.complete(taskId);
+    }
+
+    @Override
+    public void delegateTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
+        if (!TaskActionRequest.ACTION_DELEGATE.equalsIgnoreCase(actionRequest.getAction())) {
+            return;
+        }
+        Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
+        String assignee = actionRequest.getAssignee();
+        if (StringUtils.isEmpty(assignee)) {
+            throw new TaskActionException(TaskActionException.DELEGATE_NO_ASSIGNEE);
+        }
+
+        String taskId = taskEntity.getId();
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "action", "delegate");
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "comment",
+                sessionContext.getEmployeeCode() + "转交给" + assignee + "  " + actionRequest.getComment());
+        taskService.setAssignee(taskId, assignee);
+    }
+
+    @Override
+    public void carbonCopy(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
+
+    }
+
+    @Override
+    public void resolveTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
+
+    }
+
+    @Override
+    public void jumpTo(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) {
+
+    }
+
+    /**
+     * 我的待办-task 列表
+     *
+     * @param taskList
+     * @return
+     */
     @Override
     public List<TaskResponseExt> getTaskList(List<TaskResponseExt> taskList) {
         taskList.forEach(item -> {
@@ -125,9 +239,9 @@ public class ActivitiServiceImpl implements ActivitiService {
         return task;
     }
 
-
     private void setHistoricActivityInstanceResponseExt(HistoricActivityInstance historicActivityInstance,
-                                                        List<HistoricTaskInstanceResponseExt> list, String processInstanceId) {
+                                                        List<HistoricTaskInstanceResponseExt> list,
+                                                        String processInstanceId) {
         String activityType = historicActivityInstance.getActivityType();
         if ("userTask".equals(activityType)) {
             List<Comment> comments = getCommentOfType(historicActivityInstance.getTaskId(), "comment");
@@ -180,5 +294,84 @@ public class ActivitiServiceImpl implements ActivitiService {
             return null;
         }
         return list;
+    }
+
+    @Override
+    public List<HistoricProcessInstanceResponseExt> getHistoricProcessInstanceList(List<HistoricProcessInstanceResponseExt> historicProcessInstanceList) {
+        for (HistoricProcessInstanceResponseExt historicProcessInstanceExt : historicProcessInstanceList) {
+            //申请人
+            historicProcessInstanceExt.setStartUserName(employeeMapper.getEmployeeNameByCode(historicProcessInstanceExt.getStartUserId()));
+            //流程状态
+            if (historicProcessInstanceExt.getEndTime() != null) {
+                historicProcessInstanceExt.setProcessInstanceStatus(HistoricProcessInstanceResponseExt.endStatus);
+            } else {
+                historicProcessInstanceExt.setProcessInstanceStatus(HistoricProcessInstanceResponseExt.runningStatus);
+            }
+            List<Execution> list1 = runtimeService.createExecutionQuery().processInstanceId(historicProcessInstanceExt.getId()).list();
+            for (Execution ls : list1) {
+                if (ls.isSuspended()) {
+                    historicProcessInstanceExt.setProcessInstanceStatus(HistoricProcessInstanceResponseExt.suspendStatus);
+                    break;
+                }
+            }
+            //当前节点和审批人(流程状态为非结束时)
+            if (HistoricProcessInstanceResponseExt.runningStatus.equals(historicProcessInstanceExt.getProcessInstanceStatus())) {
+                List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstanceExt.getId()).list();
+                if (!tasks.isEmpty()) {
+                    String[] currentAssignees = new String[tasks.size()];
+                    Set taskName = new HashSet();
+                    Set taskId = new HashSet();
+                    for (int i = 0; i < tasks.size(); i++) {
+                        Task task = tasks.get(i);
+                        taskName.add(task.getName());
+                        taskId.add(task.getId());
+                        currentAssignees[i] = employeeMapper.getEmployeeNameByCode(task.getAssignee());
+                    }
+                    //设置当前节点
+                    historicProcessInstanceExt.setCurrentTaskId(org.springframework.util.StringUtils.collectionToCommaDelimitedString(taskId));
+                    historicProcessInstanceExt.setCurrentTaskName(org.springframework.util.StringUtils.collectionToCommaDelimitedString(taskName));
+                    // 设置当前审批人
+                    historicProcessInstanceExt.setCurrentAssign(StringUtils.join(currentAssignees, ","));
+                }
+
+            }
+        }
+        return historicProcessInstanceList;
+    }
+
+    @Override
+    public HistoricProcessInstanceResponseExt getProcessInstanceDetail(SessionContext sessionContext, String processInstanceId) {
+        // 查询流程实例历史
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
+                .processInstanceId(processInstanceId).list().iterator().next();
+
+        HistoricProcessInstanceResponseExt historicProcessInstanceResponseExt = new HistoricProcessInstanceResponseExt(historicProcessInstance);
+
+        // 设置申请人，流程名称
+        historicProcessInstanceResponseExt.setStartUserName(employeeMapper.getEmployeeNameByCode(historicProcessInstanceResponseExt.getStartUserId()));
+
+        // 获取流程活动历史
+        List<HistoricActivityInstance> historicActivityInstanceList = historyService
+                .createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).list();
+        List<HistoricTaskInstanceResponseExt> list = new ArrayList<>();
+        for (HistoricActivityInstance historicActivityInstance : historicActivityInstanceList) {
+            setHistoricActivityInstanceResponseExt(historicActivityInstance, list, processInstanceId);
+        }
+        list.sort(Comparator.comparing(HistoricTaskInstanceResponseExt::getEndTime));
+        historicProcessInstanceResponseExt.getHistoricTaskList().addAll(list);
+
+        // 设置最后一个任务节点的formKey
+        String businessKey = historicProcessInstance.getBusinessKey();
+
+        List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).orderByTaskCreateTime().desc().list();
+
+        String formKey = null;
+        if (historicTaskInstances.size() > 0) {
+            HistoricTaskInstance historicTaskInstance = historicTaskInstances.get(0);
+            formKey = historicTaskInstance.getFormKey();
+        }
+        historicProcessInstanceResponseExt.setFormUrl(formKey + "?businessKey=" + businessKey);
+
+        return historicProcessInstanceResponseExt;
     }
 }

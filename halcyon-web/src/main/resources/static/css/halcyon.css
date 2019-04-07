@@ -1,0 +1,66 @@
+/**
+ *  halcyon-all.css
+ */
+body {
+    color: black !important;
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-size: 13px !important;
+    line-height: 20px;
+    overflow-x: hidden !important;
+    min-height: 100%;
+    z-index: -2;
+    margin: 0px !important;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: #f0f0f0 !important;
+}
+
+td, th {
+    display: table-cell !important;
+    vertical-align: inherit !important;
+    line-height: 13px !important;
+}
+
+.box {
+    background-color: #f0f0f0 !important;
+    border-top-color: white !important;
+}
+
+.box-body {
+    margin: 13px;
+}
+
+.search-box, .data-box {
+    background-color: white !important;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0) !important;
+    border-bottom: 1px dotted rgb(221, 221, 221) !important;
+}
+
+.search-box .box-title, .data-box .box-title {
+    color: rgb(158, 167, 179);
+    float: left;
+    font-family: "Open Sans", serif;
+    font-size: 14px !important;
+    line-height: 22px !important;
+    font-weight: normal;
+    position: relative;
+    text-transform: uppercase;
+    top: 6px;
+    padding: 0px 5px 2px;
+}
+
+input[type='checkbox'] {
+    margin-left: 20% !important;
+}
+
+input[type='text'] {
+
+}
+
+.modal-title {
+    color: green;
+}
+
+

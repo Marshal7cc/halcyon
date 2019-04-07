@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script id="header" th:replace="common/header"></script>
+<script src="../js/module/base.js" type="text/javascript"></script>
+<script src="../js/service/workflow/modelService.js" type="text/javascript"></script>
+<script src="../js/controller/baseController.js" type="text/javascript"></script>
+<script src="../js/controller/workflow/modelController.js" type="text/javascript"></script>
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="modelController">
+<div class="box">
+    <!-- 标题 -->
+    <div class="box-header with-border">
+        <h3 class="box-title">流程模型</h3>
+    </div>
+    <!--标题end-->
+
+    <div class="box-body">
+        <!-- 搜索条件 -->
+        <div class="box box-info collapsed-box search-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">搜索条件</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="display: none">
+                <form role="form" class="form-inline">
+                    <div class="form-group col-lg-4">
+                        <label for="name">流程名称:</label>
+                        <input type="text" class="form-control" ng-model="condition.nameLike" id="name">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- 搜索条件end -->
+
+        <!--数据表格-->
+        <div class="box box-info data-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">模型信息</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-box table-responsive">
+                    <!--工具栏-->
+                    <div class="pull-left">
+                        <div class="form-group form-inline">
+                            <div>
+                                <div class="btn-group">
+                                    <button ng-click="initForAdd()" type="button" class="btn btn-primary btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#editWindow"><i class="fa fa-plus"></i> 新建
+                                    </button>
+                                    <button ng-click="query(1,pageConf.itemsPerPage)" type="button"
+                                            class="btn btn-primary btn-sm">
+                                        <i class="fa fa-search"></i> 查询
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-download"></i> 导出
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-tools pull-right">
+                        <div class="has-feedback">
+                        </div>
+                    </div>
+                    <!--工具栏/-->
+
+                    <!--数据列表-->
+                    <table id="dataList"
+                           class="table table-bordered table-striped table-hover dataTable table-condensed">
+                        <thead>
+                        <tr>
+                            <th class="" style="padding-right:0px">
+                                <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                            </th>
+                            <th>流程编码</th>
+                            <th>流程名称</th>
+                            <th>流程类别</th>
+                            <th>描述</th>
+                            <th>创建时间</th>
+                            <th style="text-align: center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in rows">
+                            <td><input type="checkbox" ng-click="updateSelected($event,item.userId)"></td>
+                            <td>{{item.key}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.category}}</td>
+                            <td>{{descriptionRender(item.metaInfo)}}</td>
+                            <td>{{item.createTime}}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-info" ng-click="edit(item.id)">
+                                    <i class="fa fa-edit"></i>编辑
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="delete(item.id)">
+                                    <i class="fa fa-trash"></i>删除
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success" ng-click="deploy(item.id)">
+                                    <i class="fa fa-check"></i>部署
+                                </button>
+                                <button type="button" class="btn btn-sm btn-warning" ng-click="export(item.id)">
+                                    <i class="fa fa-download"></i>导出
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--数据列表/-->
+                </div>
+                <script id="footer" th:replace="common/footer"></script>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 编辑窗口 -->
+<div class="modal fade" id="editWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">新增流程模型</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" width="800px">
+                    <tr>
+                        <td>流程编码</td>
+                        <td><input ng-model="modelRequest.key" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>流程名称</td>
+                        <td>
+                            <input ng-model="modelRequest.name" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>流程类别</td>
+                        <td>
+                            <input ng-model="modelRequest.category" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>描述</td>
+                        <td>
+                            <input ng-model="description" class="form-control">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="save()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script id="header" th:replace="common/header"></script>
+<script src="../js/module/base.js" type="text/javascript"></script>
+<script src="../js/service/workflow/taskService.js" type="text/javascript"></script>
+<script src="../js/service/workflow/processMonitorService.js" type="text/javascript"></script>
+<script src="../js/controller/baseController.js" type="text/javascript"></script>
+<script src="../js/controller/workflow/myProcessController.js" type="text/javascript"></script>
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="myProcessController">
+<div class="box">
+    <!-- 标题 -->
+    <div class="box-header with-border">
+        <h3 class="box-title">流程监控</h3>
+    </div>
+    <!--标题end-->
+    <div class="box-body">
+
+        <!-- 搜索条件 -->
+        <div class="box box-info collapsed-box search-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">搜索条件</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="display: none">
+                <form role="form" class="form-inline">
+                    <div class="form-group col-lg-4">
+                        <label for="name">名称</label>
+                        <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- 搜索条件end -->
+
+        <!--数据表格-->
+        <div class="box box-info data-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">模型信息</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <!-- 数据表格 -->
+                <div class="table-box table-responsive">
+
+                    <!--工具栏-->
+                    <div class="pull-left">
+                        <div class="form-group form-inline">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-search"></i> 查询
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-download"></i> 导出
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--工具栏/-->
+
+                    <!--数据列表-->
+                    <table id="dataList"
+                           class="table table-bordered table-striped table-hover dataTable table-condensed">
+                        <thead>
+                        <tr>
+                            <th class="" style="padding-right:0px">
+                                <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                            </th>
+                            <th>流程ID</th>
+                            <th>流程名称</th>
+                            <th>流程状态</th>
+                            <th>当前节点</th>
+                            <th>申请人</th>
+                            <th>当前审批人</th>
+                            <th>创建时间</th>
+                            <th>结束时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in rows">
+                            <td><input type="checkbox" ng-click="updateSelected($event,item.id)"></td>
+                            <td>{{item.id}}</td>
+                            <td>{{item.processDefinitionName}}</td>
+                            <td>
+                                <span style="color:darkgreen" ng-if="item.processInstanceStatus=='RUNNING'">运行中</span>
+                                <span style="color:red" ng-if="item.processInstanceStatus=='END'">结束</span>
+                                <span style="color:orange" ng-if="item.processInstanceStatus=='SUSPEND'">挂起</span>
+                            </td>
+                            <td>{{item.currentTaskName}}</td>
+                            <td>{{item.startUserName}}</td>
+                            <td>{{item.currentAssign}}</td>
+                            <td>{{formatDateTime(item.startTime)}}</td>
+                            <td>{{formatDateTime(item.endTime)}}</td>
+                            <td>
+                                <button ng-click="instanceDetail(item.id)" type="button"
+                                        data-toggle="modal" data-target="#processInstanceDetail"
+                                        class="btn btn-sm btn-success">
+                                    <i class="fa fa-reorder"></i>详情
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--数据列表/-->
+                </div>
+                <script id="footer" th:replace="common/footer"></script>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- processMonitor 转交 -->
+    <div class="modal fade" id="delegateWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width:60%;height:300px;">
+            <div class="modal-content" style="width:100%;height:100%;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">流程转交</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped" width="800px">
+
+                        <tr>
+                            <td>员工姓名</td>
+                            <td><input select2 config="empCodeOptions" ng-model="taskActionRequest.assignee"
+                                       class="form-control"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="delegate(taskActionRequest.currentTaskId)" class="btn btn-default"
+                            data-dismiss="modal" aria-hidden="true">转交
+                    </button>
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- process instance detail明细窗口 -->
+    <div class="modal fade" id="processInstanceDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3>流程详情</h3>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#approveInfo" data-toggle="tab">流程信息</a></li>
+                        <li><a href="#approveHistory" data-toggle="tab">审批历史</a></li>
+                        <li><a href="#processImg" data-toggle="tab">流程图</a></li>
+                    </ul>
+
+                    <!-- 选项卡开始 -->
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane active in" id="approveInfo">
+                            <br>
+                            <span class="modal-title">流程信息</span>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>流程名称</td>
+                                    <td>
+                                        <span>{{processInstanceDetail.processDefinitionName}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>流程ID</td>
+                                    <td>
+                                        <span>{{processInstanceDetail.id}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>申请人</td>
+                                    <td>
+                                        <span>{{processInstanceDetail.startUserName}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>申请时间</td>
+                                    <td>
+                                        <span>{{formatDateTime(processInstanceDetail.startTime)}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>流程描述</td>
+                                    <td>
+                                        <span>{{processInstanceDetail.description}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br>
+                            <span class="modal-title">审批事项</span>
+                            <div>
+                                <iframe id="businessFormData" frameborder="no">
+
+                                </iframe>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="approveHistory">
+                            <br>
+                            <table id="historyList" class="table table-bordered table-striped table-hover dataTable">
+                                <thead>
+                                <tr>
+                                    <th>审批时间</th>
+                                    <th>审批环节</th>
+                                    <th>审批人</th>
+                                    <th>审批动作</th>
+                                    <th>审批意见</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in hisRows">
+                                    <td>{{formatDateTime(item.endTime)}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.assignee}}</td>
+                                    <td>{{renderAction(item.action)}}</td>
+                                    <td>{{item.comment}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="processImg">
+                            <br>
+                            <header class="unselectable">预览图</header>
+                            <div class="panel-body">
+                                <img id="processDetailImg"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 选项卡结束 -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--process-instance-detail end-->
+</div>
+</body>
+</html>

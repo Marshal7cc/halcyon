@@ -18,6 +18,7 @@ spring:
     #校验流程文件，默认校验resources下的processes文件夹里的流程文件
     check-process-definitions: false
     #restApiEnabled: false
+    jpa-enabled: false
 
   datasource:
     url: jdbc:mysql://localhost:3306/mcap?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
@@ -58,6 +59,7 @@ spring:
   jackson:
     time-zone: GMT+8
     default-property-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss
 
   mvc:
     view:
