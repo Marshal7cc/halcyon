@@ -1,6 +1,7 @@
 /**
  *  halcyon-all.css
  */
+
 body {
     color: black !important;
     font-family: "Open Sans", Arial, sans-serif !important;
@@ -62,5 +63,121 @@ input[type='text'] {
 .modal-title {
     color: green;
 }
+
+/**
+首页面包屑样式
+@author:Marshal
+ */
+.page-breadcrumbs {
+    position: relative;
+    background: #f3f3f3;
+    height: 42px;
+    width: 100%;
+    line-height: 36px;
+    padding: 0;
+    z-index: 1;
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+    box-sizing: border-box;
+}
+
+.breadcrumb {
+    background-color: transparent !important;
+    display: inline-block;
+    line-height: 24px;
+    margin: 0px 22px 0 20px;
+    padding: 0;
+    font-size: 13px;
+    color: #333;
+    border-radius: 0;
+    list-style: none;
+}
+
+#breadcrumb-home:before {
+    content: "";
+    margin-left: 0px !important;
+}
+
+.breadcrumb > li + li:before {
+    padding: 0 5px;
+    color: #999;
+    content: "/\00a0";
+    box-sizing: border-box;
+    font-family: inherit;
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.breadcrumb > li + li:before {
+    content: "\f105";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+}
+
+.breadcrumb > li + li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "/\00a0";
+}
+
+#breadcrumb-refresh-a {
+    background: url(../images/bread-refresh.png);
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    background-position: center;
+    top: 4px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+/**
+首页面包屑样式
+**end**
+ */
+
+/**
+首页皮肤样式
+基于skin-blue实现覆盖
+ */
+.skin-blue .main-header .logo:hover, .skin-blue .main-header .logo {
+    background-color: transparent !important;
+    background: #b100ff;
+}
+
+.skin-blue .main-header .logo {
+    background-color: transparent !important;
+    background: #b100ff;
+}
+
+.skin-blue .wrapper, .skin-blue .main-sidebar {
+    background-color: transparent !important;
+    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
+}
+
+.skin-blue .left-side, .skin-blue .sidebar-menu > li.header {
+    background-color: transparent !important;
+    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
+}
+
+.skin-blue .main-header .navbar {
+    background-color: transparent !important;
+    background-image: linear-gradient(-90deg, #276ace 0%, #29bdd9 100%);
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background-color: transparent !important;
+    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
+}
+
+/**
+首页皮肤样式
+ */
 
 

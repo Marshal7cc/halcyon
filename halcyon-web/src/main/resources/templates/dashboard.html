@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DashBoard</title>
+    <title>首页</title>
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="plugins/Ionicons/css/ionicons.min.css">
@@ -15,87 +15,70 @@
 </head>
 <body>
 <div class="content-wrapper" style="margin-left:0px">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            Dashboard
-            <small>Control panel</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-        </ol>
-    </section>
 
-    <!-- Main content -->
+    <!-- 首页内容 -->
     <section class="content">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>150</h3>
+        <!-- 提示盒子 -->
+        <div class="row" style="margin-top: 20px">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-calendar-minus-o"></i></span>
 
-                        <p>New Orders</p>
+                    <div class="info-box-content">
+                        <span class="info-box-text">待办事项</span>
+                        <span class="info-box-number">90<small>%</small></span>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <!-- /.info-box-content -->
                 </div>
+                <!-- /.info-box -->
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="fa  fa-calendar-check-o"></i></span>
 
-                        <p>Bounce Rate</p>
+                    <div class="info-box-content">
+                        <span class="info-box-text">已办事项</span>
+                        <span class="info-box-number">41,410</span>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <!-- /.info-box-content -->
                 </div>
+                <!-- /.info-box -->
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>44</h3>
+            <!-- /.col -->
 
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
-                    <div class="inner">
-                        <h3>65</h3>
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
 
-                        <p>Unique Visitors</p>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Sales</span>
+                        <span class="info-box-number">760</span>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <!-- /.info-box-content -->
                 </div>
+                <!-- /.info-box -->
             </div>
-            <!-- ./col -->
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="fa  fa-github-alt"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">New Members</span>
+                        <span class="info-box-number">2,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
         </div>
-        <!-- /.row -->
-
     </section>
-    <!-- /.content -->
+    <!-- /.首页内容 -->
 </div>
 </body>
 </html>
