@@ -158,12 +158,12 @@ input[type='text'] {
 
 .skin-blue .wrapper, .skin-blue .main-sidebar {
     background-color: transparent !important;
-    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
+    background-image: linear-gradient(-90deg, #667eea 0%, #764ba2 100%);;
 }
 
 .skin-blue .left-side, .skin-blue .sidebar-menu > li.header {
     background-color: transparent !important;
-    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
+    background-image: linear-gradient(-90deg, #667eea 0%, #764ba2 100%);;
 }
 
 .skin-blue .main-header .navbar {
@@ -173,7 +173,7 @@ input[type='text'] {
 
 .skin-blue .main-header .navbar .sidebar-toggle:hover {
     background-color: transparent !important;
-    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
+    background-image: linear-gradient(-90deg, #667eea 0%, #764ba2 100%);;
 }
 
 /**
