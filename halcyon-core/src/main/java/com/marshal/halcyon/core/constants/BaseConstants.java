@@ -33,4 +33,10 @@ public interface BaseConstants {
      */
     String PHONE_NOT_VALID = "手机号码格式不正确!";
 
+
+    /**
+     * 返回报文头 格式,编码
+     */
+    String JSON_UTF8 = "application/json;charset=utf-8";
+    String HTML_UTF8 = "text/html;charset=utf-8";
 }

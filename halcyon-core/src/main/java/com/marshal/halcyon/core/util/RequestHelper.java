@@ -2,11 +2,16 @@ package com.marshal.halcyon.core.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.marshal.halcyon.core.component.SessionContext;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @auth: Marshal
@@ -15,6 +20,39 @@ import java.util.Map;
  */
 public class RequestHelper {
 
+    /**
+     * 获取RequestAttributes
+     *
+     * @return
+     */
+    public static RequestAttributes getRequestAttributes() {
+        return Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
+    }
+
+    /**
+     * 获取HttpServletRequest
+     *
+     * @return
+     */
+    public static HttpServletRequest getHttpServletRequest() {
+        return ((ServletRequestAttributes) getRequestAttributes()).getRequest();
+    }
+
+    /**
+     * 获取HttpServletResponse
+     *
+     * @return
+     */
+    public static HttpServletResponse getHttpServletResponse() {
+        return ((ServletRequestAttributes) getRequestAttributes()).getResponse();
+    }
+
+    /**
+     * 获取用户登录Session的身份相关信息
+     *
+     * @param request
+     * @return
+     */
     public static SessionContext getSessionContext(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session != null) {

@@ -2,6 +2,7 @@ package com.marshal.halcyon.base.account.controller;
 
 import com.marshal.halcyon.base.account.entity.SysUser;
 import com.marshal.halcyon.base.account.service.SysUserService;
+import com.marshal.halcyon.core.annotation.AccessLimit;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.util.ResponseUtil;
@@ -35,6 +36,7 @@ public class SysUserController extends BaseController {
     PasswordEncoder passwordEncoder;
 
     @RequestMapping("/query")
+    @AccessLimit(period = 60, count = 10)
     public ResponseData query(@RequestBody SysUser condition, int pageNum, int pageSize) {
         List<SysUser> list = sysUserService.selectUsers(pageNum, pageSize, condition);
         return new ResponseData(list);

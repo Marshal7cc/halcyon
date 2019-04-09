@@ -14,6 +14,9 @@ public class ResponseUtil {
 
     private static final String DEFAULT_ERROR_MSG = "操作失败!";
 
+    private ResponseUtil() {
+
+    }
 
     public static ResponseData responseOk() {
         return responseOk(DEFAULT_SUCCESS_MSG);

@@ -55,7 +55,6 @@ app.controller("baseController", function ($scope) {
             }
         } else {
             swal("", responseData.message, "info");
-            $scope.reloadList();
         }
     }
 

@@ -16,19 +16,12 @@
             <groupId>com.marshal</groupId>
             <artifactId>halcyon-core</artifactId>
             <version>${halcyon.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- activeMQ-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
-        </dependency>
-
-        <!--springboot redis-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 
