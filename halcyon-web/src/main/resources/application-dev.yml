@@ -3,7 +3,7 @@ server:
   port: 8888
   servlet:
     session:
-      timeout: 1800s
+      timeout: 3600s
     context-path: /halcyon
 
 

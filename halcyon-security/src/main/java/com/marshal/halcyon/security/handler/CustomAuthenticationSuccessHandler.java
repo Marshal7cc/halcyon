@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -31,6 +32,7 @@ import java.util.Date;
 @Component
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+    @Autowired
     private SessionRegistry sessionRegistry;
 
     @Autowired
@@ -69,14 +71,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         }
 
         handle(httpServletRequest, httpServletResponse, authentication);
-    }
-
-    public SessionRegistry getSessionRegistry() {
-        return sessionRegistry;
-    }
-
-    public void setSessionRegistry(SessionRegistry sessionRegistry) {
-        this.sessionRegistry = sessionRegistry;
     }
 
 }

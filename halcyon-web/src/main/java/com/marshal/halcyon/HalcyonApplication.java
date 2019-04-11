@@ -20,6 +20,7 @@ import java.time.LocalTime;
 @ComponentScan(
         basePackages = {
                 "com.marshal.halcyon.**.config",
+                "com.marshal.halcyon.**.session",
                 "com.marshal.halcyon.**.filter",
                 "com.marshal.halcyon.**.controller",
                 "com.marshal.halcyon.**.service",

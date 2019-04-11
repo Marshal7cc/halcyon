@@ -6,6 +6,8 @@ import com.marshal.halcyon.security.handler.CustomAuthenticationSuccessHandler;
 import com.marshal.halcyon.security.handler.CustomLogoutHandler;
 import com.marshal.halcyon.security.properties.SecurityProperties;
 import com.marshal.halcyon.security.service.CustomUserDetailService;
+import com.marshal.halcyon.security.session.CustomExpiredSessionStrategy;
+import com.marshal.halcyon.security.session.CustomInvalidSessionStrategy;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,6 +21,8 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -37,6 +41,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     SecurityProperties securityProperties;
 
+    @Autowired
+    private CustomExpiredSessionStrategy expiredSessionStrategy;
+
+    @Autowired
+    private CustomInvalidSessionStrategy invalidSessionStrategy;
+
+    @Bean
+    public RedirectStrategy redirectStrategy() {
+        return new DefaultRedirectStrategy();
+    }
+
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
@@ -50,7 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationSuccessHandler authenticateSuccessHandler() {
         CustomAuthenticationSuccessHandler authenticateSuccessHandler = new CustomAuthenticationSuccessHandler();
-        authenticateSuccessHandler.setSessionRegistry(sessionRegistry());
         return authenticateSuccessHandler;
     }
 
@@ -68,7 +82,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public LogoutHandler logoutHandler() {
         CustomLogoutHandler logoutHandler = new CustomLogoutHandler();
-        logoutHandler.setSessionRegistry(sessionRegistry());
         return logoutHandler;
     }
 
@@ -106,7 +119,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .userDetailsService(halcyonUserDetailService())
                 .sessionManagement()
+                .invalidSessionStrategy(invalidSessionStrategy)
                 .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)//一个用户持有session数超过限制时，会顶掉之前登录
+                .expiredSessionStrategy(expiredSessionStrategy)
                 .sessionRegistry(sessionRegistry())
                 .and()
                 .and()

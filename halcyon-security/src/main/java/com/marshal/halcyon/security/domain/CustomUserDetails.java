@@ -72,4 +72,24 @@ public class CustomUserDetails implements UserDetails, Serializable {
     public Long getUserId() {
         return userId;
     }
+
+    /**
+     * 以下3个方法用于并发session控制时的判断
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return this.userId.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return userId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.toString().equals(obj.toString());
+    }
 }
