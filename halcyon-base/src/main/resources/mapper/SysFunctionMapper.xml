@@ -70,4 +70,30 @@
         order by
         function_id asc
     </select>
+
+    <select id="selectRoleFunctionAssignList" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT
+            sf.function_id id,
+            sf.parent_function_id pId,
+            sf.function_name name,
+            'false' OPEN,
+            (
+                CASE (
+                    SELECT
+                        count(1)
+                    FROM
+                        sys_role_function srf
+                    WHERE
+                        srf.role_id = #{roleId}
+                    AND srf.function_id = sf.function_id
+                )
+                WHEN 1 THEN
+                    'true'
+                ELSE
+                    'false'
+                END
+            ) checked
+        FROM
+            sys_function sf
+    </select>
 </mapper>

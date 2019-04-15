@@ -14,7 +14,7 @@ import java.util.List;
  * @date: 2018/1/7
  * @desc: common service
  */
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class BaseServiceImpl<T> implements BaseService<T> {
 
     @Autowired

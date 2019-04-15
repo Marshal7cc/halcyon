@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.base.function.mapper.SysRoleFunctionMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.base.account.entity.SysRoleFunction">
+        <id column="role_id" jdbcType="BIGINT" property="roleId"/>
+        <id column="function_id" jdbcType="BIGINT" property="functionId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="object_version" jdbcType="BIGINT" property="objectVersion"/>
+    </resultMap>
+</mapper>

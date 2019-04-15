@@ -20,4 +20,7 @@ public interface SysFunctionService extends BaseService<SysFunction> {
     List<SysFunction> selectChildFunctions(Long functionId);
 
     List<SysFunction> getChildFunctions(List<SysFunction> topFunctionList);
+
+    List<Map> selectRoleFunctionAssignList(Long roleId);
+
 }

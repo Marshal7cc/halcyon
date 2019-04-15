@@ -17,4 +17,6 @@ public interface SysFunctionMapper extends Mapper<SysFunction> {
     List<Map> getFunctionOptions();
 
     List<SysFunction> selectFunctions(SysFunction condition);
+
+    List<Map> selectRoleFunctionAssignList(Long roleId);
 }

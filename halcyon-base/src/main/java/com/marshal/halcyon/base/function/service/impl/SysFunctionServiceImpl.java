@@ -82,4 +82,9 @@ public class SysFunctionServiceImpl extends BaseServiceImpl<SysFunction> impleme
         }
         return functionList;
     }
+
+    @Override
+    public List<Map> selectRoleFunctionAssignList(Long roleId) {
+        return sysFunctionMapper.selectRoleFunctionAssignList(roleId);
+    }
 }
