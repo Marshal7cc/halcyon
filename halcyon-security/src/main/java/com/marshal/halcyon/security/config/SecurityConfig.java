@@ -1,5 +1,6 @@
 package com.marshal.halcyon.security.config;
 
+import com.marshal.halcyon.security.component.ResourceVoter;
 import com.marshal.halcyon.security.handler.CustomAuthenticationAccessDeniedHandler;
 import com.marshal.halcyon.security.handler.CustomAuthenticationFailureHandler;
 import com.marshal.halcyon.security.handler.CustomAuthenticationSuccessHandler;
@@ -13,20 +14,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.vote.AbstractAccessDecisionManager;
+import org.springframework.security.access.vote.RoleVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @auth: Marshal
@@ -46,6 +60,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomInvalidSessionStrategy invalidSessionStrategy;
+
+    /**
+     * 认证管理器,确定用户,角色及相应的权限
+     *
+     * @return
+     */
+    @Bean
+    UnanimousBased accessDecisionManager() {
+        List<AccessDecisionVoter<?>> voters = new ArrayList<>();
+        //webExpressionVoter必须指定，否则报错
+        voters.add(new WebExpressionVoter());
+        voters.add(new RoleVoter());
+        voters.add(new ResourceVoter());
+        UnanimousBased accessDecisionManager = new UnanimousBased(voters);
+        return accessDecisionManager;
+    }
 
     @Bean
     public RedirectStrategy redirectStrategy() {
@@ -133,6 +163,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .and()
                 .authorizeRequests() // 授权配置
+                .accessDecisionManager(accessDecisionManager())//认证管理器,管理voters
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(staticResources).permitAll() // 免认证静态资源路径
                 .antMatchers(

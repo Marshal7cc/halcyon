@@ -31,6 +31,9 @@
     left join sys_resource sr on sf.resource_id=sr.resource_id
     where
     parent_function_id is null or parent_function_id =''
+    and exists(
+    select 1 from sys_role_function srf.function_id = sf.function_id and srf.role_id = #{roleId}
+    )
     order by FUNCTION_SEQUENCE
   </select>
 
@@ -42,6 +45,9 @@
     left join sys_resource sr on sf.resource_id=sr.resource_id
     where
     parent_function_id=#{functionId}
+    and exists(
+    select 1 from sys_role_function srf.function_id = sf.function_id and srf.role_id = #{roleId}
+    )
   </select>
 
     <select id="getFunctionOptions" resultType="java.util.Map">
@@ -73,7 +79,9 @@
 
     <select id="selectRoleFunctionAssignList" parameterType="java.lang.Long" resultType="java.util.Map">
         SELECT
+            #{roleId} roleId,
             sf.function_id id,
+            sf.function_id functionId,
             sf.parent_function_id pId,
             sf.function_name name,
             'false' OPEN,

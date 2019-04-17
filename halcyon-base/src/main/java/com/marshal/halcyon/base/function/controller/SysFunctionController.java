@@ -3,14 +3,17 @@ package com.marshal.halcyon.base.function.controller;
 
 import com.marshal.halcyon.base.function.entity.SysFunction;
 import com.marshal.halcyon.base.function.service.SysFunctionService;
+import com.marshal.halcyon.core.component.SessionContext;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.entity.ResponseData;
+import com.marshal.halcyon.core.util.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +37,9 @@ public class SysFunctionController extends BaseController {
      * @return
      */
     @RequestMapping("/getMenus")
-    public List<SysFunction> getMenuList() {
-        List<SysFunction> menuList = sysFunctionService.getMenus();
+    public List<SysFunction> getMenuList(HttpServletRequest request) {
+        SessionContext sessionContext = RequestHelper.getSessionContext(request);
+        List<SysFunction> menuList = sysFunctionService.getMenus(sessionContext.getRoleId());
         return menuList;
     }
 

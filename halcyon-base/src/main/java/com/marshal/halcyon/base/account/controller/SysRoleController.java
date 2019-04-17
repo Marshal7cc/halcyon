@@ -1,6 +1,7 @@
 package com.marshal.halcyon.base.account.controller;
 
 import com.marshal.halcyon.base.account.entity.SysRole;
+import com.marshal.halcyon.base.account.entity.SysRoleFunction;
 import com.marshal.halcyon.base.account.entity.SysUser;
 import com.marshal.halcyon.base.account.service.SysRoleFunctionService;
 import com.marshal.halcyon.base.account.service.SysRoleService;
@@ -13,10 +14,7 @@ import com.marshal.halcyon.core.util.RequestHelper;
 import com.marshal.halcyon.core.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -58,9 +56,21 @@ public class SysRoleController extends BaseController {
         return new ResponseData(true, "删除成功");
     }
 
+    /**
+     * 获取制定角色的菜单分配详情
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping("/functionAssignList")
-    public List<Map> selectRoleFunctionAssign(HttpServletRequest request) {
-        SessionContext sessionContext = RequestHelper.getSessionContext(request);
-        return sysFunctionService.selectRoleFunctionAssignList(10001L);
+    public List<Map> selectRoleFunctionAssign(HttpServletRequest request,
+                                              @RequestParam Long roleId) {
+        return sysFunctionService.selectRoleFunctionAssignList(roleId);
+    }
+
+    @PostMapping("/functionAssign")
+    public ResponseData functionAssign(@RequestBody List<SysRoleFunction> sysRoleFunctions) {
+        sysFunctionService.updateSysRoleFunctions(sysRoleFunctions);
+        return ResponseUtil.responseOk();
     }
 }

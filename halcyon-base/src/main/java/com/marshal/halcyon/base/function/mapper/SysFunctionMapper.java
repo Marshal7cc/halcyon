@@ -2,6 +2,7 @@ package com.marshal.halcyon.base.function.mapper;
 
 
 import com.marshal.halcyon.base.function.entity.SysFunction;
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 
@@ -10,9 +11,9 @@ import java.util.Map;
 
 public interface SysFunctionMapper extends Mapper<SysFunction> {
 
-    List<SysFunction> selectTopFunctions();
+    List<SysFunction> selectTopFunctions(@Param("roleId") Long roleId);
 
-    List<SysFunction> selectChildFunctions(Long functionId);
+    List<SysFunction> selectChildFunctions(@Param("functionId") Long functionId, @Param("roleId") Long roleId);
 
     List<Map> getFunctionOptions();
 

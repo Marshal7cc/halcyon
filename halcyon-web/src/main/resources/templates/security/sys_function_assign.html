@@ -10,8 +10,7 @@
 <script type="text/javascript" src="../plugins/ztree/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="../plugins/ztree/js/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="../plugins/ztree/js/jquery.ztree.excheck.js"></script>
-<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="sysFunctionAssignController"
-      ng-init="selectRoleFunctionAssignList()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="sysFunctionAssignController">
 <div class="box">
     <!--标题-->
     <div class="box-header with-border">
@@ -94,7 +93,7 @@
                             <td>{{item.roleCode}}</td>
                             <td>{{item.roleName}}</td>
                             <td class="text-center">
-                                <button ng-click="initForUpdate(item.userId)" type="button"
+                                <button ng-click="selectRoleFunctionAssignList(item.roleId)" type="button"
                                         class="btn btn-sm btn-info"
                                         data-toggle="modal" data-target="#editWindow">
                                     <i class="fa fa-edit"></i>功能分配

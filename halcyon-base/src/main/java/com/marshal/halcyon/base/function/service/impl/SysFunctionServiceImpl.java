@@ -2,6 +2,8 @@ package com.marshal.halcyon.base.function.service.impl;
 
 import com.github.pagehelper.PageHelper;
 
+import com.marshal.halcyon.base.account.entity.SysRoleFunction;
+import com.marshal.halcyon.base.account.mapper.SysRoleFunctionMapper;
 import com.marshal.halcyon.base.function.entity.SysFunction;
 import com.marshal.halcyon.base.function.mapper.SysFunctionMapper;
 import com.marshal.halcyon.base.function.service.SysFunctionService;
@@ -27,7 +29,40 @@ public class SysFunctionServiceImpl extends BaseServiceImpl<SysFunction> impleme
     SysFunctionMapper sysFunctionMapper;
 
     @Autowired
+    SysRoleFunctionMapper sysRoleFunctionMapper;
+
+    @Autowired
     RedisTemplate<String, String> redisTemplate;
+
+    //menus start
+    @Override
+    public List<SysFunction> getMenus(Long roleId) {
+        List<SysFunction> topFunctionList = selectTopFunctions(roleId);
+        getChildFunctions(roleId, topFunctionList);
+        return topFunctionList;
+    }
+
+    private List<SysFunction> selectTopFunctions(Long roleId) {
+        return sysFunctionMapper.selectTopFunctions(roleId);
+    }
+
+    private List<SysFunction> selectChildFunctions(Long roleId, Long functionId) {
+        return sysFunctionMapper.selectChildFunctions(roleId, functionId);
+    }
+
+    private List<SysFunction> getChildFunctions(Long roleId, List<SysFunction> functionList) {
+        for (SysFunction item : functionList) {
+            List<SysFunction> childList = selectChildFunctions(roleId, item.getFunctionId());
+            if (childList != null && childList.size() > 0) {
+                item.setChildFunctions(childList);
+                getChildFunctions(roleId, childList);
+            } else {
+                continue;
+            }
+        }
+        return functionList;
+    }
+    //menus end
 
     @Override
     public List<SysFunction> selectFunctions(SysFunction condition, int pageNum, int pageSize) {
@@ -41,50 +76,25 @@ public class SysFunctionServiceImpl extends BaseServiceImpl<SysFunction> impleme
     }
 
     @Override
-//    @Cacheable(value = "halcyon:cache:menu", key = "123")
-    public List<SysFunction> getMenus() {
-        List<SysFunction> topFunctionList = selectTopFunctions();
-        getChildFunctions(topFunctionList);
-        return topFunctionList;
-    }
-
-    /**
-     * 生成首页菜单
-     *
-     * @return
-     */
-    @Override
-    public List<SysFunction> selectTopFunctions() {
-        return sysFunctionMapper.selectTopFunctions();
-    }
-
-
-    @Override
-    public List<SysFunction> selectChildFunctions(Long functionId) {
-        return sysFunctionMapper.selectChildFunctions(functionId);
-    }
-
-    /**
-     * 递归填充最外层菜单的子菜单
-     *
-     * @param functionList
-     * @return
-     */
-    public List<SysFunction> getChildFunctions(List<SysFunction> functionList) {
-        for (SysFunction item : functionList) {
-            List<SysFunction> childList = selectChildFunctions(item.getFunctionId());
-            if (childList != null && childList.size() > 0) {
-                item.setChildFunctions(childList);
-                getChildFunctions(childList);
-            } else {
-                continue;
-            }
-        }
-        return functionList;
-    }
-
-    @Override
     public List<Map> selectRoleFunctionAssignList(Long roleId) {
         return sysFunctionMapper.selectRoleFunctionAssignList(roleId);
+    }
+
+    @Override
+    public List<SysRoleFunction> updateSysRoleFunctions(List<SysRoleFunction> sysRoleFunctions) {
+        if (sysRoleFunctions.size() > 0) {
+            Long roleId = sysRoleFunctions.get(0).getRoleId();
+            SysRoleFunction condition = new SysRoleFunction();
+            condition.setRoleId(roleId);
+            List<SysRoleFunction> recentRoleFunctions = sysRoleFunctionMapper.select(condition);
+            for (SysRoleFunction recentRoleFunction : recentRoleFunctions) {
+                sysRoleFunctionMapper.deleteByPrimaryKey(recentRoleFunction);
+            }
+
+            for (SysRoleFunction sysRoleFunction : sysRoleFunctions) {
+                sysRoleFunctionMapper.insertSelective(sysRoleFunction);
+            }
+        }
+        return sysRoleFunctions;
     }
 }

@@ -1,10 +1,13 @@
 package com.marshal.halcyon.base.account.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "sys_role_function")
 public class SysRoleFunction {
     /**

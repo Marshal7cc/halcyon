@@ -13,12 +13,16 @@ app.controller("sysFunctionAssignController", function ($scope, $controller, sys
 
     $scope.save = function () {
         var treeObj = $.fn.zTree.getZTreeObj("tree");
-        var nodes = treeObj.getSelectedNodes();
+        var nodes = treeObj.getCheckedNodes();
         console.log(nodes);
+        sysFunctionAssignService.functionAssign(nodes).success(function (responseData) {
+            $scope.parseResponse(responseData);
+        });
+        ;
     }
 
-    $scope.selectRoleFunctionAssignList = function () {
-        sysFunctionAssignService.selectRoleFunctionAssignList().success(function (responseData) {
+    $scope.selectRoleFunctionAssignList = function (roleId) {
+        sysFunctionAssignService.selectRoleFunctionAssignList(roleId).success(function (responseData) {
             var zNodes = responseData;
             var setting = {
                     check: {
@@ -31,8 +35,6 @@ app.controller("sysFunctionAssignController", function ($scope, $controller, sys
                     }
                 }
             ;
-
-            debugger
             $.fn.zTree.init($("#tree"), setting, zNodes);
             setCheck();
             $("#py").bind("change", setCheck);

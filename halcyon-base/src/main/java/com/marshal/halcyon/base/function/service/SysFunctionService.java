@@ -1,6 +1,7 @@
 package com.marshal.halcyon.base.function.service;
 
 
+import com.marshal.halcyon.base.account.entity.SysRoleFunction;
 import com.marshal.halcyon.core.service.BaseService;
 import com.marshal.halcyon.base.function.entity.SysFunction;
 
@@ -13,14 +14,10 @@ public interface SysFunctionService extends BaseService<SysFunction> {
 
     List<Map> getFunctionOptions();
 
-    List<SysFunction> getMenus();
-
-    List<SysFunction> selectTopFunctions();
-
-    List<SysFunction> selectChildFunctions(Long functionId);
-
-    List<SysFunction> getChildFunctions(List<SysFunction> topFunctionList);
+    List<SysFunction> getMenus(Long roleId);
 
     List<Map> selectRoleFunctionAssignList(Long roleId);
+
+    List<SysRoleFunction> updateSysRoleFunctions(List<SysRoleFunction> sysRoleFunctions);
 
 }
