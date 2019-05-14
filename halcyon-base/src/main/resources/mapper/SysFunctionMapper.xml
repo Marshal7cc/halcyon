@@ -30,9 +30,9 @@
     sys_function sf
     left join sys_resource sr on sf.resource_id=sr.resource_id
     where
-    parent_function_id is null or parent_function_id =''
+    (parent_function_id is null or parent_function_id ='')
     and exists(
-    select 1 from sys_role_function srf.function_id = sf.function_id and srf.role_id = #{roleId}
+    select 1 from sys_role_function srf where srf.function_id = sf.function_id and srf.role_id = #{roleId}
     )
     order by FUNCTION_SEQUENCE
   </select>
@@ -46,7 +46,7 @@
     where
     parent_function_id=#{functionId}
     and exists(
-    select 1 from sys_role_function srf.function_id = sf.function_id and srf.role_id = #{roleId}
+    select 1 from sys_role_function srf where srf.function_id = sf.function_id and srf.role_id = #{roleId}
     )
   </select>
 

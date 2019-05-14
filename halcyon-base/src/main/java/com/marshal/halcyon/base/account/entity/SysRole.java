@@ -1,5 +1,7 @@
 package com.marshal.halcyon.base.account.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.marshal.halcyon.core.constants.BaseConstants;
 import com.marshal.halcyon.core.entity.BaseEntity;
 
 import javax.persistence.Column;
@@ -34,12 +36,14 @@ public class SysRole extends BaseEntity {
     /**
      * 开始生效日期
      */
+    @JsonFormat(pattern = BaseConstants.DATE_FORMAT, timezone = BaseConstants.SYS_TIME_ZONE)
     @Column(name = "START_ACTIVE_DATE")
     private Date startActiveDate;
 
     /**
      * 截至生效日期
      */
+    @JsonFormat(pattern = BaseConstants.DATE_FORMAT, timezone = BaseConstants.SYS_TIME_ZONE)
     @Column(name = "END_ACTIVE_DATE")
     private Date endActiveDate;
 

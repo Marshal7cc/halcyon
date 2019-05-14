@@ -13,7 +13,7 @@ public interface SysFunctionMapper extends Mapper<SysFunction> {
 
     List<SysFunction> selectTopFunctions(@Param("roleId") Long roleId);
 
-    List<SysFunction> selectChildFunctions(@Param("functionId") Long functionId, @Param("roleId") Long roleId);
+    List<SysFunction> selectChildFunctions(@Param("roleId") Long roleId, @Param("functionId") Long functionId);
 
     List<Map> getFunctionOptions();
 
