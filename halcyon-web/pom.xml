@@ -65,6 +65,12 @@
             <artifactId>halcyon-workflow</artifactId>
             <version>${halcyon.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>halcyon-es</artifactId>
+            <version>${halcyon.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -41,6 +41,12 @@ import java.time.LocalTime;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class HalcyonApplication {
     public static void main(String[] args) {
+
+        /**
+         * 解决Elasticsearch启动报错的问题
+         */
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
+
         SpringApplication.run(HalcyonApplication.class, args);
         LoggerFactory.getLogger(HalcyonApplication.class).info(
                 "《《《《《《 halcyon started up successfully at {} {} 》》》》》》", LocalDate.now(), LocalTime.now());

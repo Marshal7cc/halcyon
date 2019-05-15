@@ -17,6 +17,7 @@
         <module>halcyon-mail</module>
         <module>halcyon-solr</module>
         <module>halcyon-oauth2</module>
+        <module>halcyon-es</module>
     </modules>
     <packaging>pom</packaging>
 
