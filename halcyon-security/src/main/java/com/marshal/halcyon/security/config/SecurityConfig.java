@@ -165,6 +165,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests() // 授权配置
                 .accessDecisionManager(accessDecisionManager())//认证管理器,管理voters
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("/ureport/**").permitAll()
                 .antMatchers(staticResources).permitAll() // 免认证静态资源路径
                 .antMatchers(
                         securityProperties.getLoginPage(),// 登录路径

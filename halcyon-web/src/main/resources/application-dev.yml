@@ -78,11 +78,11 @@ spring:
     ################################
     #####  elasticsearch  ##########
     ################################
-    elasticsearch:
-      cluster-name: halcyon-elasticsearch
-      cluster-nodes: localhost:9301,localhost:9302,localhost:9303
-      repositories:
-        enabled: true
+#    elasticsearch:
+#      cluster-name: halcyon-elasticsearch
+#      cluster-nodes: localhost:9301,localhost:9302,localhost:9303
+#      repositories:
+#        enabled: true
     ################################
     #####  elasticsearch  ##########
     ################################
@@ -193,3 +193,6 @@ security:
 ##########################################
 ############  Custom Prop    #############
 ##########################################
+
+ureport:
+    fileStorePath: D:\\ureport

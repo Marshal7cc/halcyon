@@ -18,6 +18,7 @@
         <module>halcyon-solr</module>
         <module>halcyon-oauth2</module>
         <module>halcyon-es</module>
+        <module>halcyon-ureport</module>
     </modules>
     <packaging>pom</packaging>
 
