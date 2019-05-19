@@ -52,7 +52,9 @@ public class HalcyonGeneratorServiceImpl implements HalcyonGeneratorService {
 
     @Override
     public void generatorFile(GeneratorInfo info) throws Exception {
-        int rs = 0;
+        if (StringUtils.isAnyBlank(info.getProjectPath(), info.getParentPackagePath(), info.getPackagePath(), info.getTargetName())) {
+            throw new Exception("请将信息填写完整!");
+        }
         String tableName = info.getTargetName();
         String beanName = StringUtil.getBeanName(tableName);
         info.setDtoName(beanName + ".java");
@@ -63,13 +65,13 @@ public class HalcyonGeneratorServiceImpl implements HalcyonGeneratorService {
         info.setMapperXmlName(beanName + "Mapper.xml");
         DBTable dbTable = getTableInfo(tableName);
         try {
-            rs = createFile(dbTable, info);
+            createFile(dbTable, info);
         } catch (IOException e) {
-            rs = -1;
             logger.error(e.getMessage());
+            throw e;
         } catch (Exception e) {
-            rs = -1;
             logger.error(e.getMessage());
+            throw e;
         }
     }
 
