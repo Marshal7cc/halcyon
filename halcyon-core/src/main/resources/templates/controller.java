@@ -23,7 +23,7 @@ public class [(${controllerName})] extends BaseController{
         @RequestParam int pageSize,
         HttpServletRequest request) {
         SessionContext sessionContext = RequestHelper.getSessionContext(request);
-        return new ResponseData(service.select(dto,page,pageSize));
+        return new ResponseData(service.select(dto,pageNum,pageSize));
     }
 
     @RequestMapping(value = "[(${submitUrl})]")
