@@ -41,6 +41,7 @@
         <tk-mapper.version>2.1.3</tk-mapper.version>
         <pageHelper.version>1.2.10</pageHelper.version>
         <fastjson.version>1.2.47</fastjson.version>
+        <swagger2.version>2.6.1</swagger2.version>
     </properties>
 
     <dependencies>
@@ -91,6 +92,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- mongodb -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 
         <!--热部署-->
@@ -177,10 +184,24 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- ognl,用于thymeleaf模板引擎 -->
         <dependency>
             <groupId>ognl</groupId>
             <artifactId>ognl</artifactId>
             <version>3.1.12</version>
+        </dependency>
+
+        <!-- swagger2-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger2.version}</version>
         </dependency>
     </dependencies>
 

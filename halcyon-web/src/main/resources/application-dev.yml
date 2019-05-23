@@ -69,6 +69,14 @@ spring:
       enabled: true
 
   data:
+    mongodb:
+      host: 47.102.158.43
+      port: 27017
+      username: root
+      password: marshal1234!
+      authentication-database: admin
+      database: xc_cms
+
     solr:
       host: http://localhost:8080/solr/halcyon-core
       repositories:

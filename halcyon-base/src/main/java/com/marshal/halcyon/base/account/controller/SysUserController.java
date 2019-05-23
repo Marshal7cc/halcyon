@@ -6,6 +6,10 @@ import com.marshal.halcyon.core.annotation.AccessLimit;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.util.ResponseUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * author: Marshal
- * Date: 2018/10/26
- * Time: 20:35
- * Description:
- */
+@Api(value = "用户管理接口")
 @RestController
 @RequestMapping("/account/user")
 public class SysUserController extends BaseController {
@@ -35,6 +33,11 @@ public class SysUserController extends BaseController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @ApiOperation("用户查询列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "pageSize", value = "每页记录数", required = true, dataType = "int")
+    })
     @RequestMapping("/query")
     @AccessLimit(period = 60, count = 10)
     public ResponseData query(@RequestBody SysUser condition, int pageNum, int pageSize) {
