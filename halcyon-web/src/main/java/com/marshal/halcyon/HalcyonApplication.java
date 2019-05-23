@@ -25,6 +25,7 @@ import java.time.LocalTime;
                 "com.marshal.halcyon.**.controller",
                 "com.marshal.halcyon.**.service",
                 "com.marshal.halcyon.**.task",
+                "com.marshal.halcyon.**.util",
                 "com.marshal.halcyon.**.component",
                 "com.marshal.halcyon.**.json",
                 "org.activiti.rest.service.api",

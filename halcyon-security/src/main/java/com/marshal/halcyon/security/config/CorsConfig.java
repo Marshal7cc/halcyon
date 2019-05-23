@@ -13,7 +13,7 @@ import org.springframework.web.filter.CorsFilter;
  * @date: 2019/3/24
  * @desc:
  */
-@Configuration
+//@Configuration
 public class CorsConfig {
     @Bean
     public FilterRegistrationBean corsFilter() {
