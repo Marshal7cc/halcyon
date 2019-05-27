@@ -3,8 +3,10 @@ package com.marshal.halcyon.ureport.component;
 import com.bstek.ureport.exception.ReportException;
 import com.bstek.ureport.provider.report.ReportFile;
 import com.bstek.ureport.provider.report.ReportProvider;
+import com.marshal.halcyon.ureport.mapper.SysReportMapper;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -23,6 +25,9 @@ public class CustomReportFileProvider implements ReportProvider, ApplicationCont
     private String fileStoreDir;
 
     private boolean disabled;
+
+    @Autowired
+    private SysReportMapper sysReportMapper;
 
     public CustomReportFileProvider() {
     }

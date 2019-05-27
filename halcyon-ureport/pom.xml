@@ -17,6 +17,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.marshal</groupId>
+            <artifactId>halcyon-core</artifactId>
+            <version>${halcyon.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.bstek.ureport</groupId>
             <artifactId>ureport2-console</artifactId>
             <version>${ureport2.version}</version>

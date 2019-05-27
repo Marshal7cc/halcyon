@@ -47,6 +47,8 @@ public class SysUser extends BaseEntity {
 
     private Date frozenDate;
 
+    private String avatar;
+
     private String description;
 
     @NotEmpty
@@ -117,6 +119,14 @@ public class SysUser extends BaseEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Date getStartActiveDate() {

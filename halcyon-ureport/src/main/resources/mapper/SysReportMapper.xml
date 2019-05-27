@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.ureport.mapper.SysReportMapper">
+<resultMap id="BaseResultMap" type="com.marshal.halcyon.ureport.entity.SysReport">
+        <id column="report_id" property="reportId" jdbcType="DECIMAL" />
+        <result column="report_code" property="reportCode" jdbcType="VARCHAR" />
+        <result column="report_name" property="reportName" jdbcType="VARCHAR" />
+        <result column="report_file_name" property="reportFileName" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+    </resultMap>
+</mapper>

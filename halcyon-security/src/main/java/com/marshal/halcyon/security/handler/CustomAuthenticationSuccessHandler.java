@@ -66,7 +66,10 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
         }
 
-        handle(httpServletRequest, httpServletResponse, authentication);
+        //替代默认的登陆重定向策略
+        this.getRedirectStrategy().sendRedirect(httpServletRequest, httpServletResponse, "/index");
+        //默认的登陆重定向策略
+//        handle(httpServletRequest, httpServletResponse, authentication);
     }
 
     /**
@@ -77,7 +80,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
      */
     private void createSessionContext(HttpSession session, CustomUserDetails userDetails) {
         String username = userDetails.getUsername();
-        session.setAttribute("username", username);
+        session.setAttribute("userName", username);
         session.setAttribute("userId", userDetails.getUserId());
 
         SysUserRole sysUserRole = new SysUserRole();

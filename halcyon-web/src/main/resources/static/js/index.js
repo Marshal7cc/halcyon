@@ -57,3 +57,19 @@ function refreshFunction() {
     var mainframe = window.document.getElementById('mainframe');
     mainframe.contentWindow.location.reload(true);
 }
+
+function uploadAvatar() {
+    var form = new FormData(document.getElementById("avatarForm"));
+    $.ajax({
+        url: "account/user/uploadAvatar",
+        type: "post",
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.success) {
+                
+            }
+        }
+    });
+}

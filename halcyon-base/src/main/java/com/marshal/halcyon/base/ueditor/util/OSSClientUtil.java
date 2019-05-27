@@ -144,6 +144,14 @@ public class OSSClientUtil implements ContextRefreshedListener {
     }
 
     public static String getUEditorImgUrl(String fileName) {
+        return getImgUrl(fileName, UEditorController.UEDITOR_UPLOAD_FOLDER);
+    }
+
+    public static String getAvatorImgUrl(String fileName) {
+        return getImgUrl(fileName, "avatar");
+    }
+
+    public static String getImgUrl(String fileName, String folderName) {
         if (OSSConfigMap == null) {
             return "";
         }
@@ -156,7 +164,7 @@ public class OSSClientUtil implements ContextRefreshedListener {
         if (StringUtils.isAnyBlank(endPoint, accessKeyId, accessKeySecret, bucketName)) {
             return "";
         }
-        return "https://" + bucketName + "." + endPoint.substring(7) + "/" + UEditorController.UEDITOR_UPLOAD_FOLDER + "/" + fileName;
+        return "https://" + bucketName + "." + endPoint.substring(7) + "/" + folderName + "/" + fileName;
     }
 
     /**

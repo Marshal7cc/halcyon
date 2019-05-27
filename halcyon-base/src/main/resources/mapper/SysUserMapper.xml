@@ -15,6 +15,7 @@
         <result column="LAST_PASSWORD_UPDATE_DATE" jdbcType="TIMESTAMP" property="lastPasswordUpdateDate"/>
         <result column="frozen_flag" jdbcType="VARCHAR" property="frozenFlag"/>
         <result column="frozen_date" jdbcType="TIMESTAMP" property="frozenDate"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
         <result column="EMPLOYEE_ID" jdbcType="BIGINT" property="employeeId"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>

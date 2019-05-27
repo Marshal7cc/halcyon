@@ -3,8 +3,10 @@ package com.marshal.halcyon.base.account.controller;
 import com.marshal.halcyon.base.account.entity.SysUser;
 import com.marshal.halcyon.base.account.service.SysUserService;
 import com.marshal.halcyon.core.annotation.AccessLimit;
+import com.marshal.halcyon.core.component.SessionContext;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.entity.ResponseData;
+import com.marshal.halcyon.core.util.RequestHelper;
 import com.marshal.halcyon.core.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -12,11 +14,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -47,9 +48,6 @@ public class SysUserController extends BaseController {
 
     @RequestMapping("/save")
     public ResponseData save(@RequestBody SysUser sysUser) {
-        if (getValidator().hasError(sysUser)) {
-            return new ResponseData(false, getValidator().getErrors(sysUser));
-        }
         sysUser.setPasswordEncrypted(passwordEncoder.encode(DEFAULT_PASSWORD));
         if (sysUserService.save(sysUser) == 0) {
             return ResponseUtil.responseErr();
@@ -71,5 +69,13 @@ public class SysUserController extends BaseController {
     @RequestMapping("/getOptions")
     public List<Map> getOptions() {
         return sysUserService.getUserOptions();
+    }
+
+    @PostMapping("/uploadAvatar")
+    public ResponseData uploadAvatar(HttpServletRequest request,
+                                     @RequestParam("file") MultipartFile file) throws Exception {
+        SessionContext sessionContext = RequestHelper.getSessionContext(request);
+        sysUserService.uploadAvatar(sessionContext, file);
+        return ResponseUtil.responseOk();
     }
 }
