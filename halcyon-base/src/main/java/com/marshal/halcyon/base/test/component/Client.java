@@ -7,16 +7,10 @@ package com.marshal.halcyon.base.test.component;
  */
 public class Client {
     public static void main(String[] args) {
-        StrategyFactory strategyFactory = getStrategyFactory("BP");
-        DocumentListGenerator generator = new DocumentListGenerator(strategyFactory.getStrategy());
+        StrategyProvider provider = new StrategyProvider();
+        GenerateStrategy strategy = provider.getStrategy("HLS_BP_MASTER");
+        DocumentListGenerator generator = new DocumentListGenerator(strategy);
         generator.generate(1L);
     }
 
-    private static StrategyFactory getStrategyFactory(String type) {
-        if ("BP".equals(type)) {
-            return new BpStrategyFactory();
-        } else {
-            return null;
-        }
-    }
 }

@@ -4,4 +4,6 @@ public interface GenerateStrategy {
 
     void generateDocumentList(Long documentId);
 
+    String getIdentifier();
+
 }
