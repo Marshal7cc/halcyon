@@ -1,5 +1,7 @@
 package com.marshal.halcyon.base.test;
 
+import com.marshal.halcyon.base.account.entity.SysUser;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,5 +35,14 @@ public class TestApplication {
 
 
         System.out.println(asList);
+
+        //SysUser类中LastLoginDate为final修饰
+        SysUser user = new SysUser();
+        Date currentDate = new Date();
+        user.setLastLoginDate(currentDate);
+
+        //修改其引用的内容,违背了类的设计
+        currentDate.setTime(1999);
+
     }
 }

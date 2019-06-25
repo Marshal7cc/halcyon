@@ -158,7 +158,7 @@ public class SysUser extends BaseEntity {
     }
 
     public void setLastLoginDate(Date lastLoginDate) {
-        this.lastLoginDate = lastLoginDate;
+        this.lastLoginDate = new Date(lastLoginDate.getTime());
     }
 
     public Date getLastPasswordUpdateDate() {
