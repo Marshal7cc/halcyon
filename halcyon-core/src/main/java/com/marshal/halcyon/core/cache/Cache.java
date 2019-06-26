@@ -6,7 +6,7 @@ import java.util.List;
  * @auth: Marshal
  * @date: 2019/6/25
  * @desc: 各种技术实现的缓存的抽象接口
- *        目前的实现有RedisCache
+ * 目前的实现有RedisCache
  */
 public interface Cache<T> {
 
@@ -29,7 +29,7 @@ public interface Cache<T> {
 
     void update(T t);
 
-    void delete(String id);
+    void delete(Object id);
 
     /**
      * 缓存刷新

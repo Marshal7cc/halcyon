@@ -3,6 +3,7 @@ package com.marshal.halcyon.base.function.controller;
 
 import com.marshal.halcyon.base.function.entity.SysFunction;
 import com.marshal.halcyon.base.function.service.SysFunctionService;
+import com.marshal.halcyon.core.cache.impl.FunctionCache;
 import com.marshal.halcyon.core.component.SessionContext;
 import com.marshal.halcyon.core.controller.BaseController;
 import com.marshal.halcyon.core.entity.ResponseData;
@@ -30,6 +31,9 @@ public class SysFunctionController extends BaseController {
 
     @Autowired
     SysFunctionService sysFunctionService;
+
+    @Autowired
+    private FunctionCache functionCache;
 
     /**
      * 获取菜单
@@ -59,12 +63,14 @@ public class SysFunctionController extends BaseController {
             return new ResponseData(false, getValidator().getErrors(sysFunction));
         }
         sysFunctionService.save(sysFunction);
+        functionCache.update(sysFunction);
         return new ResponseData(true, "保存成功");
     }
 
     @RequestMapping("/delete")
     public ResponseData delete(@RequestParam("selectedIds") Long[] selectedIds) {
         sysFunctionService.batchDelete(selectedIds);
+        functionCache.delete(selectedIds);
         return new ResponseData(true, "删除成功");
     }
 

@@ -67,7 +67,7 @@ public abstract class RedisCache<T> implements Cache<T>, BeanNameAware {
     @Override
     public void add(T t) {
         try {
-            String id = PropertyUtils.getProperty(t, getKeyName()).toString();
+            String id = PropertyUtils.getProperty(t, getHashKeyColumn()).toString();
             redisTemplate.opsForHash().put(getKeyName(), id, t);
         } catch (Exception e) {
             logger.error("add record failed");
@@ -77,7 +77,7 @@ public abstract class RedisCache<T> implements Cache<T>, BeanNameAware {
     @Override
     public void update(T t) {
         try {
-            String id = PropertyUtils.getProperty(t, getKeyName()).toString();
+            String id = PropertyUtils.getProperty(t, getHashKeyColumn()).toString();
             redisTemplate.opsForHash().put(getKeyName(), id, t);
         } catch (Exception e) {
             logger.error("update record failed");
@@ -85,8 +85,17 @@ public abstract class RedisCache<T> implements Cache<T>, BeanNameAware {
     }
 
     @Override
-    public void delete(String id) {
-        redisTemplate.opsForHash().delete(getKeyName(), id);
+    public void delete(Object id) {
+        if (id instanceof List) {
+            List<Object> ids = (List) id;
+            ids.forEach(hashKey -> redisTemplate.opsForHash().delete(getKeyName(), hashKey.toString()));
+        } else if (id instanceof Long[]) {
+            for (Object hashKey : (Object[]) id) {
+                redisTemplate.opsForHash().delete(getKeyName(), hashKey.toString());
+            }
+        } else {
+            redisTemplate.opsForHash().delete(getKeyName(), id);
+        }
     }
 
     @Override
