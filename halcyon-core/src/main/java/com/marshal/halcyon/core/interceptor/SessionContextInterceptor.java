@@ -35,7 +35,6 @@ public class SessionContextInterceptor implements Interceptor {
                 boundSql.setAdditionalParameter("session", sessionContext);
             }
         }
-        System.out.println("拦截器执行!");
         return invocation.proceed();
     }
 

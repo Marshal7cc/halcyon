@@ -26,7 +26,7 @@ public class RequestHelper {
      * @return
      */
     public static RequestAttributes getRequestAttributes() {
-        return Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
+        return RequestContextHolder.getRequestAttributes();
     }
 
     /**
@@ -35,7 +35,11 @@ public class RequestHelper {
      * @return
      */
     public static HttpServletRequest getHttpServletRequest() {
-        return ((ServletRequestAttributes) getRequestAttributes()).getRequest();
+        if (getRequestAttributes() != null) {
+            return ((ServletRequestAttributes) getRequestAttributes()).getRequest();
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -204,3 +204,6 @@ security:
 
 ureport:
     fileStorePath: D:\\ureport
+
+cache:
+  autoStartUp: true

@@ -29,7 +29,7 @@ import java.time.LocalTime;
                 "com.marshal.halcyon.**.component",
                 "com.marshal.halcyon.**.json",
                 "org.activiti.rest.service.api",
-                "com.marshal.halcyon.core.*"}
+                "com.marshal.halcyon.core.**"}
 )
 @MapperScan(
         basePackages =
