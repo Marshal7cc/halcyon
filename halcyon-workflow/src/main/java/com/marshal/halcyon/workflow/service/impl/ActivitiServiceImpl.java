@@ -4,28 +4,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marshal.halcyon.base.hr.mapper.HrEmployeeMapper;
 import com.marshal.halcyon.core.component.SessionContext;
 import com.marshal.halcyon.workflow.entity.*;
-import com.marshal.halcyon.workflow.exception.TaskActionException;
+import com.marshal.halcyon.workflow.exception.TaskHandleException;
+import com.marshal.halcyon.workflow.handler.TaskHandler;
+import com.marshal.halcyon.workflow.handler.TaskHandlerProvider;
 import com.marshal.halcyon.workflow.service.ActivitiService;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
-import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.impl.persistence.entity.CommentEntityImpl;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
-import org.activiti.engine.task.TaskInfo;
 import org.activiti.rest.service.api.RestResponseFactory;
 import org.activiti.rest.service.api.runtime.task.TaskActionRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @auth: Marshal
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
  * @desc: Activiti工作流service
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ActivitiServiceImpl implements ActivitiService {
 
     @Autowired
@@ -60,9 +61,9 @@ public class ActivitiServiceImpl implements ActivitiService {
     HrEmployeeMapper employeeMapper;
 
     @Override
-    public void executeTaskAction(SessionContext sessionContext, String taskId, TaskActionRequestExt taskActionRequest, boolean isAdmin) throws TaskActionException, IllegalArgumentException {
+    public void handleTask(SessionContext sessionContext, String taskId, TaskActionRequestExt taskActionRequest, boolean isAdmin) throws TaskHandleException, IllegalArgumentException {
         if (StringUtils.isEmpty(taskActionRequest.getAction())) {
-            throw new TaskActionException(TaskActionException.UNKNOWN_OPERATOR);
+            throw new TaskHandleException(TaskHandleException.UNKNOWN_OPERATOR);
         }
 
         if (taskId.split(",").length > 1) {
@@ -75,7 +76,7 @@ public class ActivitiServiceImpl implements ActivitiService {
         }
 
         if (!(isAdmin || task.getAssignee().equals(sessionContext.getEmployeeCode()))) {
-            throw new TaskActionException(TaskActionException.COMPLETE_TASK_NEED_ASSIGNEE_OR_ADMIN);
+            throw new TaskHandleException(TaskHandleException.COMPLETE_TASK_NEED_ASSIGNEE_OR_ADMIN);
         }
 
         Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
@@ -83,107 +84,16 @@ public class ActivitiServiceImpl implements ActivitiService {
         try {
             // 处理抄送
 //            carbonCopy(sessionContext, task, taskActionRequest);
-            if (TaskActionRequest.ACTION_COMPLETE.equalsIgnoreCase(taskActionRequest.getAction())) {
-                completeTask(sessionContext, task, taskActionRequest);
-                return;
-            }
-            if (TaskActionRequestExt.ACTION_REJECT.equalsIgnoreCase(taskActionRequest.getAction())) {
-                rejectTask(sessionContext, task, taskActionRequest);
-                return;
-            }
-            if (TaskActionRequest.ACTION_DELEGATE.equalsIgnoreCase(taskActionRequest.getAction())) {
-                delegateTask(sessionContext, task, taskActionRequest);
-                return;
-            }
 
-//            if (TaskActionRequest.ACTION_RESOLVE.equalsIgnoreCase(taskActionRequest.getAction())) {
-//                resolveTask(sessionContext, task, taskActionRequest);
-//                return;
-//            }
+            TaskHandler taskHandler = TaskHandlerProvider.getTaskHandler(taskActionRequest.getAction());
+            taskHandler.handle(sessionContext, task, taskActionRequest);
 
-//            if (ACTION_JUMP.equalsIgnoreCase(taskActionRequest.getAction())) {
-//                jumpTo(sessionContext, task, taskActionRequest);
-//                return;
-//            }
-//            if (ACTION_ADD_SIGN.equals(taskActionRequest.getAction())) {
-//                addSignTask(sessionContext, task, taskActionRequest);
-//                return;
-//            }
-
-        } catch (ActivitiException e) {
+        } catch (Exception e) {
 //            self().saveException(taskId, e);
             throw e;
         }
     }
 
-    @Override
-    public void executeTaskByAdmin(SessionContext sessionContext, String procId, TaskActionRequestExt taskActionRequest) throws TaskActionException {
-        this.executeTaskAction(sessionContext, procId, taskActionRequest, true);
-    }
-
-    @Override
-    public void completeTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
-        String taskId = taskEntity.getId();
-
-        Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
-
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "action", actionRequest.getAction());
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "comment", actionRequest.getComment());
-
-        HashMap<String, Object> variables = new HashMap<>();
-        variables.put("approveResult", "approve");
-        taskService.setVariables(taskId, variables);
-        taskService.complete(taskId);
-
-    }
-
-    @Override
-    public void rejectTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
-        String taskId = taskEntity.getId();
-
-        Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
-
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "action", actionRequest.getAction());
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "comment", actionRequest.getComment());
-
-        HashMap<String, Object> variables = new HashMap<>();
-        variables.put("approveResult", "reject");
-        taskService.setVariables(taskId, variables);
-        taskService.complete(taskId);
-    }
-
-    @Override
-    public void delegateTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
-        if (!TaskActionRequest.ACTION_DELEGATE.equalsIgnoreCase(actionRequest.getAction())) {
-            return;
-        }
-        Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
-        String assignee = actionRequest.getAssignee();
-        if (StringUtils.isEmpty(assignee)) {
-            throw new TaskActionException(TaskActionException.DELEGATE_NO_ASSIGNEE);
-        }
-
-        String taskId = taskEntity.getId();
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "action", "delegate");
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "comment",
-                sessionContext.getEmployeeCode() + "转交给" + assignee + "  " + actionRequest.getComment());
-        taskService.setAssignee(taskId, assignee);
-    }
-
-    @Override
-    public void carbonCopy(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
-
-    }
-
-    @Override
-    public void resolveTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException {
-
-    }
-
-    @Override
-    public void jumpTo(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) {
-
-    }
 
     /**
      * 我的待办-task 列表

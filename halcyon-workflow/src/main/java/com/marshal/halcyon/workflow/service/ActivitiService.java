@@ -2,7 +2,7 @@ package com.marshal.halcyon.workflow.service;
 
 import com.marshal.halcyon.core.component.SessionContext;
 import com.marshal.halcyon.workflow.entity.HistoricProcessInstanceResponseExt;
-import com.marshal.halcyon.workflow.exception.TaskActionException;
+import com.marshal.halcyon.workflow.exception.TaskHandleException;
 import com.marshal.halcyon.workflow.entity.TaskActionRequestExt;
 import com.marshal.halcyon.workflow.entity.TaskResponseExt;
 import org.activiti.engine.task.Task;
@@ -15,38 +15,46 @@ public interface ActivitiService {
     /**
      * 工作流任务处理
      *
-     * @param sessionContext
-     * @param taskId
-     * @param taskActionRequest
-     * @param isAdmin
-     * @throws TaskActionException
+     * @param sessionContext    session信息
+     * @param taskId            task id
+     * @param taskActionRequest 任务处理请求信息
+     * @param isAdmin           是否为管理员
+     * @throws TaskHandleException
      */
-    @Transactional
-    void executeTaskAction(SessionContext sessionContext, String taskId, TaskActionRequestExt taskActionRequest, boolean isAdmin)
-            throws TaskActionException, IllegalArgumentException;
+    void handleTask(SessionContext sessionContext, String taskId, TaskActionRequestExt taskActionRequest, boolean isAdmin)
+            throws TaskHandleException, IllegalArgumentException;
 
-    void executeTaskByAdmin(SessionContext sessionContext, String procId, TaskActionRequestExt taskActionRequest)
-            throws TaskActionException;
-
-    void completeTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException;
-
-    void rejectTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException;
-
-    void delegateTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException;
-
-    void carbonCopy(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException;
-
-    void resolveTask(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest) throws TaskActionException;
-
-    void jumpTo(SessionContext sessionContext, Task taskEntity, TaskActionRequestExt actionRequest);
-
-
+    /**
+     * 代办列表
+     *
+     * @param taskList
+     * @return
+     */
     List<TaskResponseExt> getTaskList(List<TaskResponseExt> taskList);
 
+    /**
+     * 查看任务详情
+     *
+     * @param task
+     * @return
+     */
     TaskResponseExt getTaskDetail(TaskResponseExt task);
 
+    /**
+     * 流程监控/历史流程列表
+     *
+     * @param historicProcessInstanceList
+     * @return
+     */
     List<HistoricProcessInstanceResponseExt> getHistoricProcessInstanceList(List<HistoricProcessInstanceResponseExt> historicProcessInstanceList);
 
+    /**
+     * 流程监控/历史流程详情
+     *
+     * @param sessionContext
+     * @param processInstanceId
+     * @return
+     */
     HistoricProcessInstanceResponseExt getProcessInstanceDetail(SessionContext sessionContext, String processInstanceId);
 
 }

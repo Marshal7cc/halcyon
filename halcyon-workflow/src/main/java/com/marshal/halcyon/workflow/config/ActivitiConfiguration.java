@@ -1,31 +1,23 @@
 package com.marshal.halcyon.workflow.config;
 
 import com.marshal.halcyon.workflow.component.ActivitiBeanProvider;
-import com.marshal.halcyon.workflow.manager.CustomGroupEntityManagerFactory;
-import com.marshal.halcyon.workflow.manager.CustomUserEntityManager;
-import com.marshal.halcyon.workflow.manager.CustomGroupEntityManager;
-import com.marshal.halcyon.workflow.manager.CustomUserEntityManagerFactory;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.impl.interceptor.SessionFactory;
-import org.activiti.engine.impl.persistence.entity.GroupEntityManager;
-import org.activiti.engine.impl.persistence.entity.UserEntityManager;
-import org.activiti.engine.impl.persistence.entity.data.GroupDataManager;
-import org.activiti.engine.impl.persistence.entity.data.UserDataManager;
-import org.activiti.spring.ProcessEngineFactoryBean;
+
+import com.marshal.halcyon.workflow.constant.ActivitiConstant;
+import com.marshal.halcyon.workflow.interceptor.HalcyonCmdInterceptor;
+import org.activiti.engine.impl.interceptor.CommandInterceptor;
 import org.activiti.spring.SpringAsyncExecutor;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.activiti.spring.boot.AbstractProcessEngineAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * @auth: Marshal
@@ -36,10 +28,13 @@ import java.util.List;
 public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguration {
 
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
 
     @Autowired
-    ActivitiBeanProvider activitiBeanProvider;
+    private ActivitiBeanProvider activitiBeanProvider;
+
+    @Autowired
+    private HalcyonCmdInterceptor halcyonCmdInterceptor;
 
     @Bean
     public SpringProcessEngineConfiguration springProcessEngineConfiguration(PlatformTransactionManager transactionManager,
@@ -50,42 +45,19 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
                 springAsyncExecutor);
 
         //设置字体，防止流程图中文乱码
-        springProcessEngineConfiguration.setActivityFontName("宋体");
-        springProcessEngineConfiguration.setLabelFontName("宋体");
-        springProcessEngineConfiguration.setAnnotationFontName("宋体");
+        springProcessEngineConfiguration.setActivityFontName(ActivitiConstant.FONT_NAME);
+        springProcessEngineConfiguration.setLabelFontName(ActivitiConstant.FONT_NAME);
+        springProcessEngineConfiguration.setAnnotationFontName(ActivitiConstant.FONT_NAME);
 
-        //配置beans
+        //配置beans,若不指定则spring容器中所有bean都用作代理表达式
         springProcessEngineConfiguration.setBeans(activitiBeanProvider);
 
-        // 配置自定义的用户和组管理
-        springProcessEngineConfiguration.setUserEntityManager(customUserEntityManager());
-        springProcessEngineConfiguration.setGroupEntityManager(customGroupEntityManager());
+        //配置cmd 拦截器
+//        List<CommandInterceptor> commandInterceptors = new ArrayList<>();
+//        commandInterceptors.add(halcyonCmdInterceptor);
+//        springProcessEngineConfiguration.setCommandInterceptors(commandInterceptors);
 
-        List<SessionFactory> customSessionFactories = new ArrayList<>();
-        customSessionFactories.add(customUserEntityManagerFactory());
-        customSessionFactories.add(customGroupEntityManagerFactory());
-        springProcessEngineConfiguration.setCustomSessionFactories(customSessionFactories);
         return springProcessEngineConfiguration;
     }
 
-
-    @Bean
-    UserEntityManager customUserEntityManager() {
-        return new CustomUserEntityManager();
-    }
-
-    @Bean
-    GroupEntityManager customGroupEntityManager() {
-        return new CustomGroupEntityManager();
-    }
-
-    @Bean
-    CustomGroupEntityManagerFactory customGroupEntityManagerFactory() {
-        return new CustomGroupEntityManagerFactory();
-    }
-
-    @Bean
-    CustomUserEntityManagerFactory customUserEntityManagerFactory() {
-        return new CustomUserEntityManagerFactory();
-    }
 }
