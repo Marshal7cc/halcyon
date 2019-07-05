@@ -11,6 +11,8 @@ public class TaskActionRequestExt extends TaskActionRequest {
 
     public static final String ACTION_REJECT = "reject";
 
+    private String approveResult;
+
     private String comment;
 
     private String jumpTarget;
@@ -20,6 +22,14 @@ public class TaskActionRequestExt extends TaskActionRequest {
     private String CarbonCopyUsers;
 
     private String currentTaskId;
+
+    public String getApproveResult() {
+        return approveResult;
+    }
+
+    public void setApproveResult(String approveResult) {
+        this.approveResult = approveResult;
+    }
 
     public String getComment() {
         return comment;

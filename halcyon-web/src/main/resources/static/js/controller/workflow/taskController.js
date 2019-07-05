@@ -25,13 +25,15 @@ app.controller("taskController", function ($scope, $controller, taskService, lea
     $scope.taskActionRequest = {};
     $scope.approve = function () {
         $scope.taskActionRequest.action = "complete";
+        $scope.taskActionRequest.approveResult = "approve";
         taskService.handle($scope.auditTaskId, $scope.taskActionRequest).success(function (responseData) {
             $scope.parseResponse(responseData);
         });
     };
 
     $scope.reject = function () {
-        $scope.taskActionRequest.action = "reject";
+        $scope.taskActionRequest.action = "complete";
+        $scope.taskActionRequest.approveResult = "reject";
         taskService.handle($scope.auditTaskId, $scope.taskActionRequest).success(function (responseData) {
             $scope.parseResponse(responseData);
         });

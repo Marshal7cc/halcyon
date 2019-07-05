@@ -16,7 +16,7 @@ import java.util.HashMap;
 /**
  * @auth: Marshal
  * @date: 2019/7/4
- * @desc: 任务同意处理器
+ * @desc: 任务同意/拒绝处理器(不包括resolve)
  */
 @Component
 public class CompleteTaskHandler implements TaskHandler {
@@ -36,11 +36,12 @@ public class CompleteTaskHandler implements TaskHandler {
 
         Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
 
-        taskService.addComment(taskEntity.getId(), taskEntity.getProcessInstanceId(), "action", actionRequest.getAction());
-        taskService.addComment(taskEntity.getId(), taskEntity.getProcessInstanceId(), "comment", actionRequest.getComment());
+        //这里以approveResult作为action用来区分同意和拒绝
+        taskService.addComment(taskEntity.getId(), taskEntity.getProcessInstanceId(), ActivitiConstant.APPROVE_ACTION, actionRequest.getApproveResult());
+        taskService.addComment(taskEntity.getId(), taskEntity.getProcessInstanceId(), ActivitiConstant.APPROVE_COMMENT, actionRequest.getComment());
 
         HashMap<String, Object> variables = new HashMap<>();
-        variables.put("approveResult", "approve");
+        variables.put(ActivitiConstant.APPROVE_RESULT, actionRequest.getApproveResult());
         taskService.setVariables(taskId, variables);
         taskService.complete(taskId);
 

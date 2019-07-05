@@ -10,21 +10,19 @@ import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-
 /**
- * @auth: Marshal
- * @date: 2019/7/4
- * @desc: 任务拒绝处理器
+ * @auth Marshal
+ * @date 2019-07-05 15:22
+ * @desc 任务加签处理器
  */
-public class RejectTaskHandler implements TaskHandler {
+public class AddSignTaskHandler implements TaskHandler {
 
     @Autowired
     private TaskService taskService;
 
     @Override
     public String getAction() {
-        return ActivitiConstant.ACTION_REJECT;
+        return ActivitiConstant.ACTION_ADD_SIGN;
     }
 
     @Override
@@ -33,12 +31,10 @@ public class RejectTaskHandler implements TaskHandler {
 
         Authentication.setAuthenticatedUserId(sessionContext.getEmployeeCode());
 
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "action", actionRequest.getAction());
-        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), "comment", actionRequest.getComment());
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), ActivitiConstant.APPROVE_ACTION, actionRequest.getAction());
+        taskService.addComment(taskId, taskEntity.getProcessInstanceId(), ActivitiConstant.APPROVE_COMMENT, actionRequest.getComment());
 
-        HashMap<String, Object> variables = new HashMap<>();
-        variables.put("approveResult", "reject");
-        taskService.setVariables(taskId, variables);
-        taskService.complete(taskId);
+        taskService.delegateTask(taskId, actionRequest.getAssignee());
+
     }
 }

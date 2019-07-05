@@ -14,4 +14,12 @@ public interface ActivitiConstant {
     String ACTION_DELEGATE = "delegate";
     String ACTION_ADD_SIGN = "addSign";
     String ACTION_RESOLVE = "resolve";
+    String ACTION_JUMP = "jump";
+
+    String APPROVE_COMMENT = "comment";
+    String APPROVE_ACTION = "action";
+    String APPROVE_RESULT = "approveResult";
+
+    String RESULT_APPROVE = "approve";
+    String RESULT_REJECT = "reject";
 }
