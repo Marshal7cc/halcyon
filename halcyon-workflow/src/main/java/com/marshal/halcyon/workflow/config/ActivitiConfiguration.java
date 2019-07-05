@@ -53,9 +53,9 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
         springProcessEngineConfiguration.setBeans(activitiBeanProvider);
 
         //配置cmd 拦截器
-//        List<CommandInterceptor> commandInterceptors = new ArrayList<>();
-//        commandInterceptors.add(halcyonCmdInterceptor);
-//        springProcessEngineConfiguration.setCommandInterceptors(commandInterceptors);
+        List<CommandInterceptor> commandInterceptors = new ArrayList<>();
+        commandInterceptors.add(halcyonCmdInterceptor);
+        springProcessEngineConfiguration.setCustomPostCommandInterceptors(commandInterceptors);
 
         return springProcessEngineConfiguration;
     }

@@ -2,6 +2,7 @@ package com.marshal.halcyon.base.test;
 
 import com.marshal.halcyon.base.account.entity.SysUser;
 
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -43,6 +44,11 @@ public class TestApplication {
 
         //修改其引用的内容,违背了类的设计
         currentDate.setTime(1999);
+
+        String xmlStr = "<applications>"
+                + "<versions__delta>1</versions__delta>"
+                + "<apps__hashcode></apps__hashcode>"
+                + "</applications>";
 
     }
 }

@@ -1,5 +1,6 @@
 package com.marshal.halcyon.workflow.interceptor;
 
+import org.activiti.engine.impl.cmd.CompleteTaskCmd;
 import org.activiti.engine.impl.interceptor.AbstractCommandInterceptor;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandConfig;
@@ -17,7 +18,7 @@ public class HalcyonCmdInterceptor extends AbstractCommandInterceptor {
     public <T> T execute(CommandConfig commandConfig, Command<T> command) {
 
         //custom behaviour
-        if (command != null) {
+        if (command instanceof CompleteTaskCmd) {
             System.out.println(command);
         }
 
