@@ -3,8 +3,10 @@ package com.marshal.halcyon.workflow.config;
 import com.marshal.halcyon.workflow.component.ActivitiBeanProvider;
 
 import com.marshal.halcyon.workflow.constant.ActivitiConstant;
+import com.marshal.halcyon.workflow.custom.CustomUserTaskParseHandler;
 import com.marshal.halcyon.workflow.interceptor.HalcyonCmdInterceptor;
 import org.activiti.engine.impl.interceptor.CommandInterceptor;
+import org.activiti.engine.parse.BpmnParseHandler;
 import org.activiti.spring.SpringAsyncExecutor;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.activiti.spring.boot.AbstractProcessEngineAutoConfiguration;
@@ -36,6 +38,9 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
     @Autowired
     private HalcyonCmdInterceptor halcyonCmdInterceptor;
 
+    @Autowired
+    private CustomUserTaskParseHandler customUserTaskParseHandler;
+
     @Bean
     public SpringProcessEngineConfiguration springProcessEngineConfiguration(PlatformTransactionManager transactionManager,
                                                                              SpringAsyncExecutor springAsyncExecutor) throws IOException {
@@ -56,6 +61,11 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
         List<CommandInterceptor> commandInterceptors = new ArrayList<>();
         commandInterceptors.add(halcyonCmdInterceptor);
         springProcessEngineConfiguration.setCustomPostCommandInterceptors(commandInterceptors);
+
+        //设置自定义parseHandler
+        List<BpmnParseHandler> bpmnParseHandlers = new ArrayList<>();
+        bpmnParseHandlers.add(customUserTaskParseHandler);
+        springProcessEngineConfiguration.setCustomDefaultBpmnParseHandlers(bpmnParseHandlers);
 
         return springProcessEngineConfiguration;
     }
