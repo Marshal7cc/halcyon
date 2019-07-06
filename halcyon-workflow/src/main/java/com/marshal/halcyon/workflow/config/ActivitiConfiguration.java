@@ -3,6 +3,7 @@ package com.marshal.halcyon.workflow.config;
 import com.marshal.halcyon.workflow.component.ActivitiBeanProvider;
 
 import com.marshal.halcyon.workflow.constant.ActivitiConstant;
+import com.marshal.halcyon.workflow.custom.CustomBehaviourFactory;
 import com.marshal.halcyon.workflow.custom.CustomUserTaskParseHandler;
 import com.marshal.halcyon.workflow.interceptor.HalcyonCmdInterceptor;
 import org.activiti.engine.impl.interceptor.CommandInterceptor;
@@ -33,6 +34,9 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
     private DataSource dataSource;
 
     @Autowired
+    private CustomBehaviourFactory customBehaviourFactory;
+
+    @Autowired
     private ActivitiBeanProvider activitiBeanProvider;
 
     @Autowired
@@ -48,6 +52,9 @@ public class ActivitiConfiguration extends AbstractProcessEngineAutoConfiguratio
                 dataSource,
                 transactionManager,
                 springAsyncExecutor);
+
+        //自定义行为工厂
+        springProcessEngineConfiguration.setActivityBehaviorFactory(customBehaviourFactory);
 
         //设置字体，防止流程图中文乱码
         springProcessEngineConfiguration.setActivityFontName(ActivitiConstant.FONT_NAME);
