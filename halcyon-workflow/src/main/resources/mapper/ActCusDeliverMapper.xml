@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.workflow.mapper.ActCusDeliverMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.workflow.entity.ActCusDeliver">
+        <id column="id" property="id" jdbcType="DECIMAL"/>
+        <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>
+        <result column="deliver_code" property="deliverCode" jdbcType="VARCHAR"/>
+        <result column="deliver_start_date" property="deliverStartDate" jdbcType="DATE"/>
+        <result column="deliver_end_date" property="deliverEndDate" jdbcType="DATE"/>
+    </resultMap>
+</mapper>
