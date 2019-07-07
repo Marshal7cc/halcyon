@@ -1,7 +1,5 @@
 package com.marshal.halcyon.workflow.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.marshal.halcyon.base.hr.service.HrEmployeeService;
 import com.marshal.halcyon.core.component.SessionContext;
 import com.marshal.halcyon.core.controller.BaseController;
@@ -9,7 +7,7 @@ import com.marshal.halcyon.core.entity.ResponseData;
 import com.marshal.halcyon.core.util.RequestHelper;
 import com.marshal.halcyon.core.util.ResponseUtil;
 import com.marshal.halcyon.workflow.entity.HistoricProcessInstanceResponseExt;
-import com.marshal.halcyon.workflow.exception.TaskActionException;
+import com.marshal.halcyon.workflow.exception.TaskHandleException;
 import com.marshal.halcyon.workflow.entity.TaskActionRequestExt;
 import com.marshal.halcyon.workflow.entity.TaskResponseExt;
 import com.marshal.halcyon.workflow.service.ActivitiService;
@@ -18,12 +16,9 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,7 +61,7 @@ public class ActivitiController extends BaseController {
                                    @PathVariable String taskId,
                                    @RequestBody TaskActionRequestExt taskActionRequest) throws Exception {
         SessionContext sessionContext = RequestHelper.getSessionContext(request);
-        activitiService.executeTaskAction(sessionContext, taskId, taskActionRequest, false);
+        activitiService.handleTask(sessionContext, taskId, taskActionRequest, false);
         return ResponseUtil.responseOk();
     }
 
@@ -83,9 +78,9 @@ public class ActivitiController extends BaseController {
     @ResponseBody
     public ResponseData taskHandleAdmin(HttpServletRequest request,
                                         @PathVariable String taskId,
-                                        @RequestBody TaskActionRequestExt taskActionRequest) throws TaskActionException {
+                                        @RequestBody TaskActionRequestExt taskActionRequest) throws TaskHandleException {
         SessionContext sessionContext = RequestHelper.getSessionContext(request);
-        activitiService.executeTaskByAdmin(sessionContext, taskId, taskActionRequest);
+        activitiService.handleTask(sessionContext, taskId, taskActionRequest, true);
         return ResponseUtil.responseOk();
     }
 

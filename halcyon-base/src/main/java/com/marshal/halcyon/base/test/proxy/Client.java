@@ -11,12 +11,10 @@ public class Client {
     public static void main(String[] args) {
 
         Person person = new PersonImpl("Marshal");
-        Person proxy = getProxy(person);
+        SelfInvocationHandler proxyProvider = new SelfInvocationHandler();
+        Person proxy = (Person) proxyProvider.bind(person);
         proxy.getName();
         proxy.setName();
     }
 
-    public static Person getProxy(Person person) {
-        return (Person) Proxy.newProxyInstance(person.getClass().getClassLoader(), person.getClass().getInterfaces(), new SelfInvocationHandler(person));
-    }
 }

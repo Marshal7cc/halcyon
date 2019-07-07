@@ -25,24 +25,27 @@ app.controller("taskController", function ($scope, $controller, taskService, lea
     $scope.taskActionRequest = {};
     $scope.approve = function () {
         $scope.taskActionRequest.action = "complete";
+        $scope.taskActionRequest.approveResult = "approve";
         taskService.handle($scope.auditTaskId, $scope.taskActionRequest).success(function (responseData) {
             $scope.parseResponse(responseData);
         });
     };
 
     $scope.reject = function () {
-        $scope.taskActionRequest.action = "reject";
+        $scope.taskActionRequest.action = "complete";
+        $scope.taskActionRequest.approveResult = "reject";
         taskService.handle($scope.auditTaskId, $scope.taskActionRequest).success(function (responseData) {
             $scope.parseResponse(responseData);
         });
     };
 
     $scope.renderAction = function (action) {
+        var apprvText = "";
         if (action == 'approve') {
             apprvText = "同意";
         } else if (action == 'reject') {
             apprvText = "拒绝";
-        } else if (action == 'add_sign') {
+        } else if (action == 'addSign') {
             apprvText = "加签";
         } else if (action == 'delegate') {
             apprvText = "转交";
@@ -50,10 +53,8 @@ app.controller("taskController", function ($scope, $controller, taskService, lea
             apprvText = "跳转";
         } else if (action == 'recall') {
             apprvText = "撤回";
-        } else if (action == "auto_delegate") {
+        } else if (action == "autoDelegate") {
             apprvText = "自动转交";
-        } else if (action == "CARBON_COPY") {
-            apprvText = "抄送";
         } else {
             apprvText = action || ''
         }
