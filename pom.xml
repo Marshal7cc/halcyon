@@ -19,6 +19,7 @@
         <module>halcyon-oauth2</module>
         <module>halcyon-es</module>
         <module>halcyon-ureport</module>
+        <module>halcyon-attachment</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marshal.halcyon.attachment.mapper.SysAttachmentCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.marshal.halcyon.attachment.entity.SysAttachmentCategory">
+        <id column="category_id" property="categoryId" jdbcType="DECIMAL"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="leaf_flag" property="leafFlag" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="enabled_flag" property="enabledFlag" jdbcType="VARCHAR"/>
+        <result column="parent_category_id" property="parentCategoryId" jdbcType="DECIMAL"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="source_type" property="sourceType" jdbcType="VARCHAR"/>
+        <result column="allowed_file_type" property="allowedFileType" jdbcType="VARCHAR"/>
+        <result column="allowed_file_size" property="allowedFileSize" jdbcType="DECIMAL"/>
+        <result column="is_unique" property="isUnique" jdbcType="VARCHAR"/>
+        <result column="category_path" property="categoryPath" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectCategoryBySourceType" resultMap="BaseResultMap">
+        select * from sys_attachment_category where source_type = #{sourceType}
+    </select>
+
+</mapper>
