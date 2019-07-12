@@ -20,6 +20,9 @@ import java.util.Objects;
  */
 public class RequestHelper {
 
+    //线程级sessionContext,方便使用
+    private static ThreadLocal<SessionContext> currentSessionContext = new ThreadLocal<>();
+
     /**
      * 获取RequestAttributes
      *
@@ -70,9 +73,21 @@ public class RequestHelper {
             if (session.getAttribute("employeeCode") != null) {
                 sessionContext.setEmployeeCode((String) session.getAttribute("employeeCode"));
             }
+            //设置ThreadLocal变量
+            currentSessionContext.set(sessionContext);
+
             return sessionContext;
         }
         return new SessionContext();
+    }
+
+    /**
+     * 获取threadLocal中的sessionContext
+     * @return
+     */
+    public static SessionContext getCurrentSessionContext() {
+        SessionContext sessionContext = currentSessionContext.get();
+        return sessionContext;
     }
 
     /**
