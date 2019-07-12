@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @auth: Marshal
  * @date: 2018/1/7
- * @desc: common service
+ * @desc: base service
  */
 @Transactional(rollbackFor = Exception.class)
 public class BaseServiceImpl<T> implements BaseService<T> {
@@ -48,25 +48,21 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
     @Override
     public int insert(T record) {
-        record = (T) DtoUtil.setCreateAttribute(record);
         return mapper.insert(record);
     }
 
     @Override
     public int insertSelective(T record) {
-        record = (T) DtoUtil.setCreateAttribute(record);
         return mapper.insertSelective(record);
     }
 
     @Override
     public int updateByPrimaryKey(T record) {
-        record = (T) DtoUtil.setUpdateAttribute(record);
         return mapper.updateByPrimaryKey(record);
     }
 
     @Override
     public int updateByPrimaryKeySelective(T record) {
-        record = (T) DtoUtil.setUpdateAttribute(record);
         return mapper.updateByPrimaryKeySelective(record);
     }
 
