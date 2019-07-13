@@ -21,7 +21,7 @@ import static org.apache.ibatis.mapping.SqlCommandType.INSERT;
 @Intercepts({
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
 })
-public class RecordStdInfoInterceptor implements Interceptor {
+public class StandardDataInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
