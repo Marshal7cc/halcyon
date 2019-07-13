@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script id="header" th:replace="common/header"></script>
+<script src="../js/service/attachment/sysAttachmentCategoryService.js" type="text/javascript"></script>
+<script src="../js/service/hr/hrEmployeeService.js" type="text/javascript"></script>
+<script src="../js/controller/baseController.js" type="text/javascript"></script>
+<script src="../js/controller/attachment/sysAttachmentCategoryController.js" type="text/javascript"></script>
+<body class="hold-transition skin-red sidebar-mini" ng-app="halcyon" ng-controller="sysAttachmentCategoryController">
+<div class="box">
+    <!--标题-->
+    <div class="box-header with-border">
+        <h3 class="box-title">附件目录</h3>
+    </div>
+    <!--标题end-->
+
+    <div class="box-body">
+        <!-- 数据表格 -->
+        <div class="box box-info data-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">用户信息</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-box table-responsive">
+                    <!--工具栏-->
+                    <div class="pull-left">
+                        <div class="form-group form-inline">
+                            <div class="btn-group">
+                                <button ng-click="initForAdd()" type="button" class="btn btn-primary btn-sm"
+                                        data-toggle="modal"
+                                        data-target="#editWindow"><i class="fa fa-plus"></i> 新建
+                                </button>
+                                <button ng-click="delete()" type="button" class="btn btn-primary btn-sm"><i
+                                        class="fa fa-trash-o"></i> 删除
+                                </button>
+                                <button ng-click="query(1,pageConf.itemsPerPage)" type="button"
+                                        class="btn btn-primary btn-sm"><i
+                                        class="fa fa-search"></i> 查询
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-download"></i> 导出
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--工具栏/-->
+
+                    <!--数据列表-->
+                    <table id="dataList"
+                           class="table table-bordered table-striped table-hover dataTable table-condensed">
+                        <thead>
+                        <tr>
+                            <th class="" style="padding-right:0px">
+                                <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                            </th>
+                            <th>目录名称</th>
+                            <th>目录描述</th>
+                            <th>存储路径</th>
+                            <th>文件类型</th>
+                            <th>最大文件长度</th>
+                            <th>附件业务编码</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in rows">
+                            <td><input type="checkbox" ng-click="updateSelected($event,item.userId)"></td>
+                            <!--<td>{{index+1}}</td>-->
+                            <td>{{item.categoryName}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.categoryPath}}</td>
+                            <td>{{item.allowedFileType}}</td>
+                            <td>{{item.allowedFileSize}}</td>
+                            <td>{{item.sourceType}}</td>
+                            <td class="text-center">
+                                <button ng-click="initForUpdate(item.userId)" type="button"
+                                        class="btn btn-sm btn-info"
+                                        data-toggle="modal" data-target="#editWindow">
+                                    <i class="fa fa-edit"></i>编辑
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--数据列表/-->
+                <script id="footer" th:replace="common/footer"></script>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑窗口 -->
+    <div class="modal fade" id="editWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">用户编辑</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped" width="800px">
+                        <tr>
+                            <td>用户姓名</td>
+                            <td><input ng-model="sysAttachmentCategory.userName" class="form-control"
+                                       placeholder="用户姓名"></td>
+                        </tr>
+                        <tr>
+                            <td>联系方式</td>
+                            <td>
+                                <input ng-model="sysAttachmentCategory.phone" class="form-control" placeholder="联系方式">
+                            </td>
+                            <td>电子邮箱</td>
+                            <td>
+                                <input ng-model="sysAttachmentCategory.email" class="form-control" placeholder="电子邮箱">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>账户有效期从</td>
+                            <!--<td><input select2 config="sysAttachmentCategoryOptions" ng-model="sysAttachmentCategory.userType" class="form-control" placeholder="联系方式"></td>-->
+                            <td>
+                                <wui-date id="startActiveDate" format="yyyy-mm-dd" placeholder="请选择或输入日期"
+                                          btns="{'ok':'确定','now':'此刻'}"
+                                          ng-model="sysAttachmentCategory.startActiveDate">
+                                </wui-date>
+                            </td>
+                            <td>账户有效期至</td>
+                            <td>
+                                <wui-date id="endActiveDate" format="yyyy-mm-dd" placeholder="请选择或输入日期"
+                                          btns="{'ok':'确定','now':'此刻'}" ng-model="sysAttachmentCategory.endActiveDate">
+                                </wui-date>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>员工姓名</td>
+                            <td><input select2 config="empOptions" ng-model="sysAttachmentCategory.employeeId"
+                                       class="form-control"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="save()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">保存
+                    </button>
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
