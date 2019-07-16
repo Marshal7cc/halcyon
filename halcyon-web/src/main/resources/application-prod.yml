@@ -3,7 +3,7 @@ server:
   port: 8888
   servlet:
     session:
-      timeout: 1800s
+      timeout: 3600s
     context-path: /halcyon
 
 
@@ -18,19 +18,72 @@ spring:
     #校验流程文件，默认校验resources下的processes文件夹里的流程文件
     check-process-definitions: false
     #restApiEnabled: false
+    jpa-enabled: false
 
   datasource:
-    url: jdbc:mysql://localhost:3306/mcap?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-    username: root
-    password: marshal1234!
+    url: jdbc:mysql://localhost:3306/halcyon?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    username: halcyon_dev
+    password: halcyon_dev
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 15
-      connection-test-query: select 1
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      pool-name: HalcyonHikariCP
+    ### 连接池配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始化连接数
+      initial-size: 5
+      # 最小空闲连接数
+      min-idle: 5
+      # 最大活跃连接数
+      max-active: 20
+      # 最大连接等待超时时间，单位是毫秒(ms)
+      max-wait: 30000
+      # 多久检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      # 验证数据库连接的查询语句，这个查询语句必须是至少返回一条数据的SELECT语句
+      validation-query: select 1
+      # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 申请连接时执行validationQuery检测连接是否有效，会降低性能
+      test-on-borrow: false
+      # 归还连接时执行validationQuery检测连接是否有效，会降低性能
+      test-on-return: false
+      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filter: stat,wall,slf4j
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      ### 监控配置
+      # 配置DruidStatFilter
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+        # 配置DruidStatViewServlet
+      stat-view-servlet:
+        enabled: true
+        url-pattern: "/druid/*"
+        # IP白名单(没有配置或者为空，则允许所有访问)
+        allow: 127.0.0.1
+        # IP黑名单 (白名单与黑名单同时存在时，黑名单优先)
+        deny: ""
+        # 是否开启监控页面页面上的重置功能
+        reset-enable: false
+        # 用户名
+        login-username: admin
+        # 密码
+        login-password: hqttql
+  #    hikari:
+  #      minimum-idle: 5
+  #      maximum-pool-size: 15
+  #      connection-test-query: select 1
+  #      max-lifetime: 1800000
+  #      connection-timeout: 30000
+  #      pool-name: HalcyonHikariCP
 
   #redis
   redis:
@@ -49,27 +102,51 @@ spring:
   jms:
     pub-sub-domain: true
 
-  activemq:
-    broker-url: tcp://132.232.243.120:61616
-    in-memory: false
-    close-timeout: 15s
+  #  activemq:
+  #    broker-url: tcp://132.232.243.120:61616
+  #    in-memory: false
+  #    close-timeout: 15s
 
 
   jackson:
     time-zone: GMT+8
     default-property-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss
 
   mvc:
     view:
       prefix: classpath:/templates/
       suffix: .html
+    favicon:
+      enabled: true
 
   data:
+    mongodb:
+      host: 47.102.158.43
+      port: 27017
+      username: root
+      password: marshal1234!
+      authentication-database: admin
+      database: xc_cms
+
     solr:
       host: http://localhost:8080/solr/halcyon-core
       repositories:
         enabled: true
       default-field: hal_keywords
+
+    ################################
+    #####  elasticsearch  ##########
+    ################################
+    #    elasticsearch:
+    #      cluster-name: halcyon-elasticsearch
+    #      cluster-nodes: localhost:9301,localhost:9302,localhost:9303
+    #      repositories:
+    #        enabled: true
+    ################################
+    #####  elasticsearch  ##########
+    ################################
+
 
   #  thymeleaf:
   #    prefix: classpath:/templates/
@@ -121,7 +198,6 @@ spring:
   ################################
 
 
-
   ################################
   #####  Spring Mail    ##########
   ################################
@@ -166,17 +242,20 @@ pagehelper:
 ############  Custom Prop    #############
 ############  @自定义属性     #############
 ##########################################
-halcyon:
-  ueditor:
-    img-save-path: d:/ueditor/images/
-  security:
-    login-url: /login
-    logout-url: /logout
-    login-page: /login.html
-    default-target-url: /index.html
-    authentication-failure-url: /login.html
-    static-resources: /css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
-    #数组写法[a,b,c]
+security:
+  login-url: /login
+  logout-url: /logout
+  login-page: /login.html
+  default-target-url: /index.html
+  authentication-failure-url: /login.html
+  static-resources: /static/**,/login/**,/css/**,/js/**,/diagram-viewer/**,/editor-app/**,/images/**,/plugins/**
+  #数组写法[a,b,c]
 ##########################################
 ############  Custom Prop    #############
 ##########################################
+
+ureport:
+  fileStorePath: D:\\ureport
+
+cache:
+  autoStartUp: true

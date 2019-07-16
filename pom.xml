@@ -43,6 +43,7 @@
         <pageHelper.version>1.2.10</pageHelper.version>
         <fastjson.version>1.2.47</fastjson.version>
         <swagger2.version>2.6.1</swagger2.version>
+        <durid.version>1.1.18</durid.version>
     </properties>
 
     <dependencies>
@@ -108,11 +109,13 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- hikaricp -->
+        <!-- druid -->
         <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${durid.version}</version>
         </dependency>
+
 
         <!-- mysql -->
         <dependency>
