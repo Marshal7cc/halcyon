@@ -50,5 +50,8 @@ public class TestApplication {
                 + "<apps__hashcode></apps__hashcode>"
                 + "</applications>";
 
+
+        SysUser user1 = new SysUser();
+        System.out.println(user1 instanceof Object);
     }
 }
