@@ -6,6 +6,11 @@ server:
       timeout: 3600s
     context-path: /halcyon
 
+logging:
+  level:
+    ROOT: info
+    com:
+      marshal: debug
 
 spring:
   profiles:
