@@ -11,6 +11,7 @@ logging:
     ROOT: info
     com:
       marshal: debug
+#  file: D:logs/halcyon.log
 
 spring:
   profiles:
@@ -63,12 +64,10 @@ spring:
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       ### 监控配置
-      # 配置DruidStatFilter
       web-stat-filter:
         enabled: true
         url-pattern: "/*"
         exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
-        # 配置DruidStatViewServlet
       stat-view-servlet:
         enabled: true
         url-pattern: "/druid/*"
@@ -78,17 +77,8 @@ spring:
         deny: ""
         # 是否开启监控页面页面上的重置功能
         reset-enable: false
-        # 用户名
         login-username: admin
-        # 密码
         login-password: hqttql
-  #    hikari:
-  #      minimum-idle: 5
-  #      maximum-pool-size: 15
-  #      connection-test-query: select 1
-  #      max-lifetime: 1800000
-  #      connection-timeout: 30000
-  #      pool-name: HalcyonHikariCP
 
   #redis
   redis:
@@ -103,6 +93,23 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 100ms
+
+  #rabbitMQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /halcyon
+    username: halcyon_dev
+    password: halcyon_dev
+    publisher-confirms: true #支持发布确认
+    publisher-returns: true  #支持发布返回
+    listener:
+      simple:
+        acknowledge-mode: manual #采用手动应答
+        concurrency: 1 #指定最小的消费者数量
+        max-concurrency: 1 #指定最大的消费者数量
+        retry:
+          enabled: true #是否支持重试
 
   jms:
     pub-sub-domain: true
