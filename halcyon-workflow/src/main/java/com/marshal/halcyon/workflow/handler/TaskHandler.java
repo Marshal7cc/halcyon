@@ -55,7 +55,7 @@ public interface TaskHandler {
     }
 
     /**
-     * 任务处理外观facade
+     * 任务处理外观模板方法
      *
      * @throws TaskHandleException
      */

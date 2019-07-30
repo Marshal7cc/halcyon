@@ -1,4 +1,4 @@
-package com.marshal.halcyon.base.test.proxy;
+package com.marshal.halcyon.base.test.design.proxy.jdk;
 
 /**
  * @auth: Marshal

@@ -1,6 +1,4 @@
-package com.marshal.halcyon.base.test.proxy;
-
-import java.lang.reflect.Proxy;
+package com.marshal.halcyon.base.test.design.proxy.jdk;
 
 /**
  * @auth: Marshal

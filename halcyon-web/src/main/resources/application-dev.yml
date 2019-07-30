@@ -11,7 +11,7 @@ logging:
     ROOT: info
     com:
       marshal: debug
-#  file: D:logs/halcyon.log
+  file: D:logs/halcyon.log
 
 spring:
   profiles:
